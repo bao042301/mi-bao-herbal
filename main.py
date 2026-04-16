@@ -1,59 +1,55 @@
 import streamlit as st
 import time
 
-# 1. 救援級視覺設定 (白底黑字，最穩定顯色)
-st.set_page_config(page_title="米寶漢方｜專屬測驗", layout="centered")
+# 1. 視覺風格與顯色鎖死
+st.set_page_config(page_title="米寶漢方｜專屬植感測驗", layout="centered")
 st.markdown("""
     <style>
-    /* 1. 強制背景為米白色 */
     .stApp { background-color: #FDFBF7 !important; }
     
-    /* 2. 強制所有文字為深綠色，絕不變白 */
-    h1, h2, h3, p, span, li, label, div {
+    /* 確保所有文字在任何模式下都清晰可見 (深橄欖綠) */
+    h1, h2, h3, p, span, label {
         color: #2D3A1B !important; 
         font-family: 'Noto Sans TC', sans-serif !important;
     }
 
-    /* 3. 特別針對題目：字體加大且加粗 */
+    /* 題目字體 */
     .stRadio > label p {
         font-size: 1.5rem !important;
         font-weight: bold !important;
-        color: #2D3A1B !important;
         line-height: 1.5 !important;
         padding: 10px 0 !important;
     }
     
-    /* 4. 特別針對選項：字體適中 */
+    /* 選項字體 */
     div[data-testid="stMarkdownContainer"] p {
-        font-size: 1.2rem !important;
-        color: #2D3A1B !important;
+        font-size: 1.25rem !important;
+        font-weight: 500 !important;
     }
 
-    /* 5. 按鈕：維持深綠色底，白字 */
+    /* 按鈕樣式 */
     .stButton > button {
         width: 100% !important;
         background-color: #556B2F !important;
         color: #FFFFFF !important;
-        border-radius: 15px !important;
+        border-radius: 20px !important;
         height: 3.5em !important;
         font-size: 1.2rem !important;
         font-weight: bold !important;
         border: none !important;
-        margin-top: 20px !important;
     }
-    
-    /* 確保按鈕文字一定是白的 */
     .stButton > button p { color: #FFFFFF !important; }
 
-    /* 隱藏不必要的組件避免干擾 */
+    /* 隱藏標頭與選單 */
     #MainMenu, footer, header { visibility: hidden; }
     </style>
     """, unsafe_allow_html=True)
 
-# 品牌頭部
+# 品牌標題
 st.title("🌿 米寶漢方")
 st.write("### 尋找妳的專屬植感語錄")
 
+# 初始化狀態
 if 'step' not in st.session_state:
     st.session_state.step = 0
 if 'answers' not in st.session_state:
@@ -65,14 +61,15 @@ questions = [
     ("結束這一天前，妳最想給自己什麼樣的擁抱？", ["溫潤且紮實的暖意", "清新且無負擔的自在", "穩定且平和的守護"])
 ]
 
+# 測驗邏輯
 if st.session_state.step < len(questions):
     q_text, opts = questions[st.session_state.step]
     st.write(f"**STEP {st.session_state.step + 1} / 3**")
     
-    # 題目與選項
-    selection = st.radio(q_text, opts, index=None, key=f"mibao_rescue_{st.session_state.step}")
+    # 【關鍵修改 1】使用動態 key 確保每題開始時 index=None 為空心狀態
+    selection = st.radio(q_text, opts, index=None, key=f"mibao_final_step_{st.session_state.step}")
     
-    btn_label = "下一題 ➔" if st.session_state.step < 2 else "查看我的專屬陪伴計畫 ➔"
+    btn_label = "下一題 ➔" if st.session_state.step < 2 else "查看專屬漢方調配 ➔"
     
     if st.button(btn_label):
         if selection is not None:
@@ -80,10 +77,11 @@ if st.session_state.step < len(questions):
             st.session_state.step += 1
             st.rerun()
         else:
-            st.warning("請選一個選項再繼續喔！")
+            st.warning("請選一個最貼近妳心情的選項喔！")
 else:
-    with st.spinner('✨ 正在調配中...'):
-        time.sleep(1.5)
+    # 執行加載動畫
+    with st.spinner('✨ 正在為您調配專屬漢方中...'):
+        time.sleep(2)
     
     ans = st.session_state.answers
     counts = [ans.count(0), ans.count(1), ans.count(2)]
@@ -91,20 +89,32 @@ else:
     line_link = "https://line.me/R/ti/p/@716osfvq"
     
     st.divider()
+    
+    # 【關鍵修改 2】不同結果對應不同動畫特效
     if result_idx == 0:
         st.header("☀️ 妳是：暖陽系女子")
-        st.info("推薦配方：當歸紅棗茶、黑豆漢方茶、黃耆元氣茶。")
+        st.write("「妳是溫潤的暖陽，但別忘了也要溫暖自己。」")
+        st.success("**米寶計畫：【暖陽 30 日重啟】**\n\n推薦配方：當歸紅棗茶、黑豆漢方茶、黃耆元氣茶。")
+        st.balloons() # 暖陽系使用氣球特效 (充滿能量)
+        
     elif result_idx == 1:
         st.header("🍃 妳是：微風系女子")
-        st.info("推薦配方：洛神山楂茶、玫瑰決明茶、金菊牛蒡茶。")
+        st.write("「願妳的日常，如微風般輕盈自在。」")
+        st.success("**米寶計畫：【微風 30 日重啟】**\n\n推薦配方：洛神山楂茶、玫瑰決明茶、金菊牛蒡茶。")
+        st.snow() # 微風系使用降雪特效 (涼爽、輕盈感)
+        
     else:
         st.header("💧 妳是：清泉系女子")
-        st.info("推薦配方：金菊牛蒡茶、黃耆元氣茶、玫瑰決明茶。")
-    
+        st.write("「安靜地綻放，就是妳最美的樣子。」")
+        st.success("**米寶計畫：【清泉 30 日重啟】**\n\n推薦配方：金菊牛蒡茶、黃耆元氣茶、玫瑰決明茶。")
+        st.balloons() # 清泉系同樣使用氣球，但我們可以透過文字營造不同氛圍
+        st.toast("🌊 感覺到清涼的泉水正在滋潤身心...")
+
+    # LINE 引導按鈕
     st.markdown(f'''
         <a href="{line_link}" target="_blank" style="text-decoration:none;">
-            <div style="background-color: #06C755; color: white; text-align: center; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.2rem; margin-top: 10px;">
-                LINE 領取首購優惠 ➔
+            <div style="background-color: #06C755; color: white; text-align: center; padding: 18px; border-radius: 12px; font-weight: bold; font-size: 1.3rem; margin-top: 20px;">
+                LINE 領取專屬首購優惠 ➔
             </div>
         </a>
     ''', unsafe_allow_html=True)
@@ -113,4 +123,10 @@ else:
         st.session_state.step = 0
         st.session_state.answers = []
         st.rerun()
-    st.balloons()
+
+st.markdown('''
+    <div style="font-size: 0.8rem; color: #999; text-align: center; margin-top: 50px;">
+        米寶漢方｜三十年慶和蔘藥行經驗監製<br>
+        本測驗僅供風格參考，非醫療診斷之用。
+    </div>
+''', unsafe_allow_html=True)
