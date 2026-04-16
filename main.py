@@ -1,17 +1,28 @@
 import streamlit as st
 import time
 
-# 1. 視覺風格設定
+# 1. 視覺風格設定 (加入強力顯色指令)
 st.set_page_config(page_title="米寶漢方｜專屬植感語錄測驗", layout="centered")
 st.markdown("""
     <style>
-    .stApp { background-color: #FDFBF7; }
-    h1, h2, h3 { color: #556B2F; font-family: 'Noto Sans TC', sans-serif; }
-    .stRadio > label { font-size: 1.2rem; color: #556B2F; padding-bottom: 10px; }
+    /* 這裡是最核心的修改：強制所有層級的文字顯色 */
+    .stApp { background-color: #FDFBF7 !important; }
+    
+    /* 強制所有標題、段落、標籤、單選框文字為深綠色 */
+    h1, h2, h3, p, span, label, .stMarkdown, .stSelectbox, div[data-baseweb="radio"] div {
+        color: #556B2F !important;
+        font-family: 'Noto Sans TC', sans-serif !important;
+    }
+
+    /* 單選框的字體大小與加粗 */
+    .stRadio > label { font-size: 1.2rem !important; font-weight: bold !important; }
+    
+    /* 按鈕樣式維持 */
     .stButton > button {
-        width: 100%; border-radius: 30px; background-color: #556B2F; color: white !important;
+        width: 100%; border-radius: 30px; background-color: #556B2F !important; color: white !important;
         height: 3.5em; font-size: 1.2rem; font-weight: bold; border: none; margin-top: 20px;
     }
+    
     .result-box { background-color: #FFFFFF; padding: 25px; border-radius: 20px; border: 2px solid #E9EDC9; margin-top: 20px; }
     </style>
     """, unsafe_allow_html=True)
@@ -33,7 +44,7 @@ questions = [
 
 if st.session_state.step < len(questions):
     q_text, opts = questions[st.session_state.step]
-    st.write(f"第 {st.session_state.step + 1} 題 / 共 3 題")
+    st.write(f"### 第 {st.session_state.step + 1} 題 / 共 3 題")
     selection = st.radio(q_text, opts, index=None, key=f"q_{st.session_state.step}")
     
     if st.button("下一題" if st.session_state.step < 2 else "查看測驗結果"):
@@ -85,7 +96,7 @@ else:
 
 st.markdown('''
     <div style="font-size: 0.8rem; color: #999; text-align: center; margin-top: 50px;">
-        米寶漢方｜溫柔陪伴妳的每一天<br>
-        本測驗為生活風格參考，不具醫療診斷功能。產品為一般食品。
+        米寶漢方｜溫和調理，陪妳度過每一天<br>
+        本測驗僅供風格參考，非醫療診斷。
     </div>
 ''', unsafe_allow_html=True)
