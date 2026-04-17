@@ -146,7 +146,7 @@ elif st.session_state.step == 3:
 
 elif st.session_state.step == 4:
     st.markdown("### 💎 您是米寶的新朋友嗎？")
-    opts = ["是的，我是新朋友", "我是老朋友，已有專屬風格杯）"]
+    opts = ["是的，我是新朋友", "我是老朋友，已有專屬風格杯"]
     choice = st.radio("", opts, index=None, key="v44_choice", label_visibility="collapsed")
     if st.button("前往專屬的陪伴 ➔"):
         if choice == opts[0]: st.session_state.is_first_time = "是的"; st.session_state.step = 5; st.rerun()
