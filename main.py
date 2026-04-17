@@ -188,10 +188,10 @@ elif st.session_state.step == 6:
         <p class="benefit-item" style='margin:0;'>
             • 40 入深度節律漢方茶組 (全月份份量)<br>• 植感生活語錄收藏卡 (暖心鼓勵)<br>{gift}<br>
         </p>
-        <span class="price-text">月度質感陪伴價 $1,980</span>
+        <span class="price-text">月度質感陪伴價 $1,580</span>
     </div>
     """, unsafe_allow_html=True)
-    if st.button("預約這份溫柔時光 ➔"): st.session_state.step = 7; st.rerun()
+    if st.button("預約這份暖心時光 ➔"): st.session_state.step = 7; st.rerun()
 
 elif st.session_state.step == 7:
     ans, name, first = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time
@@ -201,11 +201,11 @@ elif st.session_state.step == 7:
     
     show_leaves()
     st.markdown("### 📢 預約暖心的相遇")
-    engrave = f"杯蓋想悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
+    engrave = f"杯蓋想刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
     msg = f"""Hi 米寶！🐢✨
 
-我剛剛完成植感測驗了，我是【{diag}氣質】。
-想預約這份植感陪伴，讓這份溫暖陪我度過每一天。
+我是【{diag}氣質】
+想預約這份植感陪伴
 
 🌿 {engrave}
 
@@ -213,8 +213,8 @@ elif st.session_state.step == 7:
 ☀️ 晨曦：{m_tea}
 🌙 午後：{a_tea}
 
-期待與這份草本暖茶相遇。🌿🍵"""
-    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下下框右上角複製文字，交給米寶吧！</p>', unsafe_allow_html=True)
+期待與這份草本植感茶相遇。🌿🍵"""
+    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下下框右上角，可以複製文字，交給米寶吧！</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">✨ LINE 領取專屬陪伴 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
