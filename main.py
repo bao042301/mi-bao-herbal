@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 
-# 1. 全方位視覺鎖定 (隱藏原點，改用卡片點選)
+# 1. 全方位視覺鎖定 (極致隱藏黑點，打造植感卡片)
 st.set_page_config(page_title="米寶漢方｜妳的月度質感陪伴", layout="centered")
 
 st.markdown("""
@@ -14,29 +14,38 @@ st.markdown("""
     h1, h2, h3 { text-align: center !important; margin-bottom: 10px !important; }
     .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 20px; font-size: 0.95rem; }
 
-    /* 【關鍵修正】隱藏原生黑色原點，並把選項做成卡片 */
-    div[data-baseweb="radio"] input {
-        display: none !important; /* 徹底隱藏黑色原點 */
+    /* 【修正】徹底隱藏原生黑色原點，並優化卡片間距 */
+    div[data-baseweb="radio"] div[role="radiogroup"] > div {
+        background-color: transparent !important;
+        padding: 0 !important;
     }
-    div[data-baseweb="radio"] div {
+    /* 隱藏圓圈 */
+    div[data-baseweb="radio"] label > div:first-child {
+        display: none !important;
+    }
+    /* 將標籤變成卡片 */
+    div[data-baseweb="radio"] label {
         background-color: #FFFFFF !important;
-        border: 1px solid #E9EDC9 !important;
+        border: 1.5px solid #E9EDC9 !important;
         border-radius: 15px !important;
-        padding: 10px 15px !important;
-        margin-bottom: 8px !important;
+        padding: 15px 20px !important;
+        margin-bottom: 12px !important;
         transition: all 0.3s ease !important;
         width: 100% !important;
+        display: block !important;
+        cursor: pointer !important;
     }
-    /* 當選項被選中時的樣式 */
-    div[aria-checked="true"] {
-        background-color: #7A8450 !important; /* 選中時變橄欖綠 */
+    /* 選中狀態：橄欖綠背景，白字 */
+    div[data-baseweb="radio"] label[data-active="true"], 
+    div[data-baseweb="radio"] label:has(input:checked) {
+        background-color: #7A8450 !important;
         border-color: #7A8450 !important;
     }
-    div[aria-checked="true"] * {
-        color: #FFFFFF !important; /* 選中時文字變白 */
+    div[data-baseweb="radio"] label:has(input:checked) * {
+        color: #FFFFFF !important;
     }
 
-    /* 按鈕樣式 (橄欖綠) */
+    /* 按鈕樣式 (質感橄欖綠) */
     .stButton > button {
         width: 100% !important; 
         background-color: #7A8450 !important; 
@@ -49,33 +58,40 @@ st.markdown("""
     }
     .stButton > button p { color: #FFFFFF !important; }
 
-    /* 質感便籤與結果卡片 */
+    /* 結果頁質感便籤 */
     .mibao-note {
         background-color: #F8F9F1 !important;
         padding: 25px !important;
         border-radius: 20px !important;
         border: 2px solid #E9EDC9 !important;
-        margin: 20px 0 !important;
-    }
-    .result-card { 
-        background-color: #FFFFFF !important; 
-        padding: 25px !important; 
-        border-radius: 25px !important; 
-        border: 2px solid #E9EDC9 !important;
+        margin-bottom: 20px !important;
     }
     
     #MainMenu, footer, header { visibility: hidden; }
     </style>
     
     <script>
-    function mibaoCopy(text) {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        alert("✅ 訊息已複製！\\n\\n請點選下方的 LINE 按鈕，\\n進入對話框「貼上」發送即可。🐢✨");
-        document.body.removeChild(textArea);
+    // 強化版複製邏輯：適應更多手機瀏覽器
+    async function mibaoCopy(text) {
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                textArea.style.top = "0";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                textArea.remove();
+            }
+            alert("✅ 溫柔已複製成功！\\n\\n帶著這份專屬配比，\\n去 LINE 找米寶店長聊聊吧 🐢✨");
+        } catch (err) {
+            alert("目前裝置不支援自動複製，\\n請手動長按下方文字複製喔！🌿");
+        }
     }
     </script>
     """, unsafe_allow_html=True)
@@ -90,8 +106,7 @@ if 'is_first_time' not in st.session_state: st.session_state.is_first_time = ""
 img_path = "29301.jpg"
 if os.path.exists(img_path):
     st.image(img_path, use_container_width=True)
-else:
-    st.markdown("<h1>🌿 米寶漢方</h1>", unsafe_allow_html=True)
+
 st.markdown('<p class="quote">「在忙碌中，給自己留一刻鐘的溫柔。」</p>', unsafe_allow_html=True)
 
 # ----------------- 測驗流程 -----------------
@@ -100,39 +115,39 @@ if st.session_state.step == 1:
     q1 = st.radio("當妳靜下心，妳的身體正低聲說著...？", 
                   ["我有些疲累，渴望溫潤透亮的晨光...", 
                    "我有些沉重，想找回輕盈自在的微風...", 
-                   "我有些燥熱，想念山間清徹甘甜的泉水..."], index=None, key="v13_q1")
+                   "我有些燥熱，想念山間清徹甘甜的泉水..."], index=None, key="v14_q1")
     if st.button("下一步：梳理日常 ➔"):
         if q1: st.session_state.answers.append(q1); st.session_state.step = 2; st.rerun()
-        else: st.warning("請選一個最貼近妳的感覺喔")
+        else: st.warning("請先選一個最貼近妳的感覺喔")
 
 elif st.session_state.step == 2:
     st.write("### 🐢 第二步：梳理日常的步調")
     q2 = st.radio("關於這段日子的作息，妳目前的感受是？", 
                   ["長時間待在冷氣房，循環緩慢且手腳冰冷", 
                    "工作忙碌常熬夜，晚餐不規律導致不適", 
-                   "壓力大節奏快，晚上難以入眠且心神不寧"], index=None, key="v13_q2")
+                   "壓力大節奏快，晚上難以入眠且心神不寧"], index=None, key="v14_q2")
     if st.button("下一步：嚮往的瞬間 ➔"):
         if q2: st.session_state.answers.append(q2); st.session_state.step = 3; st.rerun()
-        else: st.warning("請選一個妳的日常狀態喔")
+        else: st.warning("選一個妳的日常狀態喔")
 
 elif st.session_state.step == 3:
     st.write("### 🐢 第三步：妳嚮往的喘息瞬間")
     q3 = st.radio("在最需要喘息的午後，妳最嚮往什麼樣的瞬間？", 
                   ["感覺臉龐恢復紅潤元氣，重新出發", 
                    "感覺身體找回輕盈律動，不再束縛", 
-                   "感覺內心恢復安靜穩定，優雅從容"], index=None, key="v13_q3")
+                   "感覺內心恢復安靜穩定，優雅從容"], index=None, key="v14_q3")
     if st.button("下一步：確認身份 ➔"):
         if q3: st.session_state.answers.append(q3); st.session_state.step = 4; st.rerun()
-        else: st.warning("選一個妳最嚮往的畫面吧")
+        else: st.warning("想像一下那個畫面吧")
 
 elif st.session_state.step == 4:
     st.write("### 💎 妳是米寶的新朋友嗎？")
     choice = st.radio("這是妳第一次預約米寶的「月度質感陪伴」嗎？", 
-                    ["是的，我是新朋友", "不是，我是老朋友了（已有隨行杯）"], index=None, key="v13_choice")
+                    ["是的，我是新朋友", "不是，我是老朋友了（已有隨行杯）"], index=None, key="v14_choice")
     if st.button("下一步 ➔"):
         if choice == "是的，我是新朋友": st.session_state.is_first_time = "是的"; st.session_state.step = 5; st.rerun()
         elif choice == "不是，我是老朋友了（已有隨行杯）": st.session_state.is_first_time = "不是"; st.session_state.custom_name = "老朋友回購"; st.session_state.step = 6; st.rerun()
-        else: st.warning("請選擇妳的身份喔")
+        else: st.warning("請先告訴米寶妳的身份喔")
 
 elif st.session_state.step == 5:
     st.write("### 💎 鐫刻妳的專屬溫柔")
@@ -140,16 +155,15 @@ elif st.session_state.step == 5:
     user_name = st.text_input("輸入要雷刻的名字 (最多12字)", max_chars=12, placeholder="例如：Mila 或 Quiet")
     if st.button("最後一步：查看配比 ➔"):
         if user_name: st.session_state.custom_name = user_name; st.session_state.step = 6; st.rerun()
-        else: st.warning("請留下一個名字，讓首購禮物專屬於妳。")
+        else: st.warning("留下一個名字，讓首購禮物專屬於妳。")
 
 elif st.session_state.step == 6:
     placeholder = st.empty()
     with placeholder.container():
-        st.markdown('<p class="quote">正在為妳揉捻專屬的草本香氣...</p>', unsafe_allow_html=True); time.sleep(1.2)
+        st.markdown('<p class="quote" style="text-align:center;">正在為妳揉捻專屬的草本香氣...</p>', unsafe_allow_html=True); time.sleep(1.2)
     placeholder.empty()
 
     ans, name, first = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time
-    # 配比邏輯
     if "晨光" in ans[0]:
         diag = "暖陽系"; m_tea = "黃耆元氣茶 (14入) + 金菊牛蒡茶 (6入)"; a_tea = "當歸紅棗茶 (12入) + 黑豆漢方茶 (8入)"
     elif "微風" in ans[0]:
@@ -159,22 +173,50 @@ elif st.session_state.step == 6:
 
     st.balloons()
     gift_text = f"• 首購禮：雷刻隨行杯 (刻名：{name})" if first == "是的" else "• 回購方案：月度補充漢方茶組"
-    st.markdown(f"""<div class="result-card"><h3 style='text-align:center;'>✨ 妳是：{diag}女子</h3><p class="quote">「這份月度陪伴計畫，是送給妳的時光禮物。」</p><hr style='border: 0.5px solid #E9EDC9;'><p><b>☀️ 晨曦啟幕配比：</b><br>{m_tea}</p><br><p><b>🌙 午後拾光配比：</b><br>{a_tea}</p><hr style='border: 0.5px solid #E9EDC9;'><p style='font-size:0.9rem;'><b>陪伴包含：</b> 40入茶組 + 生活手札<br>{gift_text}</p><h3 style='text-align:right; color:#7A8450 !important;'>月度陪伴價 $1,980</h3></div>""", unsafe_allow_html=True)
+    
+    st.markdown(f"""
+    <div style="background-color:#FFFFFF; padding:25px; border-radius:25px; border:2px solid #E9EDC9; margin-bottom:20px;">
+        <h3 style='text-align:center;'>✨ 妳是：{diag}女子</h3>
+        <p class="quote">「這份月度陪伴計畫，是送給妳的時光禮物。」</p>
+        <hr style='border:0.5px solid #E9EDC9;'>
+        <p><b>☀️ 晨曦啟幕配比：</b><br>{m_tea}</p><br>
+        <p><b>🌙 午後拾光配比：</b><br>{a_tea}</p>
+        <hr style='border:0.5px solid #E9EDC9;'>
+        <p style='font-size:0.9rem;'><b>陪伴包含：</b> 40入茶組 + 生活手札<br>{gift_text}</p>
+        <h3 style='text-align:right; color:#7A8450 !important;'>月度陪伴價 $1,980</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     engrave_part = f"杯蓋想悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友了，想繼續這份溫柔陪伴 🐢"
     romantic_msg = f"Hi 米寶店長！🐢✨\\n\\n我剛剛完成植感測驗了，我是【{diag}女子】。\\n想帶走這份月度陪伴，讓這份溫柔陪我度過每一天。\\n\\n🌿 {engrave_part}\\n\\n我的專屬配比：\\n☀️ 晨曦：{m_tea}\\n🌙 午後：{a_tea}\\n\\n期待與這份草本香氣相遇。🌿🍵"
     
     st.write("---")
-    st.write("### 📢 最後兩步，與米寶相遇：")
+    st.write("### 📢 帶著這份專屬配比，與米寶相遇：")
     
     st.markdown(f'<div class="mibao-note">{romantic_msg.replace("\\n", "<br>")}</div>', unsafe_allow_html=True)
     
-    copy_html = f"""<button onclick="mibaoCopy('{romantic_msg}')" style="width: 100%; background-color: #E9EDC9; color: #4A4E31; border: 2px solid #7A8450; padding: 15px; border-radius: 30px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-bottom: 15px;">📋 點我一鍵複製預約文字</button>"""
-    st.components.v1.html(copy_html, height=80)
+    # 修正複製按鈕：確保在不同瀏覽器中運作
+    copy_html = f"""
+        <button onclick="mibaoCopy('{romantic_msg}')" style="
+            width: 100%; background-color: #E9EDC9; color: #4A4E31; border: 2px solid #7A8450; 
+            padding: 16px; border-radius: 30px; font-weight: bold; font-size: 1.15rem; 
+            cursor: pointer; margin-bottom: 20px;">
+            📋 點我一鍵複製預約文字
+        </button>
+    """
+    st.components.v1.html(copy_html, height=85)
 
+    # 溫暖輕鬆的 LINE 按鈕文案
     line_link = "https://line.me/R/ti/p/@716osfvq"
-    st.markdown(f'<a href="{line_link}" target="_blank" style="text-decoration:none;"><div style="background-color: #06C755; color: white !important; text-align: center; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.2rem;">點我開啟 LINE 貼上發送 ➔</div></a>', unsafe_allow_html=True)
+    st.markdown(f'''
+        <a href="{line_link}" target="_blank" style="text-decoration:none;">
+            <div style="background-color: #06C755; color: white !important; text-align: center; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.25rem; box-shadow: 0 4px 15px rgba(6,199,85,0.2);">
+                帶著這份溫柔，去 LINE 找米寶店長吧 ➔
+            </div>
+        </a>
+    ''', unsafe_allow_html=True)
 
+    st.write("---")
     if st.button("重新探索新的陪伴"):
         for key in list(st.session_state.keys()): del st.session_state[key]
         st.rerun()
