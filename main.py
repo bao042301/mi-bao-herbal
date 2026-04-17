@@ -2,26 +2,30 @@ import streamlit as st
 import time
 import os
 
-# 1. 強力視覺鎖定 (移除所有黑底、鎖定信箋白、恢復包數內容)
+# 1. 強力視覺鎖定 (修正顯色、維持三色、徹底去黑底)
 st.set_page_config(page_title="米寶漢方｜妳的月度質感陪伴", layout="centered")
 
 st.markdown("""
     <style>
-    /* 全域顯色鎖定 */
+    /* 全域顯色鎖定 - 確保題目文字絕對現身 */
     * { color: #4A4E31 !important; font-family: 'Noto Sans TC', sans-serif !important; }
     .stApp { background-color: #FDFBF7 !important; }
     
-    /* Logo 尺寸優化 (保持高級感，騰出內容空間) */
-    [data-testid="stImage"] img { max-height: 80px !important; width: auto !important; margin: 0 auto; display: block; }
-    [data-testid="stImage"] { margin-bottom: -15px !important; }
-
-    /* 標題與引言：極致精簡 */
+    /* 修正：題目標題強制顯示顏色 */
     h3 { 
         font-size: 1.1rem !important; font-weight: 700 !important;
         margin-top: 10px !important; margin-bottom: 15px !important;
-        text-align: center !important; color: #7A8450 !important;
+        text-align: center !important; 
+        color: #7A8450 !important; /* 米寶標誌綠 */
+        display: block !important;
+        visibility: visible !important;
     }
+    
     .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 20px; font-size: 0.8rem; }
+
+    /* Logo 尺寸 */
+    [data-testid="stImage"] img { max-height: 80px !important; width: auto !important; margin: 0 auto; display: block; }
+    [data-testid="stImage"] { margin-bottom: -15px !important; }
 
     /* 選項卡片與三色網底 (移除黑點) */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
@@ -40,14 +44,13 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } /* 暖陽杏 */
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } /* 清泉藍 */
 
-    /* 選中狀態：加深邊框 */
+    /* 選中狀態 */
     [data-testid="stRadio"] div[aria-checked="true"] label {
         border: 2px solid #7A8450 !important;
         box-shadow: 0 4px 10px rgba(122, 132, 80, 0.1) !important;
     }
-    [data-testid="stRadio"] div[aria-checked="true"] label * { font-weight: bold !important; }
 
-    /* 按鈕樣式 (橄欖綠) */
+    /* 按鈕樣式 */
     .stButton > button {
         width: 100% !important; background-color: #7A8450 !important; color: #FFFFFF !important;
         border-radius: 30px !important; height: 3.2em !important; font-weight: bold !important; 
@@ -55,26 +58,14 @@ st.markdown("""
     }
     .stButton > button p { color: #FFFFFF !important; }
 
-    /* 【強力修正】徹底移除複製區黑底，改為信箋白感 */
+    /* 徹底移除複製區黑底 */
     .stCodeBlock, pre, code, div[data-testid="stCodeBlock"] {
-        background-color: #F8F9F1 !important; /* 妳要的信箋白底色 */
+        background-color: #F8F9F1 !important;
         border: 1px solid #E9EDC9 !important;
         border-radius: 15px !important;
     }
-    /* 強制設定複製區內的文字為深色，防止 Streamlit 原生高亮渲染黑底 */
-    div[data-testid="stCodeBlock"] > div, pre code {
-        background-color: transparent !important;
-    }
-    code span {
-        background-color: transparent !important; /* 防止選中狀態下出現黑底 */
-    }
-
-    /* 雷刻輸入框鎖定：白底綠邊 */
-    .stTextInput input {
-        background-color: #FFFFFF !important;
-        border: 2px solid #E9EDC9 !important;
-        border-radius: 12px !important;
-    }
+    div[data-testid="stCodeBlock"] > div, pre code { background-color: transparent !important; }
+    code span { background-color: transparent !important; }
 
     /* 森林落葉特效 */
     @keyframes falling {
@@ -84,11 +75,8 @@ st.markdown("""
     }
     .leaf { position: fixed; top: -10vh; font-size: 24px; pointer-events: none; z-index: 9999; animation: falling 12s linear infinite; }
 
-    /* 結果卡片與重新探索按鈕居中 */
+    /* 結果卡片 */
     .result-card { background-color: #FFFFFF !important; padding: 25px !important; border-radius: 25px !important; border: 1px solid #E9EDC9 !important; }
-    div[data-testid="column"]:last-child {
-        text-align: center !important;
-    }
     
     #MainMenu, footer, header { visibility: hidden; }
     </style>
@@ -109,37 +97,41 @@ img_path = "29301.jpg"
 if os.path.exists(img_path):
     st.image(img_path)
 else:
-    st.markdown("<h2 style='text-align:center;'>🌿 米寶漢方</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align:center; color:#7A8450;'>🌿 米寶漢方</h2>", unsafe_allow_html=True)
 st.markdown('<p class="quote">「在忙碌中，給自己留一刻鐘的溫柔。」</p>', unsafe_allow_html=True)
 
 # ----------------- 測驗流程 -----------------
 if st.session_state.step == 1:
     st.markdown("### 第一步：聽聽身體的低語")
-    q1 = st.radio("", ["我有些疲累，渴望溫潤透亮的晨光...", "我有些沉重，想找回輕盈自在的微風...", "我有些燥熱，想念山間清徹甘甜的泉水..."], index=None, key="v30_q1")
+    q1 = st.radio("", ["我有些疲累，渴望溫潤透亮的晨光...", "我有些沉重，想找回輕盈自在的微風...", "我有些燥熱，想念山間清徹甘甜的泉水..."], index=None, key="v31_q1")
     if st.button("緩緩走向下個瞬間 ➔"):
         if q1: st.session_state.answers.append(q1); st.session_state.step = 2; st.rerun()
         else: st.warning("請選一個感覺喔")
 
 elif st.session_state.step == 2:
     st.markdown("### 第二步：梳理日常的步調")
-    q2 = st.radio("", ["長時間待在冷氣房，循環緩慢且手腳冰冷", "工作忙碌常熬夜，晚餐不規律導致不適", "壓力大節奏快，晚上難以入眠且心神不寧"], index=None, key="v30_q2")
+    q2 = st.radio("", ["長時間待在冷氣房，循環緩慢且手腳冰冷", "工作忙碌常熬夜，晚餐不規律導致不適", "壓力大節奏快，晚上難以入眠且心神不寧"], index=None, key="v31_q2")
     if st.button("傾聽日常的節奏 ➔"):
         if q2: st.session_state.answers.append(q2); st.session_state.step = 3; st.rerun()
         else: st.warning("請選一個狀態喔")
 
 elif st.session_state.step == 3:
     st.markdown("### 第三步：妳嚮往的喘息瞬間")
-    q3 = st.radio("", ["感覺臉龐恢復紅潤元氣，重新出發", "感覺身體找回輕盈律動，不再束縛", "感覺內心恢復安靜穩定，優雅從容"], index=None, key="v30_q3")
+    q3 = st.radio("", ["感覺臉龐恢復紅潤元氣，重新出發", "感覺身體找回輕盈律動，不再束縛", "感覺內心恢復安靜穩定，優雅從容"], index=None, key="v31_q3")
     if st.button("開啟妳的專屬禮遇 ➔"):
         if q3: st.session_state.answers.append(q3); st.session_state.step = 4; st.rerun()
         else: st.warning("選一個畫面吧")
 
 elif st.session_state.step == 4:
     st.markdown("### 💎 妳是米寶的新朋友嗎？")
-    choice = st.radio("", ["是的，我是新朋友", "不是，我是老朋友了（已有隨行杯）"], index=None, key="v30_choice")
+    choice = st.radio("", ["是的，我是新朋友", "不是，我是老朋友了（已有隨行杯）"], index=None, key="v31_choice")
     if st.button("前往專屬的陪伴 ➔"):
-        if choice == "是的，我是新朋友": st.session_state.is_first_time = "是的"; st.session_state.step = 5; st.rerun()
-        elif choice == "不是，我是老朋友了": st.session_state.is_first_time = "不是"; st.session_state.custom_name = "老朋友回購"; st.session_state.step = 6; st.rerun()
+        if choice == "是的，我是新朋友": 
+            st.session_state.is_first_time = "是的"; st.session_state.step = 5; st.rerun()
+        elif choice == "不是，我是老朋友了（已有隨行杯）": # 【修復】這裡的判斷字串與上面的選項完全對齊了
+            st.session_state.is_first_time = "不是"; st.session_state.custom_name = "老朋友回購"; st.session_state.step = 6; st.rerun()
+        else:
+            st.warning("請選擇妳的身分喔")
 
 elif st.session_state.step == 5:
     st.markdown("### 💎 鐫刻妳的專屬溫柔")
@@ -147,10 +139,10 @@ elif st.session_state.step == 5:
     user_name = st.text_input("輸入要雷刻的名字 (最多12字)", max_chars=12, placeholder="例如：Mila")
     if st.button("查看我的質感陪伴配比 ➔"):
         if user_name: st.session_state.custom_name = user_name; st.session_state.step = 6; st.rerun()
+        else: st.warning("請輸入名字，讓這份禮物專屬於妳。")
 
 elif st.session_state.step == 6:
     ans, name, first = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time
-    # 【內容回歸】重新加入詳細入數邏輯
     if "晨光" in ans[0]: diag, m_tea, a_tea = "暖陽系", "黃耆元氣茶 (14入) + 金菊牛蒡茶 (6入)", "當歸紅棗茶 (12入) + 黑豆漢方茶 (8入)"
     elif "微風" in ans[0]: diag, m_tea, a_tea = "微風系", "洛神山楂茶 (12入) + 金菊牛蒡茶 (8入)", "玫瑰決明茶 (10入) + 黑豆漢方茶 (10入)"
     else: diag, m_tea, a_tea = "清泉系", "金菊牛蒡茶 (15入) + 黃耆元氣茶 (5入)", "玫瑰決明茶 (14入) + 當歸紅棗茶 (6入)"
@@ -177,22 +169,16 @@ elif st.session_state.step == 6:
 
 elif st.session_state.step == 7:
     ans, name, first = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time
-    # 確保 Step 7 複製文字中的包數也同步回歸
     if "晨光" in ans[0]: diag, m_tea, a_tea = "暖陽系", "黃耆元氣茶 (14入) + 金菊牛蒡茶 (6入)", "當歸紅棗茶 (12入) + 黑豆漢方茶 (8入)"
     elif "微風" in ans[0]: diag, m_tea, a_tea = "微風系", "洛神山楂茶 (12入) + 金菊牛蒡茶 (8入)", "玫瑰決明茶 (10入) + 黑豆漢方茶 (10入)"
     else: diag, m_tea, a_tea = "清泉系", "金菊牛蒡茶 (15入) + 黃耆元氣茶 (5入)", "玫瑰決明茶 (14入) + 當歸紅棗茶 (6入)"
     
     st.write("### 📢 預約暖心的相遇")
-    st.write("最後兩步，開啟妳的植感日常：")
-    
     msg = f"Hi 米寶店長！🐢✨\\n\\n我是【{diag}女子】。想預約月度陪伴計畫。\\n🌿 {'杯蓋刻名：'+name if first=='是的' else '老朋友回購驚喜'} ✨\\n\\n☀️ 晨曦：{m_tea}\\n🌙 午後：{a_tea}\\n\\n期待這份草本香氣相遇。🌿🍵"
     
-    # 這裡的代碼框黑底已徹底移除
     st.code(msg.replace('\\\\n', '\n'), language=None)
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 18px; border-radius: 15px; font-weight: bold;">✨ 領取妳的專屬溫柔陪伴 ➔</div></a>', unsafe_allow_html=True)
     
-    col1, col2, col3 = st.columns([2, 1, 2])
-    with col2:
-        if st.button("重新探索"): st.session_state.clear(); st.rerun()
+    if st.button("重新探索"): st.session_state.clear(); st.rerun()
 
 st.markdown("<p style='text-align:center; font-size:0.75rem; color:#8B8B7A; margin-top:30px;'>米寶漢方｜慶和蔘藥行研製 © 2026 Mibao Herbal</p>", unsafe_allow_html=True)
