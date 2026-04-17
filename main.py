@@ -1,167 +1,87 @@
 import streamlit as st
 import time
 
-# 1. 視覺風格與顯色鎖死 (增加動畫區域樣式)
-st.set_page_config(page_title="米寶漢方｜專屬植感測驗", layout="centered")
+# 1. 浪漫視覺與細節設定
+st.set_page_config(page_title="在忙碌中，給自己留一刻鐘的溫柔", layout="centered")
 st.markdown("""
     <style>
-    .stApp { background-color: #FDFBF7 !important; }
-    
-    /* 確保所有文字在任何模式下都清晰可見 (深橄欖綠) */
-    h1, h2, h3, p, span, label {
-        color: #2D3A1B !important; 
-        font-family: 'Noto Sans TC', sans-serif !important;
-    }
-
-    /* 題目字體 */
-    .stRadio > label p {
-        font-size: 1.5rem !important;
-        font-weight: bold !important;
-        line-height: 1.5 !important;
-        padding: 10px 0 !important;
-    }
-    
-    /* 選項字體 */
-    div[data-testid="stMarkdownContainer"] p {
-        font-size: 1.25rem !important;
-        font-weight: 500 !important;
-    }
-
-    /* 按鈕樣式 (綠底白字) */
+    .stApp { background-color: #FDFBF7; }
+    h1, h2, h3 { color: #6B705C; font-family: 'Noto Serif TC', serif; }
+    .stSelectbox label, .stTextInput label { color: #6B705C; font-weight: bold; }
     .stButton > button {
-        width: 100% !important;
-        background-color: #556B2F !important;
-        color: #FFFFFF !important;
-        border-radius: 20px !important;
-        height: 3.8em !important;
-        font-size: 1.2rem !important;
-        font-weight: bold !important;
-        border: none !important;
-        margin-top: 20px !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+        width: 100%; border-radius: 30px; background-color: #A5A58D; color: white !important;
+        height: 3.5em; font-size: 1.1rem; font-weight: bold; border: none; transition: 0.3s;
     }
-    .stButton > button p { color: #FFFFFF !important; }
-
-    /* 【關鍵新增】專屬動畫區塊樣式 (置中、放大) */
-    .spinner-box {
-        text-align: center;
-        padding: 40px;
-        background-color: #FFFFFF;
-        border-radius: 20px;
-        border: 1px solid #E9EDC9;
-        margin-top: 30px;
-        font-size: 1.4rem !important;
-        font-weight: bold !important;
-        color: #556B2F !important;
+    .stButton > button:hover { background-color: #6B705C; }
+    .result-card { 
+        background-color: #FFFFFF; padding: 30px; border-radius: 25px; 
+        border: 1px solid #E9EDC9; box-shadow: 0 10px 20px rgba(0,0,0,0.02);
     }
-    .spinner-emoji {
-        font-size: 3rem !important;
-        display: block;
-        margin-bottom: 15px;
-    }
-
-    /* 隱藏標頭與選單 */
-    #MainMenu, footer, header { visibility: hidden; }
+    .tea-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #DDBEA9; padding: 8px 0; color: #6B705C; }
+    .quote { font-style: italic; color: #B7B7A4; text-align: center; margin-bottom: 20px; }
+    .tag { background-color: #FFE8D6; color: #A5A58D; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; }
     </style>
     """, unsafe_allow_html=True)
 
-# 品牌標題
 st.title("🌿 米寶漢方")
-st.write("### 尋找妳的專屬植感語錄")
+st.subheader("找尋妳的植感語錄")
+st.markdown('<p class="quote">「在忙碌中，給自己留一刻鐘的溫柔。」</p>', unsafe_allow_html=True)
 
-# 初始化狀態
-if 'step' not in st.session_state:
-    st.session_state.step = 0
-if 'answers' not in st.session_state:
-    st.session_state.answers = []
+# 2. 浪漫敘事測驗 (隱喻上班，但不強調職場)
+st.divider()
+st.write("✨ **探尋妳的身體頻率**")
+q1 = st.selectbox("當妳靜下心，妳的身體正低聲說著...？", 
+                  ["請選擇", "「我有些疲累，渴望一份透亮的晨光...」", "「我有些沉重，想找回輕盈的微風...」", "「我有些燥熱，想念山間的清泉...」"])
 
-questions = [
-    ("剛起床的妳，感覺今天的身體能量像？", ["剛充飽電，但總覺得少了點光澤", "有點重重的，像吸飽水的海綿", "沒電的鬧鐘，需要一點推動力"]),
-    ("午餐過後，妳的身體最想對妳說的一句話是...？", ["「我想找回紅潤的好氣色。」", "「我想變輕盈，帶走多餘的沉重。」", "「我需要冷靜，幫我趕走煩燥火氣。」"]),
-    ("結束這一天前，妳最想給自己什麼樣的擁抱？", ["溫潤且紮實的暖意", "清新且無負擔的自在", "穩定且平和的守護"])
-]
+q2 = st.selectbox("在最需要喘息的午後，妳最嚮往的瞬間？", 
+                  ["請選擇", "感覺臉龐恢復紅潤元氣，重新出發", "感覺身體恢復自在律動，不再束縛", "感覺內心恢復安靜穩定，優雅從容"])
 
-# 測驗邏輯
-if st.session_state.step < len(questions):
-    q_text, opts = questions[st.session_state.step]
-    st.write(f"**STEP {st.session_state.step + 1} / 3**")
-    
-    # 使用動態 key 確保每題開始時為空心狀態
-    selection = st.radio(q_text, opts, index=None, key=f"mibao_final_v5_{st.session_state.step}")
-    
-    btn_label = "下一題 ➔" if st.session_state.step < 2 else "查看專屬漢方調配 ➔"
-    
-    if st.button(btn_label):
-        if selection is not None:
-            st.session_state.answers.append(opts.index(selection))
-            st.session_state.step += 1
-            st.rerun()
+custom_name = st.text_input("💎 **專屬浪漫**：想在木蓋上雷刻的名字（這會是妳的專屬符號）", max_chars=12, placeholder="例如：Mila")
+
+# 3. 動態配比與浪漫呈現
+if st.button("開啟我的月度植感練習") and q1 != "請選擇" and q2 != "請選擇":
+    with st.spinner('米寶正在為妳揉捻專屬的香氣...'):
+        time.sleep(2)
+        
+        # 浪漫配比邏輯
+        if "晨光" in q1 or "紅潤" in q2:
+            diag, quote = "暖陽系女子", "「妳是溫潤的暖陽，哪怕忙碌，也要記得為自己發光。」"
+            am_formula = {"黃耆元氣茶": 16, "金菊牛蒡茶": 4}
+            pm_formula = {"當歸紅棗茶": 14, "黑豆漢方茶": 6}
+        elif "微風" in q1 or "律動" in q2:
+            diag, quote = "微風系女子", "「願妳的日常，如微風般輕盈，不留負擔。」"
+            am_formula = {"洛神山楂茶": 15, "金菊牛蒡茶": 5}
+            pm_formula = {"玫瑰決明茶": 12, "黑豆漢方茶": 8}
         else:
-            st.warning("請選一個最貼近妳心情的選項喔！")
-else:
-    # 建立一個用於顯示動畫的空白區塊
-    spinner_placeholder = st.empty()
-    
-    # 計算分數
-    ans = st.session_state.answers
-    counts = [ans.count(0), ans.count(1), ans.count(2)]
-    result_idx = counts.index(max(counts))
-    line_link = "https://line.me/R/ti/p/@716osfvq"
-    
-    # 【關鍵修改】依據結果顯示分眾專屬動畫
-    if result_idx == 0:
-        # 暖陽系動畫
-        spinner_placeholder.markdown('<div class="spinner-box"><span class="spinner-emoji">☀️✨☀️</span>正在為您凝聚陽光能量，調配暖陽漢方...</div>', unsafe_allow_html=True)
-        time.sleep(1.5) # 模擬調配時間
-        
-    elif result_idx == 1:
-        # 微風系動畫
-        spinner_placeholder.markdown('<div class="spinner-box"><span class="spinner-emoji">🍃🌬️🍃</span>正在攔截草本微風，調配清新漢方...</div>', unsafe_allow_html=True)
-        time.sleep(1.5)
-        
-    else:
-        # 清泉系動畫
-        spinner_placeholder.markdown('<div class="spinner-box"><span class="spinner-emoji">🌊💧🌊</span>正在引導清澈泉水，調配滋潤漢方...</div>', unsafe_allow_html=True)
-        time.sleep(1.5)
+            diag, quote = "清泉系女子", "「在紛擾的世界裡，做一池最安靜、最深邃的清泉。」"
+            am_formula = {"金菊牛蒡茶": 18, "黃耆元氣茶": 2}
+            pm_formula = {"玫瑰決明茶": 16, "當歸紅棗茶": 4}
 
-    # 動畫結束後，清除動畫區塊並顯示結果
-    spinner_placeholder.empty()
-    st.divider()
-    
-    # 結果卡片顯示
-    if result_idx == 0:
-        st.header("☀️ 妳是：暖陽系女子")
-        st.success("**米寶計畫：【暖陽 30 日重啟】**\n\n推薦配方：當歸紅棗茶、黑豆漢方茶、黃耆元氣茶。")
-        st.balloons() # 暖陽系使用氣球
+        st.balloons()
+        st.markdown(f"""
+        <div class="result-card">
+            <p class="quote">{quote}</p>
+            <h3 style="text-align:center;">✨ 專屬配置：妳是【{diag}】</h3>
+            <br>
+            <p>☀️ <b>晨曦啟幕 (AM 節律)</b></p>
+            {"".join([f'<div class="tea-item"><span>{k}</span><span class="tag">{v} 回</span></div>' for k,v in am_formula.items()])}
+            
+            <br>
+            <p>🌙 <b>午後拾光 (PM 節律)</b></p>
+            {"".join([f'<div class="tea-item"><span>{k}</span><span class="tag">{v} 回</span></div>' for k,v in pm_formula.items()])}
+            
+            <hr>
+            <p style="font-size:0.9rem;"><b>月度陪伴計畫包含：</b><br>
+            40 入雙效植感茶組 (四週深度節律) + 生活手札 + 雷刻木蓋隨行杯 (刻名：{custom_name if custom_name else 'Dear'})</p>
+            <h3 style="color:#6B705C; text-align:right;">月度陪伴價：$1,980</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
-    elif result_idx == 1:
-        st.header("🍃 妳是：微風系女子")
-        st.success("**米寶計畫：【微風 30 日重啟】**\n\n推薦配方：洛神山楂茶、玫瑰決明茶、金菊牛蒡茶。")
-        st.snow() # 微風系使用降雪 (模擬飄樹葉感)
-        
-    else:
-        st.header("💧 妳是：清泉系女子")
-        st.success("**米寶計畫：【清泉 30 日重啟】**\n\n推薦配方：金菊牛蒡茶、黃耆元氣茶、玫瑰決明茶。")
-        st.balloons() # 清泉系使用氣球
-        st.toast("🌊 感覺到清涼的泉水正在滋潤身心...")
+        # LINE 代碼
+        am_str = ", ".join([f"{k}*{v}" for k,v in am_formula.items()])
+        pm_str = ", ".join([f"{k}*{v}" for k,v in pm_formula.items()])
+        order_msg = f"你好，我想預約【米寶漢方｜月度植感練習】\n我是：{diag}\n晨曦配比：{am_str}\n午後配比：{pm_str}\n雷刻名字：{custom_name}"
+        st.code(order_msg)
+        st.markdown(f'<a href="https://line.me" target="_blank" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 15px; border-radius: 10px; font-weight: bold;">複製這份溫柔，去 LINE 與米寶相遇 ➔</div></a>', unsafe_allow_html=True)
 
-    # LINE 引導按鈕
-    st.markdown(f'''
-        <a href="{line_link}" target="_blank" style="text-decoration:none;">
-            <div style="background-color: #06C755; color: white; text-align: center; padding: 18px; border-radius: 12px; font-weight: bold; font-size: 1.3rem; margin-top: 20px;">
-                LINE 領取專屬首購優惠 ➔
-            </div>
-        </a>
-    ''', unsafe_allow_html=True)
-
-    if st.button("重新測驗"):
-        st.session_state.step = 0
-        st.session_state.answers = []
-        st.rerun()
-
-st.markdown('''
-    <div style="font-size: 0.8rem; color: #999; text-align: center; margin-top: 50px;">
-        米寶漢方｜三十年慶和蔘藥行經驗監製<br>
-        本測驗僅供風格參考，非醫療診斷之用。
-    </div>
-''', unsafe_allow_html=True)
+st.markdown('<p style="text-align: center; color: #B7B7A4; font-size: 0.8rem; margin-top: 50px;">米寶漢方｜慶和老店二代轉型練習<br>產品為一般食品，溫柔陪伴妳的日常。</p>', unsafe_allow_html=True)
