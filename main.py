@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 
-# 1. 究極視覺鎖定 (複製按鈕強顯、左對齊、一屏設計、固定頁尾)
+# 1. 究極視覺鎖定 (價格放大置中、複製按鈕強顯、左對齊、固定頁尾)
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -14,7 +14,7 @@ st.markdown("""
     /* 容器間距極致壓縮，確保手機端一屏全覽 */
     .block-container {
         padding-top: 0.5rem !important;
-        padding-bottom: 80px !important; /* 預留底部固定頁尾空間 */
+        padding-bottom: 80px !important;
     }
 
     /* 標題與題目文案 */
@@ -54,28 +54,25 @@ st.markdown("""
 
     /* 結果清單文字與內容物強化 */
     .benefit-item { font-size: 1.02rem !important; line-height: 1.7 !important; font-weight: bold !important; color: #7A8450 !important; }
-    .price-text { font-size: 0.85rem !important; font-weight: normal !important; color: #8B8B7A !important; margin-top: 10px; display: block; text-align: right; }
+    
+    /* 【關鍵更新】價格放大並置中 */
+    .price-text { 
+        font-size: 1.4rem !important; 
+        font-weight: bold !important; 
+        color: #7A8450 !important; 
+        margin-top: 15px; 
+        display: block; 
+        text-align: center !important; 
+    }
 
-    /* 【究極修正】強力鎖定複製按鈕圖案使其永久顯示 */
-    /* 1. 鎖定按鈕本身的透明度與可見度 */
+    /* 複製按鈕強制顯示 (針對 Streamlit 元件強力覆蓋) */
     [data-testid="stCodeBlock"] button {
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
-        background-color: rgba(233, 237, 201, 1) !important; /* 加入實色背景讓它更明顯 */
-        border: 1px solid #7A8450 !important;
-        right: 10px !important;
-        top: 10px !important;
+        opacity: 1 !important; visibility: visible !important; display: block !important;
+        background-color: rgba(233, 237, 201, 1) !important;
+        border: 1px solid #7A8450 !important; right: 10px !important; top: 10px !important;
     }
-    /* 2. 鎖定按鈕容器的透明度（Streamlit 常用此層級隱藏） */
-    [data-testid="stCodeBlock"] div {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    /* 3. 確保按鈕內的 svg 圖標清晰 */
-    [data-testid="stCodeBlock"] button svg {
-        fill: #4A4E31 !important;
-    }
+    [data-testid="stCodeBlock"] div { opacity: 1 !important; visibility: visible !important; }
+    [data-testid="stCodeBlock"] button svg { fill: #4A4E31 !important; }
 
     /* 徹底消除輸入框與複製區黑底 */
     .stTextInput input { background-color: #FFFFFF !important; border: 1.5px solid #E9EDC9 !important; border-radius: 10px !important; height: 38px !important; }
@@ -191,7 +188,7 @@ elif st.session_state.step == 6:
         <span class="price-text">月度質感陪伴價 $1,580</span>
     </div>
     """, unsafe_allow_html=True)
-    if st.button("預約這份暖心時光 ➔"): st.session_state.step = 7; st.rerun()
+    if st.button("預約這份溫柔時光 ➔"): st.session_state.step = 7; st.rerun()
 
 elif st.session_state.step == 7:
     ans, name, first = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time
@@ -201,11 +198,11 @@ elif st.session_state.step == 7:
     
     show_leaves()
     st.markdown("### 📢 預約暖心的相遇")
-    engrave = f"杯蓋想刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
+    engrave = f"杯蓋想悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
     msg = f"""Hi 米寶！🐢✨
 
-我是【{diag}氣質】
-想預約這份植感陪伴
+我剛剛完成植感測驗了，我是【{diag}氣質】。
+想預約這份植感陪伴，讓這份溫暖陪我度過每一天。
 
 🌿 {engrave}
 
@@ -213,10 +210,12 @@ elif st.session_state.step == 7:
 ☀️ 晨曦：{m_tea}
 🌙 午後：{a_tea}
 
-期待與這份草本植感茶相遇。🌿🍵"""
-    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下下框右上角，可以複製文字，交給米寶吧！</p>', unsafe_allow_html=True)
+期待與這份草本暖茶相遇。🌿🍵"""
+    # 暖心引導文字與動作說明
+    st.markdown('<p style="font-size:0.9rem; margin-bottom:5px; text-align:center;">讓米寶為您留存這份植感配方。<br>請先點擊下方框框右上角「複製圖示」：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
-    st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">✨ LINE 領取專屬陪伴 ➔</div></a>', unsafe_allow_html=True)
+    # 溫潤且功能明確的按鈕
+    st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">🌿 點此前往 LINE 貼上預約文字給米寶 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
 
 # ----------------- 固定頁尾 -----------------
