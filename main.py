@@ -194,8 +194,7 @@ elif st.session_state.step == 7:
     engrave = f"杯蓋悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
     msg = f"""Hi 米寶店長！🐢✨
 
-我剛剛完成植感測驗了，我是【{diag}氣質】。
-想預約這份植感陪伴，讓這份溫暖陪我度過每一天。
+我是【{diag}氣質】。
 
 🌿 {engrave}
 
@@ -203,8 +202,8 @@ elif st.session_state.step == 7:
 ☀️ 晨曦：{m}
 🌙 午後：{a}
 
-期待與這份草本香氣相遇。🌿🍵"""
-    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下框框右上角，複製文字並交給米寶店長吧！</p>', unsafe_allow_html=True)
+期待與這份草本暖茶相遇。🌿🍵"""
+    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下框框右上角，複製文字並交給米寶吧！</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">✨ LINE 領取專屬陪伴 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
