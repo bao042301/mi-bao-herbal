@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 
-# 1. 究極視覺鎖定 (複製按鈕恆久強顯、左對齊、一屏設計、固定頁尾)
+# 1. 究極視覺鎖定 (複製按鈕強顯、左對齊、一屏設計、固定頁尾)
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -56,22 +56,25 @@ st.markdown("""
     .benefit-item { font-size: 1.02rem !important; line-height: 1.7 !important; font-weight: bold !important; color: #7A8450 !important; }
     .price-text { font-size: 0.85rem !important; font-weight: normal !important; color: #8B8B7A !important; margin-top: 10px; display: block; text-align: right; }
 
-    /* 【核心修正】強力顯示複製按鈕容器與按鈕本身，解決行動端隱藏問題 */
-    [data-testid="stCodeBlock"] div[data-testid="stCodeCopyButtonContainer"] {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
+    /* 【究極修正】強力鎖定複製按鈕圖案使其永久顯示 */
+    /* 1. 鎖定按鈕本身的透明度與可見度 */
     [data-testid="stCodeBlock"] button {
         opacity: 1 !important;
         visibility: visible !important;
         display: block !important;
-        background-color: rgba(233, 237, 201, 1) !important; /* 實色背景，確保直接顯示 */
+        background-color: rgba(233, 237, 201, 1) !important; /* 加入實色背景讓它更明顯 */
         border: 1px solid #7A8450 !important;
-        right: 8px !important;
-        top: 8px !important;
+        right: 10px !important;
+        top: 10px !important;
     }
+    /* 2. 鎖定按鈕容器的透明度（Streamlit 常用此層級隱藏） */
+    [data-testid="stCodeBlock"] div {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    /* 3. 確保按鈕內的 svg 圖標清晰 */
     [data-testid="stCodeBlock"] button svg {
-        fill: #4A4E31 !important; /* 加深圖示顏色 */
+        fill: #4A4E31 !important;
     }
 
     /* 徹底消除輸入框與複製區黑底 */
