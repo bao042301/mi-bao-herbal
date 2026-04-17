@@ -106,11 +106,11 @@ if 'is_first_time' not in st.session_state: st.session_state.is_first_time = ""
 img_path = "29301.jpg"
 if os.path.exists(img_path): st.image(img_path)
 else: st.markdown("<h4 style='text-align:center;'>🌿 米寶漢方</h4>", unsafe_allow_html=True)
-st.markdown('<p class="quote">「在忙碌中，給自己留一刻鐘的溫柔。」</p>', unsafe_allow_html=True)
+st.markdown('<p class="quote">「在忙碌中，給自己留一刻鐘的溫暖。」</p>', unsafe_allow_html=True)
 
 # ----------------- 測驗流程 -----------------
 if st.session_state.step == 1:
-    st.markdown("### 第一步：聽聽身體的低語")
+    st.markdown("### 第一步：聽聽身體的聲音")
     st.markdown('<p class="question-text">當你靜下心，你的身體正低聲說著...？</p>', unsafe_allow_html=True)
     q1 = st.radio("", ["我有些疲累，渴望溫潤透亮的晨光...", "我有些沉重，想找回輕盈自在的微風...", "我有些燥熱，想念山間清徹甘甜的泉水..."], index=None, key="v44_q1", label_visibility="collapsed")
     if st.button("緩緩走向下個瞬間 ➔"):
@@ -124,7 +124,7 @@ elif st.session_state.step == 2:
         if q2: st.session_state.answers.append(q2); st.session_state.step = 3; st.rerun()
 
 elif st.session_state.step == 3:
-    st.markdown("### 第三步：你嚮往的喘息瞬間")
+    st.markdown("### 第三步：你嚮往的瞬間")
     st.markdown('<p class="question-text">在最需要喘息的午後，你最嚮往的是？</p>', unsafe_allow_html=True)
     q3 = st.radio("", ["感覺臉龐恢復紅潤元氣，重新出發", "感覺身體找回輕盈律動，不再束縛", "感覺內心恢復安靜穩定，從容自在"], index=None, key="v44_q3", label_visibility="collapsed")
     if st.button("開啟你的專屬禮遇 ➔"):
@@ -140,8 +140,8 @@ elif st.session_state.step == 4:
 
 elif st.session_state.step == 5:
     st.markdown("### 💎 鐫刻你的專屬風格")
-    st.markdown("""<div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; border: 1px solid #E9EDC9; font-size:0.85rem; text-align:center;'>為你準備一只質感的玻璃隨行杯。讓我們在木蓋上，鐫刻專屬的名字，陪伴你植感生活的每一天。</div>""", unsafe_allow_html=True)
-    user_name = st.text_input("雷刻名字 (最多12字)", max_chars=12, placeholder="例如：Mila")
+    st.markdown("""<div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; border: 1px solid #E9EDC9; font-size:0.85rem; text-align:center;'>為你準備一只質感的玻璃隨行杯。讓我們在木蓋上，鐫刻只專屬於你的風格，陪伴你植感生活的每一天。</div>""", unsafe_allow_html=True)
+    user_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：Mila")
     if st.button("查看我的專屬植感配方 ➔"):
         if user_name: st.session_state.custom_name = user_name; st.session_state.step = 6; st.rerun()
 
@@ -177,11 +177,11 @@ elif st.session_state.step == 7:
     
     show_leaves()
     st.markdown("### 📢 預約暖心的相遇")
-    engrave = f"杯蓋想悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友了，想領取回購驚喜 🐢🎁"
+    engrave = f"杯蓋悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友了，想領取回購驚喜 🐢🎁"
     msg = f"""Hi 米寶店長！🐢✨
 
 我剛剛完成植感測驗了，我是【{diag}氣質】。
-想預約這份月度陪伴，讓這份溫柔陪我度過每一天。
+想預約這份植感陪伴，讓這份溫暖陪我度過每一天。
 
 🌿 {engrave}
 
