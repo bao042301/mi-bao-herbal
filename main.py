@@ -3,7 +3,7 @@ import time
 import os
 
 # 1. 視覺鎖定 (去黑底、三色網底、落葉特效、呼吸感佈局)
-st.set_page_config(page_title="米寶漢方｜妳的月度質感陪伴", layout="centered")
+st.set_page_config(page_title="米寶漢方｜妳的植感陪伴", layout="centered")
 
 st.markdown("""
     <style>
