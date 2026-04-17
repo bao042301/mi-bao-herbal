@@ -11,13 +11,13 @@ st.markdown("""
     * { color: #4A4E31 !important; font-family: 'Noto Sans TC', sans-serif !important; }
     .stApp { background-color: #FDFBF7 !important; }
     
-    /* 容器間距極致壓縮，確保手機端一屏全覽 */
+    /* 容器間距極致壓縮 */
     .block-container {
         padding-top: 0.5rem !important;
-        padding-bottom: 80px !important; /* 預留底部固定頁尾空間 */
+        padding-bottom: 80px !important;
     }
 
-    /* 步驟標題與問題文案 */
+    /* 標題與題目文案 */
     h3 { 
         font-size: 1rem !important; font-weight: 700 !important;
         margin-top: 0px !important; margin-bottom: 2px !important;
@@ -31,7 +31,7 @@ st.markdown("""
     }
     .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 10px; font-size: 0.75rem; }
 
-    /* Logo 尺寸優化 */
+    /* Logo 尺寸 */
     [data-testid="stImage"] img { max-height: 55px !important; width: auto !important; margin: 0 auto !important; display: block; }
     [data-testid="stImage"] { margin-bottom: -10px !important; }
 
@@ -46,22 +46,26 @@ st.markdown("""
         font-size: 0.95rem !important; line-height: 1.3 !important;
     }
 
-    /* 療癒三色網底鎖定 */
+    /* 三色網底穩定鎖定 */
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
     [data-testid="stRadio"] div[aria-checked="true"] label { border: 1.5px solid #7A8450 !important; font-weight: bold !important; }
 
-    /* 結果清單文字與內容物強化 */
+    /* 結果清單與內容物強化 */
     .benefit-item { font-size: 1.02rem !important; line-height: 1.7 !important; font-weight: bold !important; color: #7A8450 !important; }
     .price-text { font-size: 0.85rem !important; font-weight: normal !important; color: #8B8B7A !important; margin-top: 10px; display: block; text-align: right; }
 
-    /* 【關鍵更新】強制顯示複製按鈕 (不必 hover) */
+    /* 【核心修正】強力顯示複製按鈕及其容器 */
     [data-testid="stCodeBlock"] button {
         opacity: 1 !important;
         visibility: visible !important;
-        background-color: rgba(255, 255, 255, 0.8) !important;
-        border-radius: 5px !important;
+        background-color: rgba(233, 237, 201, 0.8) !important; /* 淺橄欖綠背景，讓按鈕更明顯 */
+        border: 1px solid #7A8450 !important;
+    }
+    /* 針對不同瀏覽器的隱藏機制進行覆蓋 */
+    div[data-testid="stCodeBlock"] > div {
+        opacity: 1 !important;
     }
 
     /* 徹底消除輸入框與複製區黑底 */
@@ -72,7 +76,7 @@ st.markdown("""
     [data-testid="stCodeBlock"] { margin-bottom: 0px !important; }
     code span { background-color: transparent !important; color: #4A4E31 !important; }
 
-    /* 按鈕樣式 (橄欖綠) */
+    /* 按鈕樣式 */
     .stButton > button {
         width: 100% !important; background-color: #7A8450 !important; color: #FFFFFF !important;
         border-radius: 25px !important; height: 2.8em !important; font-weight: bold !important; border: none !important;
@@ -80,7 +84,7 @@ st.markdown("""
     }
     .stButton > button p { color: #FFFFFF !important; font-size: 0.95rem !important; }
 
-    /* 固定頁尾 CSS */
+    /* 固定頁尾 */
     .custom-footer {
         position: fixed; left: 0; bottom: 8px; width: 100%; text-align: center;
         background-color: transparent; z-index: 99;
@@ -103,7 +107,7 @@ def show_leaves():
     leaves_html = "".join([f'<div class="leaf" style="left:{i*15}vw; animation-delay:{i*1.2}s;">🍃</div>' for i in range(7)])
     st.markdown(leaves_html, unsafe_allow_html=True)
 
-# ----------------- 邏輯初始化 -----------------
+# 初始化
 if 'step' not in st.session_state: st.session_state.step = 1
 if 'answers' not in st.session_state: st.session_state.answers = []
 if 'custom_name' not in st.session_state: st.session_state.custom_name = ""
