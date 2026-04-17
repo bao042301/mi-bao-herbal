@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 
-# 1. 究極視覺鎖定 (價格放大置中、複製按鈕強顯、選項靠左、固定頁尾)
+# 1. 究極視覺鎖定 (選中底色變色、複製按鈕強顯、價格置中放大、選項靠左)
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -46,16 +46,22 @@ st.markdown("""
         font-size: 0.95rem !important; line-height: 1.3 !important;
     }
 
-    /* 療癒三色網底鎖定 */
+    /* 療癒三色網底鎖定 (預設狀態) */
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
-    [data-testid="stRadio"] div[aria-checked="true"] label { border: 1.5px solid #7A8450 !important; font-weight: bold !important; }
+
+    /* 【核心更新】選項被選中後，整個文字底圖變色 */
+    [data-testid="stRadio"] div[aria-checked="true"] label { 
+        border: 1.5px solid #7A8450 !important; 
+        background-color: #E9EDC9 !important; /* 選中時統一轉為溫潤的品牌淺綠底 */
+        font-weight: bold !important; 
+    }
 
     /* 結果清單與內容物強化 */
     .benefit-item { font-size: 1.02rem !important; line-height: 1.7 !important; font-weight: bold !important; color: #7A8450 !important; }
     
-    /* 【關鍵更新】價格放大並置中 */
+    /* 價格放大並置中 */
     .price-text { 
         font-size: 1.4rem !important; 
         font-weight: bold !important; 
@@ -65,24 +71,14 @@ st.markdown("""
         text-align: center !important; 
     }
 
-    /* 【究極修正】強力鎖定複製按鈕圖案使其永久顯示 (無視點擊/懸停) */
+    /* 強力鎖定複製按鈕圖案使其永久顯示 */
     [data-testid="stCodeBlock"] button {
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
-        background-color: rgba(233, 237, 201, 1) !important; /* 顯眼的實色橄欖綠底 */
-        border: 1px solid #7A8450 !important;
-        right: 10px !important;
-        top: 10px !important;
+        opacity: 1 !important; visibility: visible !important; display: block !important;
+        background-color: rgba(233, 237, 201, 1) !important;
+        border: 1px solid #7A8450 !important; right: 10px !important; top: 10px !important;
     }
-    /* 鎖定按鈕容器層級，防止行動端自動隱藏 */
-    [data-testid="stCodeBlock"] div {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    [data-testid="stCodeBlock"] button svg {
-        fill: #4A4E31 !important;
-    }
+    [data-testid="stCodeBlock"] div { opacity: 1 !important; visibility: visible !important; }
+    [data-testid="stCodeBlock"] button svg { fill: #4A4E31 !important; }
 
     /* 徹底消除輸入框與複製區黑底 */
     .stTextInput input { background-color: #FFFFFF !important; border: 1.5px solid #E9EDC9 !important; border-radius: 10px !important; height: 38px !important; }
@@ -217,10 +213,10 @@ elif st.session_state.step == 7:
 
 🌿 {engrave}
 期待與這份草本暖茶相遇。🌿🍵"""
-    # 暖心引導文字與動作說明
-    st.markdown('<p style="font-size:0.9rem; margin-bottom:5px; text-align:center;"><br>請點擊下方框框右上角，會浮現「複製圖示」：</p>', unsafe_allow_html=True)
+    # 暖心引導
+    st.markdown('<p style="font-size:0.9rem; margin-bottom:5px; text-align:center;"><br>請點擊下方框框右上角複製文字：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
-    # 溫潤且功能明確的按鈕
+    # 按鈕說明
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">🌿 點此前往 LINE 貼上專屬配方給米寶 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
 
