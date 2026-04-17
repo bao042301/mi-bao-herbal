@@ -122,21 +122,21 @@ if st.session_state.step == 1:
 
 elif st.session_state.step == 2:
     st.markdown("### 第二步：梳理日常的步調")
-    st.markdown('<p class="question-text">關於這段日子的作息，你目前的感受是？</p>', unsafe_allow_html=True)
-    q2 = st.radio("", ["長時間待在冷氣房，循環緩慢且手腳冰冷", "工作忙碌常熬夜，晚餐不規律導致不適", "壓力大節奏快，晚上難以入眠且心神不寧"], index=None, key="v43_q2", label_visibility="collapsed")
+    st.markdown('<p class="question-text">關於這段日子的作息，你的狀態是？</p>', unsafe_allow_html=True)
+    q2 = st.radio("", ["長時間待冷氣房，手腳冰冷循環差", "生活忙碌常熬夜，作息不規律隨意吃", "壓力大節奏快，心神緊繃難入眠"], index=None, key="v43_q2", label_visibility="collapsed")
     if st.button("傾聽日常的節奏 ➔"):
         if q2: st.session_state.answers.append(q2); st.session_state.step = 3; st.rerun()
 
 elif st.session_state.step == 3:
     st.markdown("### 第三步：你嚮往的喘息瞬間")
-    st.markdown('<p class="question-text">在最需要喘息的午後，你最嚮往的瞬間？</p>', unsafe_allow_html=True)
-    q3 = st.radio("", ["感覺臉龐恢復紅潤元氣，重新出發", "感覺身體找回輕盈律動，不再束縛", "感覺內心恢復安靜穩定，優雅從容"], index=None, key="v43_q3", label_visibility="collapsed")
+    st.markdown('<p class="question-text">在最需要喘息的午後，你最嚮往的是？</p>', unsafe_allow_html=True)
+    q3 = st.radio("", ["感覺臉龐恢復紅潤元氣，重新出發", "感覺身體找回輕盈律動，不再束縛", "感覺內心恢復安靜穩定，從容自在"], index=None, key="v43_q3", label_visibility="collapsed")
     if st.button("開啟你的專屬禮遇 ➔"):
         if q3: st.session_state.answers.append(q3); st.session_state.step = 4; st.rerun()
 
 elif st.session_state.step == 4:
     st.markdown("### 💎 你是米寶的新朋友嗎？")
-    opts = ["是的，我是新朋友", "不是，我是老朋友了（已有隨行杯）"]
+    opts = ["是的，我是新朋友", "不是，我是老朋友了（已有專屬杯杯）"]
     choice = st.radio("", opts, index=None, key="v43_choice", label_visibility="collapsed")
     if st.button("前往專屬的陪伴 ➔"):
         if choice == opts[0]: st.session_state.is_first_time = "是的"; st.session_state.step = 5; st.rerun()
@@ -144,9 +144,9 @@ elif st.session_state.step == 4:
 
 elif st.session_state.step == 5:
     st.markdown("### 💎 鐫刻你的專屬溫柔")
-    st.markdown("""<div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; border: 1px solid #E9EDC9; font-size:0.85rem; text-align:center;'>為你準備一只質感的玻璃隨行杯。讓我們在木蓋上，鐫刻專屬的名字，陪伴你每一天。</div>""", unsafe_allow_html=True)
+    st.markdown("""<div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; border: 1px solid #E9EDC9; font-size:0.85rem; text-align:center;'>為你準備一只質感的玻璃隨行杯。讓我們在木蓋上，鐫刻專屬的名字，陪伴你植感生活的每一天。</div>""", unsafe_allow_html=True)
     user_name = st.text_input("雷刻名字 (最多12字)", max_chars=12, placeholder="例如：Mila")
-    if st.button("查看我的質感陪伴配比 ➔"):
+    if st.button("查看我的專屬植感配方 ➔"):
         if user_name: st.session_state.custom_name = user_name; st.session_state.step = 6; st.rerun()
 
 elif st.session_state.step == 6:
@@ -195,7 +195,7 @@ elif st.session_state.step == 7:
 
 期待與這份草本香氣相遇。🌿🍵"""
     # 壓縮最後一頁的垂直空間
-    st.markdown('<p style="font-size:0.85rem; margin-bottom:5px; text-align:center;">最後一步，複製文字並交給米寶店長：</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.85rem; margin-bottom:5px; text-align:center;">最後一步，按一下框框右上角，複製文字並交給米寶店長：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:8px;">✨ LINE 領取專屬陪伴 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
