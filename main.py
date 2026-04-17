@@ -141,7 +141,7 @@ elif st.session_state.step == 2:
         if q2: st.session_state.answers.append(q2); st.session_state.step = 3; st.rerun()
 
 elif st.session_state.step == 3:
-    st.markdown("### 第三步：您嚮往的瞬間")
+    st.markdown("### 第三步：想想您嚮往的瞬間")
     st.markdown('<p class="question-text">在最需要喘息的午後，您最嚮往的是？</p>', unsafe_allow_html=True)
     q3 = st.radio("", ["感覺臉龐恢復紅潤元氣，重新出發", "感覺身體找回輕盈律動，不再束縛", "感覺內心恢復安靜穩定，從容自在"], index=None, key="v54_q3", label_visibility="collapsed")
     if st.button("開啟您的專屬禮遇 ➔"):
@@ -149,7 +149,7 @@ elif st.session_state.step == 3:
 
 elif st.session_state.step == 4:
     st.markdown("### 💎 您是米寶的新朋友嗎？")
-    opts = ["是的，我是新朋友", "我是老朋友，已有專屬風格杯"]
+    opts = ["是的，我是新朋友", "我是米寶的老朋友"]
     choice = st.radio("", opts, index=None, key="v54_choice", label_visibility="collapsed")
     if st.button("前往專屬的陪伴 ➔"):
         if choice == opts[0]: st.session_state.is_first_time = "是的"; st.session_state.step = 5; st.rerun()
@@ -198,11 +198,11 @@ elif st.session_state.step == 7:
     
     show_leaves()
     st.markdown("### 📢 預約暖心的相遇")
-    engrave = f"杯蓋想悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
+    engrave = f"杯蓋刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
     msg = f"""Hi 米寶！🐢✨
 
-我剛剛完成植感測驗了，我是【{diag}氣質】。
-想預約這份植感陪伴，讓這份溫暖陪我度過每一天。
+我是【{diag}氣質】
+
 
 🌿 {engrave}
 
