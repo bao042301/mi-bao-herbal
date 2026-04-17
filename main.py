@@ -185,10 +185,10 @@ elif st.session_state.step == 6:
         <p class="benefit-item" style='margin:0;'>
             • 40 入深度節律漢方茶組 (全月份份量)<br>• 植感生活語錄收藏卡 (暖心鼓勵)<br>{gift}<br>
         </p>
-        <span class="price-text">月度質感陪伴價 $1,580</span>
+        <span class="price-text">月度植感陪伴價 $1,580</span>
     </div>
     """, unsafe_allow_html=True)
-    if st.button("預約這份溫柔時光 ➔"): st.session_state.step = 7; st.rerun()
+    if st.button("預約這份植感時光 ➔"): st.session_state.step = 7; st.rerun()
 
 elif st.session_state.step == 7:
     ans, name, first = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time
@@ -201,21 +201,17 @@ elif st.session_state.step == 7:
     engrave = f"杯蓋刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
     msg = f"""Hi 米寶！🐢✨
 
-我是【{diag}氣質】
-
-
-🌿 {engrave}
-
-我的專屬配比：
+我的專屬植感配比：
 ☀️ 晨曦：{m_tea}
 🌙 午後：{a_tea}
 
+🌿 {engrave}
 期待與這份草本暖茶相遇。🌿🍵"""
     # 暖心引導文字與動作說明
-    st.markdown('<p style="font-size:0.9rem; margin-bottom:5px; text-align:center;">讓米寶為您留存這份植感配方。<br>請先點擊下方框框右上角「複製圖示」：</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.9rem; margin-bottom:5px; text-align:center;">讓米寶為您留存這份植感配方。<br>請點擊下方框框右上角「複製圖示」：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     # 溫潤且功能明確的按鈕
-    st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">🌿 點此前往 LINE 貼上預約文字給米寶 ➔</div></a>', unsafe_allow_html=True)
+    st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">🌿 點此前往 LINE 貼上專屬配方給米寶 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
 
 # ----------------- 固定頁尾 -----------------
