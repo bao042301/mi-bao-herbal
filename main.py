@@ -139,7 +139,7 @@ elif st.session_state.step == 4:
         elif choice == opts[1]: st.session_state.is_first_time = "不是"; st.session_state.custom_name = "老朋友回購驚喜"; st.session_state.step = 6; st.rerun()
 
 elif st.session_state.step == 5:
-    st.markdown("### 💎 鐫刻你的專屬溫柔")
+    st.markdown("### 💎 鐫刻你的專屬風格")
     st.markdown("""<div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; border: 1px solid #E9EDC9; font-size:0.85rem; text-align:center;'>為你準備一只質感的玻璃隨行杯。讓我們在木蓋上，鐫刻專屬的名字，陪伴你植感生活的每一天。</div>""", unsafe_allow_html=True)
     user_name = st.text_input("雷刻名字 (最多12字)", max_chars=12, placeholder="例如：Mila")
     if st.button("查看我的專屬植感配方 ➔"):
@@ -190,7 +190,7 @@ elif st.session_state.step == 7:
 🌙 午後：{a}
 
 期待與這份草本香氣相遇。🌿🍵"""
-    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下下框的右上角，複製文字並交給米寶店長吧！：</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下下框的右上角，複製文字並交給米寶店長吧！</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">✨ LINE 領取專屬陪伴 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
