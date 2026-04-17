@@ -14,7 +14,7 @@ st.markdown("""
     /* 容器間距壓縮，確保一屏不滑動 */
     .block-container {
         padding-top: 0.5rem !important;
-        padding-bottom: 75px !important;
+        padding-bottom: 80px !important;
     }
 
     /* 標題與題目 */
@@ -53,12 +53,12 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; }
     [data-testid="stRadio"] div[aria-checked="true"] label { border: 1.5px solid #7A8450 !important; font-weight: bold !important; }
 
-    /* 【強化內容物 CSS】讓陪伴清單成為主角 */
+    /* 【強化內容物 CSS】 */
     .benefit-item { 
         font-size: 1.02rem !important; 
         line-height: 1.7 !important; 
         font-weight: bold !important; 
-        color: #7A8450 !important; /* 改為品牌綠，強化價值感 */
+        color: #7A8450 !important;
     }
     
     /* 【收斂價格 CSS】 */
@@ -66,12 +66,12 @@ st.markdown("""
         font-size: 0.85rem !important; 
         font-weight: normal !important; 
         color: #8B8B7A !important; 
-        margin-top: 10px; 
+        margin-top: 5px; 
         display: block; 
-        text-align: right; /* 置右更像精品標價 */
+        text-align: right;
     }
 
-    /* 去黑底設定 */
+    /* 徹底去黑底 */
     .stTextInput input { background-color: #FFFFFF !important; border: 1.5px solid #E9EDC9 !important; border-radius: 10px !important; height: 38px !important; }
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code {
         background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important;
@@ -87,7 +87,7 @@ st.markdown("""
     }
     .stButton > button p { color: #FFFFFF !important; font-size: 0.95rem !important; }
 
-    /* 固定頁尾 */
+    /* 強力固定頁尾 CSS */
     .custom-footer {
         position: fixed; left: 0; bottom: 8px; width: 100%; text-align: center;
         background-color: transparent; z-index: 99;
@@ -133,7 +133,7 @@ if st.session_state.step == 1:
 elif st.session_state.step == 2:
     st.markdown("### 第二步：梳理日常的步調")
     st.markdown('<p class="question-text">關於這段日子的作息，您的狀態是？</p>', unsafe_allow_html=True)
-    q2 = st.radio("", ["長時間待冷氣房，手腳冰冷循環差", "生活忙碌常熬夜，作息不規律隨意吃", "壓力大節奏快，心神緊繃難入眠"], index=None, key="v44_q2", label_visibility="collapsed")
+    q2 = st.radio("", ["長時間待在冷氣房，手腳冰冷循環差", "生活忙碌常熬夜，作息不規律隨意吃", "壓力大節奏快，心神緊繃難入眠"], index=None, key="v44_q2", label_visibility="collapsed")
     if st.button("傾聽日常的節奏 ➔"):
         if q2: st.session_state.answers.append(q2); st.session_state.step = 3; st.rerun()
 
@@ -204,7 +204,7 @@ elif st.session_state.step == 7:
 🌙 午後：{a}
 
 期待與這份草本香氣相遇。🌿🍵"""
-    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按下框的右上角，複製文字並交給米寶店長吧！</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下框框右上角，複製文字並交給米寶店長吧！</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">✨ LINE 領取專屬陪伴 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
