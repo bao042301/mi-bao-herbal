@@ -146,7 +146,7 @@ elif st.session_state.step == 3:
 
 elif st.session_state.step == 4:
     st.markdown("### 💎 您是米寶的新朋友嗎？")
-    opts = ["是的，我是新朋友", "不是，我是老朋友了（已有專屬植感杯）"]
+    opts = ["是的，我是新朋友", "我是老朋友，已有專屬風格杯）"]
     choice = st.radio("", opts, index=None, key="v44_choice", label_visibility="collapsed")
     if st.button("前往專屬的陪伴 ➔"):
         if choice == opts[0]: st.session_state.is_first_time = "是的"; st.session_state.step = 5; st.rerun()
@@ -191,7 +191,7 @@ elif st.session_state.step == 7:
     
     show_leaves()
     st.markdown("### 📢 預約暖心的相遇")
-    engrave = f"杯蓋悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友了，想領取回購驚喜 🐢🎁"
+    engrave = f"杯蓋悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
     msg = f"""Hi 米寶店長！🐢✨
 
 我剛剛完成植感測驗了，我是【{diag}氣質】。
