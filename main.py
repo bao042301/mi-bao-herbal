@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 
-# 1. 究極視覺鎖定 (複製按鈕強顯、左對齊、一屏設計、固定頁尾)
+# 1. 究極視覺鎖定 (複製按鈕恆久強顯、左對齊、一屏設計、固定頁尾)
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -56,19 +56,22 @@ st.markdown("""
     .benefit-item { font-size: 1.02rem !important; line-height: 1.7 !important; font-weight: bold !important; color: #7A8450 !important; }
     .price-text { font-size: 0.85rem !important; font-weight: normal !important; color: #8B8B7A !important; margin-top: 10px; display: block; text-align: right; }
 
-    /* 【核心修正】強力顯示複製按鈕 (防止 Streamlit 在行動端隱藏) */
+    /* 【核心修正】強力顯示複製按鈕容器與按鈕本身，解決行動端隱藏問題 */
+    [data-testid="stCodeBlock"] div[data-testid="stCodeCopyButtonContainer"] {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
     [data-testid="stCodeBlock"] button {
         opacity: 1 !important;
         visibility: visible !important;
         display: block !important;
-        background-color: rgba(233, 237, 201, 0.9) !important; /* 顯眼的淺綠背景 */
+        background-color: rgba(233, 237, 201, 1) !important; /* 實色背景，確保直接顯示 */
         border: 1px solid #7A8450 !important;
-        right: 10px !important;
-        top: 10px !important;
+        right: 8px !important;
+        top: 8px !important;
     }
-    /* 確保按鈕內的圖示顏色加深，更容易被看見 */
     [data-testid="stCodeBlock"] button svg {
-        fill: #4A4E31 !important;
+        fill: #4A4E31 !important; /* 加深圖示顏色 */
     }
 
     /* 徹底消除輸入框與複製區黑底 */
@@ -195,7 +198,7 @@ elif st.session_state.step == 7:
     
     show_leaves()
     st.markdown("### 📢 預約暖心的相遇")
-    engrave = f"杯蓋悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
+    engrave = f"杯蓋想悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友，想領取回購驚喜 🐢🎁"
     msg = f"""Hi 米寶！🐢✨
 
 我剛剛完成植感測驗了，我是【{diag}氣質】。
