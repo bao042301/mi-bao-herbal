@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 
-# 1. 究極視覺鎖定 (內容物強化、一屏設計、固定頁尾、去黑底)
+# 1. 究極視覺鎖定 (極致一屏設計、固定頁尾、放大結果清單、去黑底)
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -11,13 +11,13 @@ st.markdown("""
     * { color: #4A4E31 !important; font-family: 'Noto Sans TC', sans-serif !important; }
     .stApp { background-color: #FDFBF7 !important; }
     
-    /* 容器間距極致壓縮 */
+    /* 容器間距極致壓縮，確保手機端一屏全覽 */
     .block-container {
         padding-top: 0.5rem !important;
-        padding-bottom: 75px !important; /* 頁尾預留空間 */
+        padding-bottom: 75px !important; /* 預留底部固定頁尾空間 */
     }
 
-    /* 標題與題目 */
+    /* 標題與問題文案 */
     h3 { 
         font-size: 1rem !important; font-weight: 700 !important;
         margin-top: 0px !important; margin-bottom: 2px !important;
@@ -31,47 +31,33 @@ st.markdown("""
     }
     .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 10px; font-size: 0.75rem; }
 
-    /* Logo 尺寸 */
+    /* Logo 尺寸優化 */
     [data-testid="stImage"] img { max-height: 55px !important; width: auto !important; margin: 0 auto !important; display: block; }
     [data-testid="stImage"] { margin-bottom: -10px !important; }
 
-    /* 選項卡片極簡化 */
+    /* 選項卡片設計 (隱藏 Radio 黑點) */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 6px !important; } 
     
     [data-testid="stRadio"] label {
-        border-radius: 10px !important; padding: 10px 15px !important;
+        border-radius: 10px !important; padding: 8px 15px !important;
         width: 100% !important; border: 1px solid rgba(0,0,0,0.03) !important;
         display: flex !important; justify-content: center !important; text-align: center !important;
         transition: all 0.2s ease !important; cursor: pointer !important;
         font-size: 0.95rem !important; line-height: 1.3 !important;
     }
 
-    /* 三色穩定鎖定 */
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; }
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; }
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; }
+    /* 療癒三色網底鎖定 */
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
     [data-testid="stRadio"] div[aria-checked="true"] label { border: 1.5px solid #7A8450 !important; font-weight: bold !important; }
 
-    /* 【內容物強化 CSS】 */
-    .benefit-item { 
-        font-size: 1.02rem !important; 
-        line-height: 1.7 !important; 
-        font-weight: bold !important; 
-        color: #7A8450 !important; 
-    }
-    
-    /* 【收斂價格 CSS】 */
-    .price-text { 
-        font-size: 0.85rem !important; 
-        font-weight: normal !important; 
-        color: #8B8B7A !important; 
-        margin-top: 10px; 
-        display: block; 
-        text-align: right; 
-    }
+    /* 結果清單與價格放大 */
+    .benefit-item { font-size: 1.02rem !important; line-height: 1.7 !important; font-weight: bold !important; color: #7A8450 !important; }
+    .price-text { font-size: 0.85rem !important; font-weight: normal !important; color: #8B8B7A !important; margin-top: 10px; display: block; text-align: right; }
 
-    /* 徹底去黑底設定 */
+    /* 徹底消除輸入框與複製區黑底 */
     .stTextInput input { background-color: #FFFFFF !important; border: 1.5px solid #E9EDC9 !important; border-radius: 10px !important; height: 38px !important; }
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code {
         background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important;
@@ -79,7 +65,7 @@ st.markdown("""
     [data-testid="stCodeBlock"] { margin-bottom: 0px !important; }
     code span { background-color: transparent !important; color: #4A4E31 !important; }
 
-    /* 按鈕樣式 */
+    /* 按鈕樣式 (橄欖綠) */
     .stButton > button {
         width: 100% !important; background-color: #7A8450 !important; color: #FFFFFF !important;
         border-radius: 25px !important; height: 2.8em !important; font-weight: bold !important; border: none !important;
@@ -133,7 +119,7 @@ if st.session_state.step == 1:
 elif st.session_state.step == 2:
     st.markdown("### 第二步：梳理日常的步調")
     st.markdown('<p class="question-text">關於這段日子的作息，您的狀態是？</p>', unsafe_allow_html=True)
-    q2 = st.radio("", ["長時間待在冷氣房，手腳冰冷循環差", "生活忙碌常熬夜，作息不規律隨意吃", "壓力大節奏快，心神緊繃難入眠"], index=None, key="v44_q2", label_visibility="collapsed")
+    q2 = st.radio("", ["長時間待冷氣房，手腳冰冷循環差", "生活忙碌常熬夜，作息不規律隨意吃", "壓力大節奏快，心神緊繃難入眠"], index=None, key="v44_q2", label_visibility="collapsed")
     if st.button("傾聽日常的節奏 ➔"):
         if q2: st.session_state.answers.append(q2); st.session_state.step = 3; st.rerun()
 
@@ -154,16 +140,21 @@ elif st.session_state.step == 4:
 
 elif st.session_state.step == 5:
     st.markdown("### 💎 鐫刻您的專屬風格")
-    st.markdown("""<div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; border: 1px solid #E9EDC9; font-size:0.85rem; text-align:center;'>為您準備一只質感的玻璃隨行杯。讓我們在木蓋上，鐫刻只專屬於您的風格，陪伴您植感生活的每一天。</div>""", unsafe_allow_html=True)
+    # 【關鍵更新】文字一句一行，增加呼吸感
+    st.markdown("""<div style='background-color: #FFFFFF; padding: 15px; border-radius: 10px; border: 1px solid #E9EDC9; font-size:0.85rem; text-align:center;'>
+        為您準備一只質感的玻璃隨行杯。<br>
+        讓我們在木蓋上，鐫刻只專屬於您的風格，<br>
+        陪伴您植感生活的每一天。
+    </div>""", unsafe_allow_html=True)
     user_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：Mila")
     if st.button("查看您的專屬植感配方 ➔"):
         if user_name: st.session_state.custom_name = user_name; st.session_state.step = 6; st.rerun()
 
 elif st.session_state.step == 6:
     ans, name, first = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time
-    if "晨光" in ans[0]: diag, m, a = "暖陽系", "黃耆元氣茶 (14入) + 金菊牛蒡茶 (6入)", "當歸紅棗茶 (12入) + 黑豆漢方茶 (8入)"
-    elif "微風" in ans[0]: diag, m, a = "微風系", "洛神山楂茶 (12入) + 金菊牛蒡茶 (8入)", "玫瑰決明茶 (10入) + 黑豆漢方茶 (10入)"
-    else: diag, m, a = "清泉系", "金菊牛蒡茶 (15入) + 黃耆元氣茶 (5入)", "玫瑰決明茶 (14入) + 當歸紅棗茶 (6入)"
+    if "晨光" in ans[0]: diag, m_tea, a_tea = "暖陽系", "黃耆元氣茶 (14入) + 金菊牛蒡茶 (6入)", "當歸紅棗茶 (12入) + 黑豆漢方茶 (8入)"
+    elif "微風" in ans[0]: diag, m_tea, a_tea = "微風系", "洛神山楂茶 (12入) + 金菊牛蒡茶 (8入)", "玫瑰決明茶 (10入) + 黑豆漢方茶 (10入)"
+    else: diag, m_tea, a_tea = "清泉系", "金菊牛蒡茶 (15入) + 黃耆元氣茶 (5入)", "玫瑰決明茶 (14入) + 當歸紅棗茶 (6入)"
 
     show_leaves() 
     gift = f"• 精品首購禮：專屬刻名玻璃隨行杯 ({name})" if first=="是的" else "• 老朋友回饋禮：加贈驚喜茶包 3 包"
@@ -172,8 +163,8 @@ elif st.session_state.step == 6:
     <div style="background-color: #FFFFFF; padding: 12px; border-radius: 15px; border: 1px solid #E9EDC9;">
         <h3 style='margin:0; font-size:1.2rem !important;'>✨ 您是：{diag}氣質</h3>
         <hr style='border: 0.5px solid #E9EDC9; margin: 4px 0;'>
-        <p style='font-size:1.05rem; margin:0; font-weight:bold;'>☀️ 晨曦：{m}</p>
-        <p style='font-size:1.05rem; margin:0; font-weight:bold;'>🌙 午後：{a}</p>
+        <p style='font-size:1.05rem; margin:0; font-weight:bold;'>☀️ 晨曦：{m_tea}</p>
+        <p style='font-size:1.05rem; margin:0; font-weight:bold;'>🌙 午後：{a_tea}</p>
         <hr style='border: 0.5px solid #E9EDC9; margin: 4px 0;'>
         <p class="benefit-item" style='margin:0;'>
             • 40 入深度節律漢方茶組 (全月份份量)<br>• 植感生活語錄收藏卡 (暖心鼓勵)<br>{gift}<br>
@@ -203,7 +194,7 @@ elif st.session_state.step == 7:
 🌙 午後：{a}
 
 期待與這份草本暖茶相遇。🌿🍵"""
-    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按下框的右上角，複製文字並交給米寶吧！</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下下框的右上角，複製文字並交給米寶店長吧！</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">✨ LINE 領取專屬陪伴 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
