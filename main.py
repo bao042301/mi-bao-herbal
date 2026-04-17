@@ -11,10 +11,10 @@ st.markdown("""
     * { color: #4A4E31 !important; font-family: 'Noto Sans TC', sans-serif !important; }
     .stApp { background-color: #FDFBF7 !important; }
     
-    /* 容器間距壓縮，確保一屏不滑動 */
+    /* 容器間距極致壓縮 */
     .block-container {
         padding-top: 0.5rem !important;
-        padding-bottom: 80px !important;
+        padding-bottom: 75px !important; /* 頁尾預留空間 */
     }
 
     /* 標題與題目 */
@@ -27,7 +27,7 @@ st.markdown("""
     .question-text {
         font-size: 1.1rem !important; font-weight: bold !important;
         text-align: center !important; margin-bottom: 8px !important;
-        line-height: 1.3 !important;
+        line-height: 1.25 !important;
     }
     .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 10px; font-size: 0.75rem; }
 
@@ -47,18 +47,18 @@ st.markdown("""
         font-size: 0.95rem !important; line-height: 1.3 !important;
     }
 
-    /* 三色網底穩定鎖定 */
+    /* 三色穩定鎖定 */
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; }
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; }
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; }
     [data-testid="stRadio"] div[aria-checked="true"] label { border: 1.5px solid #7A8450 !important; font-weight: bold !important; }
 
-    /* 【強化內容物 CSS】 */
+    /* 【內容物強化 CSS】 */
     .benefit-item { 
         font-size: 1.02rem !important; 
         line-height: 1.7 !important; 
         font-weight: bold !important; 
-        color: #7A8450 !important;
+        color: #7A8450 !important; 
     }
     
     /* 【收斂價格 CSS】 */
@@ -66,12 +66,12 @@ st.markdown("""
         font-size: 0.85rem !important; 
         font-weight: normal !important; 
         color: #8B8B7A !important; 
-        margin-top: 5px; 
+        margin-top: 10px; 
         display: block; 
-        text-align: right;
+        text-align: right; 
     }
 
-    /* 徹底去黑底 */
+    /* 徹底去黑底設定 */
     .stTextInput input { background-color: #FFFFFF !important; border: 1.5px solid #E9EDC9 !important; border-radius: 10px !important; height: 38px !important; }
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code {
         background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important;
@@ -87,7 +87,7 @@ st.markdown("""
     }
     .stButton > button p { color: #FFFFFF !important; font-size: 0.95rem !important; }
 
-    /* 強力固定頁尾 CSS */
+    /* 固定頁尾 CSS */
     .custom-footer {
         position: fixed; left: 0; bottom: 8px; width: 100%; text-align: center;
         background-color: transparent; z-index: 99;
@@ -203,7 +203,7 @@ elif st.session_state.step == 7:
 🌙 午後：{a}
 
 期待與這份草本暖茶相遇。🌿🍵"""
-    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下框框右上角，複製文字並交給米寶吧！</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按下框的右上角，複製文字並交給米寶吧！</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">✨ LINE 領取專屬陪伴 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
