@@ -2,119 +2,105 @@ import streamlit as st
 import time
 import os
 
-# 1. 全方位視覺鎖定 (極致 100px 卡片間距、移除黑底、森林配色)
+# 1. UI 專家級視覺設定 (極致留白與呼吸感)
 st.set_page_config(page_title="米寶漢方｜妳的月度質感陪伴", layout="centered")
 
 st.markdown("""
     <style>
-    /* 全域顯色鎖定 */
+    /* 1. 全域背景與文字 */
     * { color: #4A4E31 !important; font-family: 'Noto Sans TC', sans-serif !important; }
     .stApp { background-color: #FDFBF7 !important; }
     
-    /* 標題與引言優化 */
-    h1 { font-size: 2.2rem !important; }
-    h2 { font-size: 1.8rem !important; }
+    /* 2. 標題與引言：精緻、平衡、不壓迫 */
+    h1 { font-size: 2rem !important; margin-bottom: 10px !important; }
     h3 { 
-        font-size: 1.35rem !important; 
+        font-size: 1.25rem !important; /* 縮小題目尺寸，與答案達成平衡 */
         font-weight: 700 !important;
-        letter-spacing: 0.05rem !important;
-        margin-top: 25px !important;
-        margin-bottom: 40px !important; /* 增加標題與第一個選項的距離 */
+        letter-spacing: 0.1rem !important;
+        margin-top: 40px !important;
+        margin-bottom: 50px !important; /* 題目與第一個答案的間距 */
+        text-align: center !important;
+        color: #7A8450 !important;
+    }
+    .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 50px; font-size: 0.9rem; }
+
+    /* 3. 【關鍵修正】卡片式選項 (徹底移除黑點 + 極致 120px 間距) */
+    div[data-baseweb="radio"] input { display: none !important; } /* 隱藏原生黑點 */
+    
+    div[data-baseweb="radio"] {
+        display: flex;
+        flex-direction: column;
+        gap: 120px !important; /* 選項與選項之間的「兩兩間距」設定為 120px */
+    }
+
+    div[data-baseweb="radio"] label {
+        background-color: #FFFFFF !important;
+        border: 1px solid #E9EDC9 !important;
+        border-radius: 20px !important;
+        padding: 22px 25px !important;
+        width: 100% !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        box-shadow: 0 4px 15px rgba(122, 132, 80, 0.05) !important;
+        display: flex !important;
+        justify-content: center !important;
         text-align: center !important;
     }
-    
-    .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 30px; font-size: 0.95rem; }
 
-    /* 【關鍵修正】選項卡片：間距加大到 100px (確保三個選項兩兩之間散得很開) */
-    div[data-baseweb="radio"] input { display: none !important; }
-    
-    /* 這裡精準鎖定每一列選項的容器 */
-    div[data-baseweb="radio"] {
-        margin-bottom: 100px !important; /* 這就是妳要的「選項兩兩之間的間距」 */
-    }
-
-    /* 選項卡片的內部樣式 */
-    div[data-baseweb="radio"] div {
-        background-color: #FFFFFF !important; 
-        border: 1px solid #E9EDC9 !important;
-        border-radius: 18px !important; 
-        padding: 20px 25px !important; 
-        transition: all 0.3s ease !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.02) !important;
-        width: 100% !important;
-    }
-
-    /* 選中狀態：整個卡片變色 */
-    div[aria-checked="true"] > div {
-        background-color: #7A8450 !important; 
+    /* 被選中時的華麗轉變 */
+    div[aria-checked="true"] {
+        background-color: #7A8450 !important;
         border-color: #7A8450 !important;
-        box-shadow: 0 8px 25px rgba(122, 132, 80, 0.2) !important;
+        transform: translateY(-5px) !important;
+        box-shadow: 0 12px 30px rgba(122, 132, 80, 0.2) !important;
     }
-    div[aria-checked="true"] * { color: #FFFFFF !important; }
+    div[aria-checked="true"] * {
+        color: #FFFFFF !important;
+    }
 
-    /* 雷刻輸入框鎖定，不變黑 */
+    /* 4. 按鈕優化 (質感圓潤) */
+    .stButton > button {
+        width: 100% !important; background-color: #7A8450 !important; color: #FFFFFF !important;
+        border-radius: 40px !important; height: 3.8em !important; font-weight: bold !important; 
+        border: none !important; margin-top: 60px !important;
+        font-size: 1.1rem !important;
+    }
+    .stButton > button p { color: #FFFFFF !important; }
+
+    /* 5. 複製區與輸入框：徹底去黑 */
     .stTextInput input {
-        background-color: #FFFFFF !important; 
-        border: 2px solid #E9EDC9 !important;
-        border-radius: 12px !important; 
-        color: #4A4E31 !important; 
-        padding: 12px !important;
+        background-color: #FFFFFF !important; border: 2px solid #E9EDC9 !important;
+        border-radius: 15px !important; color: #4A4E31 !important; padding: 15px !important;
     }
-
-    /* 複製區：徹底移除黑底 */
     .stCodeBlock, pre, code, div[data-testid="stCodeBlock"] {
-        background-color: #F8F9F1 !important; 
-        border: 1px solid #E9EDC9 !important;
-        border-radius: 15px !important;
+        background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important;
+        border-radius: 18px !important;
     }
     div[data-testid="stCodeBlock"] > div { background-color: #F8F9F1 !important; }
     code span { color: #4A4E31 !important; }
 
-    /* 按鈕樣式 (質感橄欖綠) */
-    .stButton > button {
-        width: 100% !important; 
-        background-color: #7A8450 !important; 
-        color: #FFFFFF !important;
-        border-radius: 30px !important; 
-        height: 3.8em !important; 
-        font-weight: bold !important; 
-        border: none !important;
-        margin-top: 20px !important;
+    /* 6. 結果卡片與落葉特效 */
+    .result-card { 
+        background-color: #FFFFFF !important; padding: 35px !important;
+        border-radius: 30px !important; border: 1px solid #E9EDC9 !important;
+        box-shadow: 0 20px 50px rgba(74, 78, 49, 0.08) !important;
     }
-    .stButton > button p { color: #FFFFFF !important; }
-
-    /* 森林落葉特效 */
     @keyframes falling {
         0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
         10% { opacity: 1; }
-        90% { opacity: 1; }
         100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
-    .leaf {
-        position: fixed; top: -10vh; font-size: 24px; pointer-events: none;
-        z-index: 9999; animation: falling 10s linear infinite;
-    }
-
-    /* 結果卡片 */
-    .result-card { 
-        background-color: #FFFFFF !important; 
-        padding: 30px !important;
-        border-radius: 25px !important; 
-        border: 1px solid #E9EDC9 !important;
-        box-shadow: 0 15px 45px rgba(74, 78, 49, 0.05) !important;
-    }
+    .leaf { position: fixed; top: -10vh; font-size: 24px; pointer-events: none; z-index: 9999; animation: falling 12s linear infinite; }
     
     #MainMenu, footer, header { visibility: hidden; }
     </style>
     """, unsafe_allow_html=True)
 
-# 森林落葉特效
 def show_leaves():
     leaves_html = ""
-    for i in range(12):
-        left, delay = i * 8, i * 0.9
+    for i in range(15):
+        left, delay = i * 7, i * 0.7
         leaves_html += f'<div class="leaf" style="left:{left}vw; animation-delay:{delay}s;">🍃</div>'
-        leaves_html += f'<div class="leaf" style="left:{left+4}vw; animation-delay:{delay+2}s;">🌿</div>'
+        leaves_html += f'<div class="leaf" style="left:{left+3}vw; animation-delay:{delay+2}s;">🌿</div>'
     st.markdown(leaves_html, unsafe_allow_html=True)
 
 # 初始化狀態
@@ -123,39 +109,39 @@ if 'answers' not in st.session_state: st.session_state.answers = []
 if 'custom_name' not in st.session_state: st.session_state.custom_name = ""
 if 'is_first_time' not in st.session_state: st.session_state.is_first_time = ""
 
-# 頂部 Logo
+# 頂部 Logo (米寶旗艦感)
 img_path = "29301.jpg"
 if os.path.exists(img_path):
     st.image(img_path, use_container_width=True)
 else:
-    st.markdown("<h1>🌿 米寶漢方</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center;'>🌿 米寶漢方</h1>", unsafe_allow_html=True)
 st.markdown('<p class="quote">「在忙碌中，給自己留一刻鐘的溫柔。」</p>', unsafe_allow_html=True)
 
 # ----------------- 測驗流程 -----------------
 if st.session_state.step == 1:
     st.markdown("### 第一步：聽聽身體的低語")
-    q1 = st.radio("", ["我有些疲累，渴望溫潤透亮的晨光...", "我有些沉重，想找回輕盈自在的微風...", "我有些燥熱，想念山間清徹甘甜的泉水..."], index=None, key="v22_q1")
+    q1 = st.radio("", ["我有些疲累，渴望溫潤透亮的晨光...", "我有些沉重，想找回輕盈自在的微風...", "我有些燥熱，想念山間清徹甘甜的泉水..."], index=None, key="v23_q1")
     if st.button("緩緩走向下個瞬間 ➔"):
         if q1: st.session_state.answers.append(q1); st.session_state.step = 2; st.rerun()
         else: st.warning("請選一個妳現在最真實的感覺喔")
 
 elif st.session_state.step == 2:
     st.markdown("### 第二步：梳理日常的步調")
-    q2 = st.radio("", ["長時間待在冷氣房，循環緩慢且手腳冰冷", "工作忙碌常熬夜，晚餐不規律導致不適", "壓力大節奏快，晚上難以入眠且心神不寧"], index=None, key="v22_q2")
+    q2 = st.radio("", ["長時間待在冷氣房，循環緩慢且手腳冰冷", "工作忙碌常熬夜，晚餐不規律導致不適", "壓力大節奏快，晚上難以入眠且心神不寧"], index=None, key="v21_q2")
     if st.button("傾聽日常的節奏 ➔"):
         if q2: st.session_state.answers.append(q2); st.session_state.step = 3; st.rerun()
         else: st.warning("請選一個妳的日常狀態喔")
 
 elif st.session_state.step == 3:
     st.markdown("### 第三步：妳嚮往的喘息瞬間")
-    q3 = st.radio("", ["感覺臉龐恢復紅潤元氣，重新出發", "感覺身體找回輕盈律動，不再束縛", "感覺內心恢復安靜穩定，優雅從容"], index=None, key="v22_q3")
+    q3 = st.radio("", ["感覺臉龐恢復紅潤元氣，重新出發", "感覺身體找回輕盈律動，不再束縛", "感覺內心恢復安靜穩定，優雅從容"], index=None, key="v21_q3")
     if st.button("開啟妳的專屬禮遇 ➔"):
         if q3: st.session_state.answers.append(q3); st.session_state.step = 4; st.rerun()
         else: st.warning("想像一下那個畫面吧")
 
 elif st.session_state.step == 4:
     st.markdown("### 💎 妳是米寶的新朋友嗎？")
-    choice = st.radio("", ["是的，我是新朋友", "不是，我是老朋友了（已有隨行杯）"], index=None, key="v22_choice")
+    choice = st.radio("", ["是的，我是新朋友", "不是，我是老朋友了（已有隨行杯）"], index=None, key="v21_choice")
     if st.button("前往專屬的陪伴 ➔"):
         if choice == "是的，我是新朋友": st.session_state.is_first_time = "是的"; st.session_state.step = 5; st.rerun()
         elif choice == "不是，我是老朋友了（已有隨行杯）": st.session_state.is_first_time = "不是"; st.session_state.custom_name = "老朋友回購驚喜"; st.session_state.step = 6; st.rerun()
@@ -185,19 +171,19 @@ elif st.session_state.step == 6:
     
     st.markdown(f"""
     <div class="result-card">
-        <h3 style='text-align:center; font-size: 1.5rem !important;'>✨ 妳是：{diag}女子</h3>
+        <h3 style='text-align:center; font-size: 1.5rem !important; color: #4A4E31 !important;'>✨ 妳是：{diag}女子</h3>
         <p class="quote">「這份月度陪伴，是送給妳的時光禮物。」</p>
         <hr style='border: 0.5px solid #E9EDC9;'>
         <p style='margin-bottom:8px;'><b>☀️ 晨曦啟幕配比：</b><br>{m_tea}</p>
         <p style='margin-bottom:8px;'><b>🌙 午後拾光配比：</b><br>{a_tea}</p>
         <hr style='border: 0.5px solid #E9EDC9;'>
-        <p style='font-size:1rem; line-height:1.7;'>
+        <p style='font-size:0.95rem; line-height:1.7;'>
             <b>本月陪伴清單包含：</b><br>
             • <b>40 入</b> 深度節律漢方茶組 (全月份份量)<br>
             • <b>植感生活語錄收藏卡</b> (給妳暖心的鼓勵)<br>
             {gift_detail}
         </p>
-        <p style='text-align:right; color:#7A8450; font-size: 1.05rem; font-weight: bold; margin-top:10px;'>
+        <p style='text-align:right; color:#7A8450; font-size: 1.05rem; font-weight: bold; margin-top:15px;'>
             月度質感陪伴價 $1,980
         </p>
     </div>
@@ -215,7 +201,7 @@ elif st.session_state.step == 7:
     else: diag, m_tea, a_tea = "清泉系", "金菊牛蒡茶 (15入) + 黃耆元氣茶 (5入)", "玫瑰決明茶 (14入) + 當歸紅棗茶 (6入)"
 
     st.markdown("### 📢 預約一場暖心的相遇")
-    st.write("最後兩步，讓米寶陪妳開啟植感日常：")
+    st.write("最後兩步，開啟妳的植感日常：")
     
     engrave_part = f"杯蓋想悄悄刻上：{name} ✨" if first == "是的" else "我是老朋友了，想領取回購驚喜 🐢🎁"
     romantic_msg = f"""Hi 米寶店長！🐢✨
@@ -237,7 +223,7 @@ elif st.session_state.step == 7:
     line_link = "https://line.me/R/ti/p/@716osfvq"
     st.markdown(f'''
         <a href="{line_link}" target="_blank" style="text-decoration:none;">
-            <div style="background-color: #06C755; color: white !important; text-align: center; padding: 18px; border-radius: 12px; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(6,199,85,0.2);">
+            <div style="background-color: #06C755; color: white !important; text-align: center; padding: 18px; border-radius: 12px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(6,199,85,0.2);">
                 ✨ 領取妳的專屬溫柔陪伴 ➔
             </div>
         </a>
