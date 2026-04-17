@@ -208,7 +208,7 @@ elif st.session_state.step == 7:
 🌙 午後：{a_tea}
 
 期待與這份草本暖茶相遇。🌿🍵"""
-    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按一下框框右上角複製文字，交給米寶店長吧！</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.85rem; margin-bottom:4px; text-align:center;">按下框右上角複製文字，交給米寶吧！</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: bold; margin-bottom:5px;">✨ LINE 領取專屬陪伴 ➔</div></a>', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
