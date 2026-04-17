@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 
-# 1. 究極視覺鎖定 (選中底色強顯、價格置中放大、複製按鈕強顯、選項靠左)
+# 1. 究極視覺鎖定 (選中底色恆久強顯、價格置中放大、複製按鈕強顯、選項靠左)
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -40,7 +40,7 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 6px !important; } 
     [data-testid="stRadio"] label {
         border-radius: 10px !important; padding: 12px 18px !important;
-        width: 100% !important; border: 1.5px solid rgba(0,0,0,0.03) !important;
+        width: 100% !important; border: 1px solid rgba(0,0,0,0.03) !important;
         display: flex !important; justify-content: flex-start !important; 
         text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important;
         font-size: 0.95rem !important; line-height: 1.4 !important;
@@ -51,16 +51,13 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
 
-    /* 【核心修正】選中後的底圖顏色改變 (使用最強路徑鎖定) */
-    /* 這裡使用標籤選擇器與屬性選擇器組合，確保高於 nth-of-type 的權重 */
+    /* 【核心修正】選中後的底圖顏色永久改變 */
+    /* 增加選取器長度與 !important，確保選定後顏色不跳回 */
     div[data-testid="stRadio"] div[role="radiogroup"] div[aria-checked="true"] label { 
         background-color: #E9EDC9 !important; 
         border: 2px solid #7A8450 !important;
         font-weight: bold !important;
-    }
-    /* 同時移除點擊時的藍色光暈，保持植感 */
-    [data-testid="stRadio"] label:active, [data-testid="stRadio"] label:focus {
-        background-color: #E9EDC9 !important;
+        box-shadow: inset 0 0 0 1px #7A8450 !important; /* 額外增加內陰影強化視覺感 */
     }
 
     /* 結果清單與內容物強化 */
