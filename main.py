@@ -221,7 +221,7 @@ elif st.session_state.step == 7:
     
     st.code(msg, language=None)
     
-    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">點擊☆上框右上角☆複製：</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">點擊☆上框右上角☆複製</p>', unsafe_allow_html=True)
     
     line_url = "https://line.me/R/ti/p/@716osfvq"
     st.link_button("🌿 前往 LINE@ 貼上專屬方案與米寶相遇吧！ ➔", line_url, use_container_width=True)
