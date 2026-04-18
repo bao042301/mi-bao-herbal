@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 
-# 1. 視覺全鎖定：V74 寬鬆比例、選中加粗放大、按鈕點擊觸感、溫情提示
+# 1. 視覺全鎖定：完全參照 V74 選項風格 (三色網底、選中加粗爆大、呼吸感比例)
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -25,55 +25,47 @@ st.markdown("""
     [data-testid="stImage"] img { max-height: 50px !important; width: auto !important; margin: 0 auto !important; display: block; }
     [data-testid="stImage"] { margin-bottom: 5px !important; }
 
-    /* 選項卡片設計 (V74 經典樣式) */
+    /* 【V74 經典選項卡片】全部參照 */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 8px !important; } 
     [data-testid="stRadio"] label {
         border-radius: 12px !important; padding: 10px 18px !important;
         width: 100% !important; border: 1.5px solid rgba(0,0,0,0.05) !important;
         display: flex !important; justify-content: flex-start !important; 
-        text-align: left !important; font-size: 0.95rem !important; line-height: 1.4 !important;
+        text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important;
+        font-size: 0.95rem !important; line-height: 1.4 !important;
     }
 
-    /* 三色網底 */
+    /* V74 專屬三色網底 */
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
 
-    /* 【核心鎖定】選中後字體明顯加粗爆大感 */
+    /* 【V74 視覺靈魂】選中後字體明顯加粗並放大 */
     div[data-testid="stRadio"] div[role="radiogroup"] div[aria-checked="true"] label {
         font-size: 1.1rem !important; font-weight: 900 !important;   
-        color: #2D301D !important; border: 2.5px solid #7A8450 !important;
+        color: #2D301D !important; border: 2px solid #7A8450 !important;
         background-color: #E9EDC9 !important;
     }
+
+    /* 按鈕樣式 (含點擊變色特效) */
+    .stButton > button {
+        width: 100% !important; background-color: #7A8450 !important; color: #FFFFFF !important;
+        border-radius: 25px !important; height: 3em !important; font-weight: bold !important; border: none !important;
+        margin-top: 10px !important; transition: all 0.2s ease !important;
+    }
+    .stButton > button p { color: #FFFFFF !important; font-size: 1rem !important; }
+    .stButton > button:hover { background-color: #8B8B7A !important; }
+    .stButton > button:active { background-color: #4A4E31 !important; transform: scale(0.98) !important; }
+
+    /* 溫暖提示語 */
+    .warm-tip { font-size: 0.85rem !important; color: #B08968 !important; text-align: center !important; margin-top: 5px !important; font-weight: bold !important; }
 
     /* 程式碼框去黑底 */
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code {
         background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important;
     }
-    [data-testid="stCodeBlock"] button { opacity: 1 !important; visibility: visible !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
-
-    /* 【核心修正】按鈕樣式與變色特效回歸 */
-    .stButton > button {
-        width: 100% !important; 
-        background-color: #7A8450 !important; 
-        color: #FFFFFF !important; 
-        border-radius: 25px !important; 
-        height: 3em !important; 
-        font-weight: bold !important; 
-        border: none !important; 
-        margin-top: 10px !important;
-        transition: all 0.2s ease !important;
-    }
-    .stButton > button p { color: #FFFFFF !important; font-size: 1rem !important; }
-    .stButton > button:hover { background-color: #8B8B7A !important; border: none !important; }
-    .stButton > button:active { background-color: #4A4E31 !important; transform: scale(0.98) !important; }
-
-    /* 溫暖提示語 (微縮優雅) */
-    .warm-tip { font-size: 0.85rem !important; color: #B08968 !important; text-align: center !important; margin-top: 5px !important; font-weight: bold !important; }
-
-    /* 價格放大並置中 */
-    .price-text { font-size: 1.45rem !important; font-weight: bold !important; color: #7A8450 !important; margin-top: 15px; display: block; text-align: center !important; width: 100%; }
+    [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
 
     /* 森林落葉特效 */
     @keyframes falling {
@@ -82,6 +74,11 @@ st.markdown("""
         100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
     .leaf { position: fixed; top: -10vh; font-size: 18px; pointer-events: none; z-index: 9999; animation: falling 12s linear infinite; }
+
+    /* 頁尾與價格 */
+    .price-text { font-size: 1.45rem !important; font-weight: bold !important; color: #7A8450 !important; margin-top: 15px; display: block; text-align: center !important; }
+    .custom-footer { position: fixed; left: 0; bottom: 8px; width: 100%; text-align: center; background-color: transparent; z-index: 99; }
+    .footer-text { font-size: 0.65rem !important; color: #8B8B7A !important; line-height: 1.2 !important; margin: 0 !important; }
 
     #MainMenu, footer, header { visibility: hidden; }
     </style>
@@ -98,6 +95,7 @@ for key in ['step', 'answers', 'custom_name', 'is_first_time', 'plan', 'warn']:
         elif key == 'answers': st.session_state[key] = []
         else: st.session_state[key] = ""
 
+# 頂部 Logo
 img_path = "29301.jpg"
 if os.path.exists(img_path): st.image(img_path)
 else: st.markdown("<h4 style='text-align:center;'>🌿 米寶漢方</h4>", unsafe_allow_html=True)
@@ -132,7 +130,7 @@ if st.session_state.step <= 3:
 
 elif st.session_state.step == 4:
     st.markdown("### 💎 您是米寶的新朋友嗎？")
-    choice = st.radio("", ["是的，我是新朋友 👋", "我是老朋友 🤗"], index=None, key="id_check", label_visibility="collapsed")
+    choice = st.radio("", ["是的，我是新朋友 👋", "我是老朋友 🤗"], index=None, key="id_v74", label_visibility="collapsed")
     if st.button("開啟您的專屬禮遇 ➔"):
         if choice:
             st.session_state.is_first_time = choice
@@ -146,21 +144,19 @@ elif st.session_state.step == 4:
 
 elif st.session_state.step == 4.5:
     st.markdown("### 🌿 選擇您的陪伴方案")
-    # 根據新老朋友動態顯示方案
     if "新朋友" in st.session_state.is_first_time:
         p_list = ["首購限定組合 (40入) $1,980", "一週輕體驗組 (10入) $680"]
     else:
         p_list = ["老友回購組合 (40入) $1,880", "一週輕體驗組 (10入) $680"]
         
-    p_choice = st.radio("", p_list, index=None, key="plan_check", label_visibility="collapsed")
+    p_choice = st.radio("", p_list, index=None, key="plan_v74", label_visibility="collapsed")
     if st.button("查看您的專屬配比 ➔"):
         if p_choice:
             st.session_state.plan = p_choice
-            # 只有 新朋友 + 1980 才需要刻字
             if "新朋友" in st.session_state.is_first_time and "$1,980" in p_choice:
                 st.session_state.step = 5
             else:
-                st.session_state.custom_name = "老朋友驚喜贈茶" if "40入" in p_choice else "輕體驗方案"
+                st.session_state.custom_name = "熟客回購禮遇" if "40入" in p_choice else "輕體驗方案"
                 st.session_state.step = 6
             st.session_state.warn = ""
             st.rerun()
@@ -172,7 +168,7 @@ elif st.session_state.step == 4.5:
 elif st.session_state.step == 5:
     st.markdown("### 💎 鐫刻您的專屬風格")
     st.markdown("<div style='background-color: #FFFFFF; padding: 15px; border-radius: 12px; border: 1px solid #E9EDC9; font-size:0.95rem; text-align:center;'>為您準備一只質感的玻璃隨行杯。<br>木蓋上將鐫刻您的專屬風格。<br>陪您渡過植感健康生活每一天。</div>", unsafe_allow_html=True)
-    u_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：Mila")
+    u_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：米寶漢方")
     if st.button("查看您的專屬植感配方 ➔"):
         if u_name:
             st.session_state.custom_name = u_name
@@ -215,16 +211,16 @@ elif st.session_state.step == 7:
     dg = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
     
     if "40入" in plan:
-        m_v, a_v = ("黃耆元氣茶(14)+金菊牛蒡茶(6)", "當歸紅棗茶(12)+黑豆漢方茶(8)") if "晨光" in ans[0] else ("洛神山楂茶(12)+金菊牛蒡茶(8)", "玫瑰決明茶(10)+黑豆漢方茶(10)") if "微風" in ans[0] else ("金菊牛蒡茶(15)+黃耆元氣茶(5)", "玫瑰決明茶(14)+當歸紅棗茶(6)")
-        eng = f"🌿 杯蓋刻字：{name}" if "新朋友" in first else "🌿 老朋友回購贈茶"
+        m_v, a_v = ("黃耆元氣茶(14入)+金菊牛蒡茶(6入)", "當歸紅棗茶(12入)+黑豆漢方茶(8入)") if "晨光" in ans[0] else ("洛神山楂茶(12入)+金菊牛蒡茶(8入)", "玫瑰決明茶(10入)+黑豆漢方茶(10入)") if "微風" in ans[0] else ("金菊牛蒡茶(15入)+黃耆元氣茶(5入)", "玫瑰決明茶(14入)+當歸紅棗茶(6入)")
+        eng = f"🌿 雷雕刻字：{name}" if "新朋友" in first else "🌿 老朋友回購贈茶"
     else:
-        m_v, a_v = ("黃耆元氣茶(4)+金菊牛蒡茶(1)", "當歸紅棗茶(3)+黑豆漢方茶(2)") if "晨光" in ans[0] else ("洛神山楂茶(3)+金菊牛蒡茶(2)", "玫瑰決明茶(3)+黑豆漢方茶(2)") if "微風" in ans[0] else ("金菊牛蒡茶(4)+黃耆元氣茶(1)", "玫瑰決明茶(4)+當歸紅棗茶(1)")
+        m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = "🌿 方案：一週輕體驗組"
 
-    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨：{m_v}\n🌙 午：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
-    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-bottom:5px;">點擊☆右上角☆複製後貼給米寶：</p>', unsafe_allow_html=True)
+    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
+    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-bottom:5px;">點擊☆右上框☆複製：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
-    st.markdown(f'''<a href="line://ti/p/@716osfvq" target="_top" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 1rem;">🌿 前往 LINE@ 貼上專屬配方 ➔</div></a>''', unsafe_allow_html=True)
+    st.markdown(f'''<a href="line://ti/p/@716osfvq" target="_top" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 1rem;">🌿 前往 LINE@ 貼上專屬配方與米寶相遇吧！ ➔</div></a>''', unsafe_allow_html=True)
     if st.button("重新探索"):
         st.session_state.clear(); st.rerun()
 
