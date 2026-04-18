@@ -161,7 +161,7 @@ elif st.session_state.step == 4.5:
     st.markdown("### 🌿 選擇您的陪伴方案")
     p_list = ["首購限定組合 (40入) $1,980", "一週輕體驗組 (10入) $680"] if "新朋友" in st.session_state.is_first_time else ["老友回購組合 (40入) $1,880", "一週輕體驗組 (10入) $680"]
     p_choice = st.radio("", p_list, index=None, key="plan_v115", label_visibility="collapsed")
-    if st.button("查看您的專屬配比 ➔"):
+    if st.button("選擇您的專屬方案 ➔"):
         if p_choice:
             st.session_state.plan = p_choice
             if "新朋友" in st.session_state.is_first_time and "$1,980" in p_choice: st.session_state.step = 5
@@ -174,7 +174,7 @@ elif st.session_state.step == 5:
     st.markdown("### 💎 鐫刻您的專屬風格")
     st.markdown("<div style='background-color: #FFFFFF; padding: 15px; border-radius: 12px; border: 1px solid #E9EDC9; font-size:0.95rem; text-align:center;'>為您準備一只質感的玻璃隨行杯。<br>木蓋上將鐫刻您的專屬風格。<br>陪伴您渡過植感健康每一天。</div>", unsafe_allow_html=True)
     u_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：米寶漢方")
-    if st.button("查看您的專屬配方 ➔"):
+    if st.button("查看您的植感配方 ➔"):
         if u_name: st.session_state.custom_name = u_name; st.session_state.step = 6; st.rerun()
 
 # ==========================================
@@ -221,10 +221,10 @@ elif st.session_state.step == 7:
     
     st.code(msg, language=None)
     
-    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">點擊☆右上角☆複製後貼給米寶：</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">點擊☆上框右上角☆複製植感配方！</p>', unsafe_allow_html=True)
     
     line_url = "https://line.me/R/ti/p/@716osfvq"
-    st.link_button("🌿 前往 LINE@ 貼上專屬配方與米寶相遇吧！ ➔", line_url, use_container_width=True)
+    st.link_button("🌿 前往 LINE@ 貼上植感配方與米寶相遇吧！ ➔", line_url, use_container_width=True)
     
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
 
