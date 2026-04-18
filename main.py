@@ -171,11 +171,11 @@ elif st.session_state.step == 4:
 
 elif st.session_state.step == 4.5:
     st.markdown("### 🌿 選擇您的陪伴方案")
-    plan_opts = ["月度植感陪伴 (40入) $1,680", "一週輕體驗組 (10入) $680"]
+    plan_opts = ["月度植感陪伴 (40入) $1,980", "一週輕體驗組 (10入) $680"]
     choice = st.radio("", plan_opts, index=None, key="plan_v74", label_visibility="collapsed")
-    if st.button("查看您的專屬配比 ➔"):
+    if st.button("查看您的專屬植感配方 ➔"):
         if choice:
-            st.session_state.plan = "月度" if "$1,680" in choice else "體驗"
+            st.session_state.plan = "月度" if "$1,980" in choice else "體驗"
             if st.session_state.is_first_time == "是的" and st.session_state.plan == "月度": st.session_state.step = 5
             else: st.session_state.custom_name = "熟客驚喜贈茶" if st.session_state.plan == "月度" else "植感體驗"; st.session_state.step = 6
             st.rerun()
@@ -183,9 +183,9 @@ elif st.session_state.step == 4.5:
 elif st.session_state.step == 5:
     st.markdown("### 💎 鐫刻您的專屬風格")
     st.markdown("""<div style='background-color: #FFFFFF; padding: 10px; border-radius: 12px; border: 1px solid #E9EDC9; font-size:0.85rem; text-align:center; line-height:1.4;'>
-        為您準備一只質感的玻璃隨行杯。<br>木蓋上將鐫刻您的專屬風格。</div>""", unsafe_allow_html=True)
+        為您準備一只質感的玻璃隨行杯。<br>木蓋上將鐫刻您的專屬風格。<br>陪伴您健康個性的生活</div>""", unsafe_allow_html=True)
     user_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：Mila")
-    if st.button("查看您的專屬配方 ➔"):
+    if st.button("查看您的專屬植感配方 ➔"):
         if user_name: st.session_state.custom_name = user_name; st.session_state.step = 6; st.rerun()
 
 elif st.session_state.step == 6:
@@ -195,7 +195,7 @@ elif st.session_state.step == 6:
         if "晨光" in ans[0]: m_tea, a_tea = "黃耆元氣茶 (14入) + 金菊牛蒡茶 (6入)", "當歸紅棗茶 (12入) + 黑豆漢方茶 (8入)"
         elif "微風" in ans[0]: m_tea, a_tea = "洛神山楂茶 (12入) + 金菊牛蒡茶 (8入)", "玫瑰決明茶 (10入) + 黑豆漢方茶 (10入)"
         else: m_tea, a_tea = "金菊牛蒡茶 (15入) + 黃耆元氣茶 (5入)", "玫瑰決明茶 (14入) + 當歸紅棗茶 (6入)"
-        gift = f"• 首購禮：專屬刻名隨行杯 ({name})" if first=="是的" else "• 老朋友禮：加贈驚喜茶包 3 包"
+        gift = f"• 首購禮：專屬個性隨行杯 ({name})" if first=="是的" else "• 老朋友禮：加贈驚喜茶包 3 包"
     else:
         price, amount = "$680", "10 入一週輕體驗茶組"
         if "晨光" in ans[0]: m_tea, a_tea = "黃耆元氣茶 (4入) + 金菊牛蒡茶 (1入)", "當歸紅棗茶 (3入) + 黑豆漢方茶 (2入)"
