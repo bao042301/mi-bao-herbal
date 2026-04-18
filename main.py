@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 
-# 1. 視覺鎖定：維持 V74 結構，僅將選項字體進一步縮小以優化版面
+# 1. 視覺鎖定：維持 V74 結構，僅將測驗選項字體進一步微縮以優化空間
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -19,35 +19,35 @@ st.markdown("""
 
     /* 標題與引導語 */
     h3 { 
-        font-size: 0.85rem !important; font-weight: 700 !important;
+        font-size: 0.95rem !important; font-weight: 700 !important;
         margin-top: -5px !important; margin-bottom: 2px !important;
         text-align: center !important; color: #7A8450 !important;
     }
     .question-text {
-        font-size: 0.8rem !important; font-weight: bold !important;
-        text-align: center !important; margin-bottom: 6px !important;
-        line-height: 1.0 !important;
+        font-size: 0.9rem !important; font-weight: bold !important;
+        text-align: center !important; margin-bottom: 8px !important;
+        line-height: 1.2 !important;
     }
     .quote { 
         font-style: italic; color: #8B8B7A !important; text-align: center; 
-        margin-bottom: 10px !important; font-size: 0.6rem !important; 
+        margin-bottom: 10px !important; font-size: 0.7rem !important; 
     }
 
     /* Logo 尺寸 */
-    [data-testid="stImage"] img { max-height: 40px !important; width: auto !important; margin: 0 auto !important; display: block; }
+    [data-testid="stImage"] img { max-height: 42px !important; width: auto !important; margin: 0 auto !important; display: block; }
     [data-testid="stImage"] { margin-bottom: -10px !important; }
 
     /* 選項卡片設計 (左對齊) */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 4px !important; } 
     [data-testid="stRadio"] label {
-        border-radius: 8px !important; padding: 8px 12px !important;
+        border-radius: 10px !important; padding: 8px 15px !important;
         width: 100% !important; border: 1px solid rgba(0,0,0,0.05) !important;
         display: flex !important; justify-content: flex-start !important; 
         text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important;
-        /* 【關鍵修正】字體再更小 */
-        font-size: 0.6rem !important; 
-        line-height: 1.0 !important;
+        /* 【關鍵修正】字體微縮至 0.68rem */
+        font-size: 0.68rem !important; 
+        line-height: 1.3 !important;
     }
 
     /* 預設三色網底 */
@@ -55,10 +55,10 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
 
-    /* 選中後的字體放大比例也同步縮小 */
+    /* 選中後的字體加粗放大感，同步下調基礎大小 */
     div[data-testid="stRadio"] div[role="radiogroup"] div[aria-checked="true"] label,
     div[data-testid="stRadio"] label:has(input:checked) {
-        font-size: 0.85rem !important; 
+        font-size: 0.78rem !important; 
         font-weight: 900 !important;   
         color: #2D301D !important;     
         border: 2px solid #7A8450 !important;
@@ -171,11 +171,11 @@ elif st.session_state.step == 4:
 
 elif st.session_state.step == 4.5:
     st.markdown("### 🌿 選擇您的陪伴方案")
-    plan_opts = ["月度植感陪伴 (40入) $1,980", "一週輕體驗組 (10入) $680"]
+    plan_opts = ["月度植感陪伴 (40入) $1,680", "一週輕體驗組 (10入) $680"]
     choice = st.radio("", plan_opts, index=None, key="plan_v74", label_visibility="collapsed")
-    if st.button("查看您的專屬植感配方 ➔"):
+    if st.button("查看您的專屬配比 ➔"):
         if choice:
-            st.session_state.plan = "月度" if "$1,980" in choice else "體驗"
+            st.session_state.plan = "月度" if "$1,680" in choice else "體驗"
             if st.session_state.is_first_time == "是的" and st.session_state.plan == "月度": st.session_state.step = 5
             else: st.session_state.custom_name = "熟客驚喜贈茶" if st.session_state.plan == "月度" else "植感體驗"; st.session_state.step = 6
             st.rerun()
@@ -183,9 +183,9 @@ elif st.session_state.step == 4.5:
 elif st.session_state.step == 5:
     st.markdown("### 💎 鐫刻您的專屬風格")
     st.markdown("""<div style='background-color: #FFFFFF; padding: 10px; border-radius: 12px; border: 1px solid #E9EDC9; font-size:0.85rem; text-align:center; line-height:1.4;'>
-        為您準備一只質感的玻璃隨行杯。<br>木蓋上將鐫刻您的專屬風格。<br>陪伴您健康個性的生活</div>""", unsafe_allow_html=True)
+        為您準備一只質感的玻璃隨行杯。<br>木蓋上將鐫刻您的專屬風格。</div>""", unsafe_allow_html=True)
     user_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：Mila")
-    if st.button("查看您的專屬植感配方 ➔"):
+    if st.button("查看您的專屬配方 ➔"):
         if user_name: st.session_state.custom_name = user_name; st.session_state.step = 6; st.rerun()
 
 elif st.session_state.step == 6:
@@ -195,7 +195,7 @@ elif st.session_state.step == 6:
         if "晨光" in ans[0]: m_tea, a_tea = "黃耆元氣茶 (14入) + 金菊牛蒡茶 (6入)", "當歸紅棗茶 (12入) + 黑豆漢方茶 (8入)"
         elif "微風" in ans[0]: m_tea, a_tea = "洛神山楂茶 (12入) + 金菊牛蒡茶 (8入)", "玫瑰決明茶 (10入) + 黑豆漢方茶 (10入)"
         else: m_tea, a_tea = "金菊牛蒡茶 (15入) + 黃耆元氣茶 (5入)", "玫瑰決明茶 (14入) + 當歸紅棗茶 (6入)"
-        gift = f"• 首購禮：專屬個性隨行杯 ({name})" if first=="是的" else "• 老朋友禮：加贈驚喜茶包 3 包"
+        gift = f"• 首購禮：專屬刻名隨行杯 ({name})" if first=="是的" else "• 老朋友禮：加贈驚喜茶包 3 包"
     else:
         price, amount = "$680", "10 入一週輕體驗茶組"
         if "晨光" in ans[0]: m_tea, a_tea = "黃耆元氣茶 (4入) + 金菊牛蒡茶 (1入)", "當歸紅棗茶 (3入) + 黑豆漢方茶 (2入)"
