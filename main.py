@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import os
 
-# 1. 究極視覺縮放：鎖定 V74 風格，微縮字體與間距以確保一屏全覽
+# 1. 視覺鎖定：維持 V74 結構，僅將選項字體進一步縮小以優化版面
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -17,7 +17,7 @@ st.markdown("""
         padding-bottom: 50px !important;
     }
 
-    /* 標題與引導語：微縮至精緻比例 */
+    /* 標題與引導語 */
     h3 { 
         font-size: 0.95rem !important; font-weight: 700 !important;
         margin-top: -5px !important; margin-bottom: 2px !important;
@@ -33,7 +33,7 @@ st.markdown("""
         margin-bottom: 10px !important; font-size: 0.7rem !important; 
     }
 
-    /* Logo 尺寸微縮 */
+    /* Logo 尺寸 */
     [data-testid="stImage"] img { max-height: 42px !important; width: auto !important; margin: 0 auto !important; display: block; }
     [data-testid="stImage"] { margin-bottom: -10px !important; }
 
@@ -45,7 +45,9 @@ st.markdown("""
         width: 100% !important; border: 1px solid rgba(0,0,0,0.05) !important;
         display: flex !important; justify-content: flex-start !important; 
         text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important;
-        font-size: 0.85rem !important; line-height: 1.3 !important;
+        /* 【關鍵修正】字體再更小 */
+        font-size: 0.75rem !important; 
+        line-height: 1.3 !important;
     }
 
     /* 預設三色網底 */
@@ -53,10 +55,10 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
 
-    /* 選中後的字體維持明顯加粗，但微縮至適當比例 */
+    /* 選中後的字體放大比例也同步縮小 */
     div[data-testid="stRadio"] div[role="radiogroup"] div[aria-checked="true"] label,
     div[data-testid="stRadio"] label:has(input:checked) {
-        font-size: 0.95rem !important; 
+        font-size: 0.85rem !important; 
         font-weight: 900 !important;   
         color: #2D301D !important;     
         border: 2px solid #7A8450 !important;
@@ -75,7 +77,7 @@ st.markdown("""
         width: 100%;
     }
 
-    /* 程式碼框與複製區域 (全名保護) */
+    /* 程式碼框與複製區域 */
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code {
         background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 10px !important;
     }
@@ -93,7 +95,7 @@ st.markdown("""
     }
     .stButton > button p { color: #FFFFFF !important; font-size: 0.9rem !important; }
 
-    /* LINE 按鈕修復 */
+    /* LINE 按鈕 */
     .line-btn-styled {
         display: block !important; text-decoration: none !important;
         background-color: #06C755 !important; color: white !important;
