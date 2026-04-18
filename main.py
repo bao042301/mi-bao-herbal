@@ -48,7 +48,7 @@ st.markdown("""
     .stButton > button:hover { background-color: #8B8B7A !important; }
     .stButton > button:active { background-color: #4A4E31 !important; transform: scale(0.98) !important; }
 
-    /* 6. 【精準修復】LINE 原生跳轉按鈕 (針對 a 標籤對症下藥) */
+    /* 6. LINE 原生跳轉按鈕 (針對 a 標籤對症下藥) */
     [data-testid="stLinkButton"] a {
         width: 100% !important; background-color: #06C755 !important; 
         border-radius: 15px !important; height: 3.2em !important; 
@@ -68,7 +68,7 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 【精準修復】雷刻填字區：暴力破解多層 div 黑底 */
+    /* 雷刻填字區：暴力破解多層 div 黑底 */
     [data-testid="stTextInput"] div[data-baseweb="input"], 
     [data-testid="stTextInput"] div[data-baseweb="base-input"] { 
         background-color: #FFFFFF !important; 
@@ -215,11 +215,15 @@ elif st.session_state.step == 7:
         m_v, a_v = ("黃耆元氣茶(4)+金菊牛蒡茶(1)", "當歸紅棗茶(3)+黑豆漢方茶(2)") if "晨光" in ans[0] else ("洛神山楂茶(3)+金菊牛蒡茶(2)", "玫瑰決明茶(3)+黑豆漢方茶(2)") if "微風" in ans[0] else ("金菊牛蒡茶(4)+黃耆元氣茶(1)", "玫瑰決明茶(4)+當歸紅棗茶(1)")
         eng = "🌿 方案：一週輕體驗組"
 
-    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨：{m_v}\n🌙 午：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
+    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
     
-    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-bottom:5px;">點擊☆右上角☆複製後貼給米寶：</p>', unsafe_allow_html=True)
+    # 複製框 (維持原樣)
     st.code(msg, language=None)
     
+    # 點擊複製的文字移到這裡 (增加 margin-top 隔開距離)
+    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">按一下☆上框右上角☆複製：</p>', unsafe_allow_html=True)
+    
+    # LINE 按鈕
     line_url = "https://line.me/R/ti/p/@716osfvq"
     st.link_button("🌿 前往 LINE@ 貼上專屬配方與米寶相遇吧！ ➔", line_url, use_container_width=True)
     
