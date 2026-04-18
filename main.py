@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 
-# 1. 視覺全鎖定：V74 寬鬆比例、選中加粗放大、落葉動畫特效
+# 1. 視覺全鎖定：V74 寬鬆比例、選中加粗放大、按鈕點擊觸感回歸
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -25,7 +25,7 @@ st.markdown("""
     [data-testid="stImage"] img { max-height: 50px !important; width: auto !important; margin: 0 auto !important; display: block; }
     [data-testid="stImage"] { margin-bottom: 5px !important; }
 
-    /* 選項卡片設計 (左對齊、V74 經典樣式) */
+    /* 選項卡片設計 (V74 經典樣式) */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 8px !important; } 
     [data-testid="stRadio"] label {
@@ -40,7 +40,7 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
 
-    /* 【核心鎖定】選中後字體明顯加粗爆大感 */
+    /* 選中後字體明顯加粗爆大感 */
     div[data-testid="stRadio"] div[role="radiogroup"] div[aria-checked="true"] label {
         font-size: 1.1rem !important; font-weight: 900 !important;   
         color: #2D301D !important; border: 2px solid #7A8450 !important;
@@ -53,14 +53,35 @@ st.markdown("""
     }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; visibility: visible !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
 
-    /* 按鈕樣式 (橄欖綠 V74 版) */
-    .stButton > button { width: 100% !important; background-color: #7A8450 !important; color: #FFFFFF !important; border-radius: 25px !important; height: 3em !important; font-weight: bold !important; border: none !important; margin-top: 10px !important; }
+    /* 【核心修正】按鈕樣式與變色特效回歸 */
+    .stButton > button {
+        width: 100% !important; 
+        background-color: #7A8450 !important; 
+        color: #FFFFFF !important; 
+        border-radius: 25px !important; 
+        height: 3em !important; 
+        font-weight: bold !important; 
+        border: none !important; 
+        margin-top: 10px !important;
+        transition: all 0.2s ease !important; /* 加入轉場動畫 */
+    }
     .stButton > button p { color: #FFFFFF !important; font-size: 1rem !important; }
+
+    /* 按鈕懸停變色 (滑過) */
+    .stButton > button:hover {
+        background-color: #8B8B7A !important;
+        border: none !important;
+    }
+    /* 按鈕按下變色 (變深且微縮) */
+    .stButton > button:active {
+        background-color: #4A4E31 !important;
+        transform: scale(0.98) !important; /* 模擬按壓感 */
+    }
 
     /* 溫暖提示語 */
     .warm-tip { font-size: 0.85rem !important; color: #B08968 !important; text-align: center !important; margin-top: 5px !important; font-weight: bold !important; }
 
-    /* 森林落葉特效 CSS */
+    /* 森林落葉特效 */
     @keyframes falling {
         0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
         10% { opacity: 1; }
@@ -76,19 +97,17 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# ----------------- 特效函數 -----------------
+# ----------------- 特效與邏輯 -----------------
 def show_leaves():
     leaves_html = "".join([f'<div class="leaf" style="left:{i*15}vw; animation-delay:{i*1.5}s;">🍃</div>' for i in range(7)])
     st.markdown(leaves_html, unsafe_allow_html=True)
 
-# ----------------- 邏輯初始化 -----------------
 for key in ['step', 'answers', 'custom_name', 'is_first_time', 'plan', 'warn']:
     if key not in st.session_state:
         if key == 'step': st.session_state[key] = 1
         elif key == 'answers': st.session_state[key] = []
         else: st.session_state[key] = ""
 
-# 頂部 Logo
 img_path = "29301.jpg"
 if os.path.exists(img_path): st.image(img_path)
 else: st.markdown("<h4 style='text-align:center;'>🌿 米寶漢方</h4>", unsafe_allow_html=True)
@@ -132,7 +151,6 @@ elif st.session_state.step == 4:
             st.rerun()
         else:
             st.session_state.warn = "💎 選擇一個身分，讓米寶準備專屬驚喜。"
-    
     if st.session_state.warn:
         st.markdown(f'<p class="warm-tip">{st.session_state.warn}</p>', unsafe_allow_html=True)
 
@@ -151,7 +169,6 @@ elif st.session_state.step == 4.5:
             st.rerun()
         else:
             st.session_state.warn = "🥣 請選擇一個組合，讓溫暖精準送達。"
-    
     if st.session_state.warn:
         st.markdown(f'<p class="warm-tip">{st.session_state.warn}</p>', unsafe_allow_html=True)
 
@@ -166,7 +183,7 @@ elif st.session_state.step == 5:
             st.rerun()
 
 elif st.session_state.step == 6:
-    show_leaves()  # 落葉特效回歸！
+    show_leaves()
     ans, plan, name, first = st.session_state.answers, st.session_state.plan, st.session_state.custom_name, st.session_state.is_first_time
     if "$1,680" in plan:
         amt_t = "40 入深度植感漢方茶組"
@@ -194,7 +211,7 @@ elif st.session_state.step == 6:
         st.session_state.step = 7; st.rerun()
 
 elif st.session_state.step == 7:
-    show_leaves()  # 落葉特效回歸！
+    show_leaves()
     ans, plan, name, first = st.session_state.answers, st.session_state.plan, st.session_state.custom_name, st.session_state.is_first_time
     dg = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
     if "$1,680" in plan:
