@@ -53,7 +53,7 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
 
-    /* 【V74 核心肯定】選中後的字體明顯加粗且放大一號 */
+    /* 選中後的字體明顯加粗且放大一號 */
     div[data-testid="stRadio"] div[role="radiogroup"] div[aria-checked="true"] label,
     div[data-testid="stRadio"] label:has(input:checked) {
         font-size: 1.1rem !important; 
@@ -74,7 +74,7 @@ st.markdown("""
         width: 100%;
     }
 
-    /* 程式碼框去黑底 (V74 穩定版) */
+    /* 程式碼框去黑底 (強制亮色) */
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code {
         background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important;
     }
@@ -82,6 +82,7 @@ st.markdown("""
         opacity: 1 !important; visibility: visible !important;
         background-color: rgba(233, 237, 201, 1) !important;
     }
+    code span { color: #4A4E31 !important; background-color: transparent !important; }
 
     /* 按鈕樣式 (橄欖綠) */
     .stButton > button {
@@ -90,6 +91,14 @@ st.markdown("""
         margin-top: 10px !important;
     }
     .stButton > button p { color: #FFFFFF !important; font-size: 1rem !important; }
+
+    /* LINE 按鈕修復：絕對頂層且可點擊 */
+    .line-btn-styled {
+        display: block !important; text-decoration: none !important;
+        background-color: #06C755 !important; color: white !important;
+        text-align: center !important; padding: 14px; border-radius: 15px;
+        font-weight: bold; font-size: 1rem; position: relative; z-index: 999;
+    }
 
     /* 固定頁尾 */
     .custom-footer {
@@ -127,7 +136,7 @@ if os.path.exists(img_path): st.image(img_path)
 else: st.markdown("<h4 style='text-align:center;'>🌿 米寶漢方</h4>", unsafe_allow_html=True)
 st.markdown('<p class="quote">「在忙碌中，給您留一刻鐘的溫暖。」</p>', unsafe_allow_html=True)
 
-# ----------------- 測驗流程 (V74 完整脈絡) -----------------
+# ----------------- 測驗流程 -----------------
 if st.session_state.step == 1:
     st.markdown("### 第一步：聽聽身體的聲音")
     st.markdown('<p class="question-text">當您靜下心，您的身體正低聲說著...？</p>', unsafe_allow_html=True)
@@ -165,7 +174,7 @@ elif st.session_state.step == 4.5:
         if choice:
             st.session_state.plan = "月度" if "$1,680" in choice else "體驗"
             if st.session_state.is_first_time == "是的" and st.session_state.plan == "月度": st.session_state.step = 5
-            else: st.session_state.custom_name = "老朋友驚喜" if st.session_state.plan == "月度" else "植感體驗"; st.session_state.step = 6
+            else: st.session_state.custom_name = "熟客驚喜贈茶" if st.session_state.plan == "月度" else "植感體驗"; st.session_state.step = 6
             st.rerun()
 
 elif st.session_state.step == 5:
@@ -200,26 +209,27 @@ elif st.session_state.step == 6:
         <hr style='border: 0.5px solid #E9EDC9; margin: 8px 0;'>
         <p style='font-size:0.95rem; margin:0; font-weight:bold; color:#7A8450;'>• {amount}<br>{gift}</p>
         <span class="price-text">方案預約價 {price}</span></div>""", unsafe_allow_html=True)
-    if st.button("預約這份植感時光 ➔"): st.session_state.step = 7; st.rerun()
+    if st.button("確認配方並前往預約 ➔"): st.session_state.step = 7; st.rerun()
 
 elif st.session_state.step == 7:
     ans, name, first, plan = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time, st.session_state.plan
     dg = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
     if plan == "月度":
-        if "晨光" in ans[0]: m_t, a_t = "黃耆元氣茶(14)+金菊(6)", "當歸紅棗(12)+黑豆(8)"
-        elif "微風" in ans[0]: m_t, a_t = "洛神山楂(12)+金菊(8)", "玫瑰決明(10)+黑豆(10)"
-        else: m_t, a_t = "金菊(15)+黃耆(5)", "玫瑰決明(14)+當歸(6)"
+        if "晨光" in ans[0]: m_t, a_t = "黃耆元氣茶 (14入) + 金菊牛蒡茶 (6入)", "當歸紅棗茶 (12入) + 黑豆漢方茶 (8入)"
+        elif "微風" in ans[0]: m_t, a_t = "洛神山楂茶 (12入) + 金菊牛蒡茶 (8入)", "玫瑰決明茶 (10入) + 黑豆漢方茶 (10入)"
+        else: m_t, a_t = "金菊牛蒡茶 (15入) + 黃耆元氣茶 (5入)", "玫瑰決明茶 (14入) + 當歸紅棗茶 (6入)"
         eng = f"🌿 杯蓋刻字：{name}" if first == "是的" else "🌿 熟客回購加贈茶包"
     else:
-        if "晨光" in ans[0]: m_t, a_t = "黃耆(4)+金菊(1)", "當歸(3)+黑豆(2)"
-        elif "微風" in ans[0]: m_t, a_t = "洛神(3)+金菊(2)", "玫瑰(3)+黑豆(2)"
-        else: m_t, a_t = "金菊(4)+黃耆(1)", "玫瑰(4)+當歸(1)"
+        if "晨光" in ans[0]: m_t, a_t = "黃耆元氣茶 (4入) + 金菊牛蒡茶 (1入)", "當歸紅棗茶 (3入) + 黑豆漢方茶 (2入)"
+        elif "微風" in ans[0]: m_t, a_t = "洛神山楂茶 (3入) + 金菊牛蒡茶 (2入)", "玫瑰決明茶 (3入) + 黑豆漢方茶 (2入)"
+        else: m_t, a_t = "金菊牛蒡茶 (4入) + 黃耆元氣茶 (1入)", "玫瑰決明茶 (4入) + 當歸紅棗茶 (1入)"
         eng = "🌿 方案：一週輕體驗組"
     show_leaves()
-    msg = f"Hi 米寶！🐢✨\n預約組合：{plan}\n我是：【{dg}】\n☀️ 晨：{m_t}\n🌙 午：{a_t}\n{eng}\n期待這份草本溫暖。🌿🍵"
+    msg = f"Hi 米寶！🐢✨\n預約組合：{plan}\n我是：【{dg}氣質】\n☀️ 晨曦：{m_t}\n🌙 午後：{a_t}\n{eng}\n期待這份草本溫暖。🌿🍵"
     st.markdown('<p style="font-size:0.9rem; text-align:center; margin-bottom:5px;">點擊☆右上角☆複製後貼給米寶：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
-    st.markdown(f'''<a href="https://line.me/R/ti/p/@716osfvq" target="_blank" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 1rem;">🌿 前往 LINE@ 貼上配方預約 ➔</div></a>''', unsafe_allow_html=True)
+    # 【一字不差修復】LINE 按鈕直接跳轉
+    st.markdown(f'''<a href="https://line.me/R/ti/p/@716osfvq" target="_blank" class="line-btn-styled">🌿 前往 LINE@ 貼上配方預約 ➔</a>''', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
 
-st.markdown("""<div class="custom-footer"><p class="footer-text">米寶漢方｜慶和蔘藥行研製</p><p class="footer-text">本產品屬一般食品。 © 2026 Mibao Herbal</p></div>""", unsafe_allow_html=True)
+st.markdown("""<div class="custom-footer"><p class="footer-text">米寶漢方｜慶和蔘藥行監製</p><p class="footer-text">本產品屬一般食品。 © 2026 Mibao Herbal</p></div>""", unsafe_allow_html=True)
