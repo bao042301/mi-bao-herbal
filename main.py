@@ -210,7 +210,7 @@ elif st.session_state.step == 6:
         <p style='font-size:1.05rem; margin:8px 0 0; font-weight:bold;'>🌙 午後：{a_tea}</p>
         <hr style='border: 0.5px solid #E9EDC9; margin: 8px 0;'>
         <p style='font-size:0.95rem; margin:0; font-weight:bold; color:#7A8450;'>• {amount_text}<br>{gift}</p>
-        <span class="price-text">方案預約價 {"$1,680" if "$1,680" in plan else "$680"}</span></div>""", unsafe_allow_html=True)
+        <span class="price-text">方案預約價 {"$1,980" if "$1,980" in plan else "$680"}</span></div>""", unsafe_allow_html=True)
     
     if st.button("預約這份植感時光 ➔"):
         st.session_state.step = 7
