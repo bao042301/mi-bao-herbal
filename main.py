@@ -178,7 +178,7 @@ elif st.session_state.step == 5:
     st.markdown("""<div style='background-color: #FFFFFF; padding: 15px; border-radius: 12px; border: 1px solid #E9EDC9; font-size:0.95rem; text-align:center; line-height:1.5;'>
         為您準備一只專屬的玻璃隨行杯。<br>木蓋上將鐫刻您的獨特風格。<br>陪伴您健康植感的每一天。</div>""", unsafe_allow_html=True)
     user_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：米寶漢方 植感生活")
-    if st.button("查看您的專屬配方 ➔"):
+    if st.button("查看您的植感配方 ➔"):
         if user_name:
             st.session_state.custom_name = user_name
             st.session_state.step = 6
