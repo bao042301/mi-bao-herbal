@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 
-# 1. 究極視覺與跳轉引擎：V74 質感、去黑底卡片、LINE 原生跳轉協議
+# 1. 視覺核心：鎖定 V74 質感，徹底棄用會變黑的 st.code 組件
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -11,7 +11,7 @@ st.markdown("""
     .stApp { background-color: #FDFBF7 !important; }
     .block-container { padding-top: 0.5rem !important; padding-bottom: 60px !important; }
 
-    /* 隱藏原生組件 */
+    /* 隱藏原生標籤 */
     #MainMenu, footer, header { visibility: hidden !important; }
 
     /* 標題與引導 */
@@ -19,11 +19,11 @@ st.markdown("""
     .question-text { font-size: 1.05rem !important; font-weight: bold !important; text-align: center !important; margin-bottom: 15px !important; }
     .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 10px; font-size: 0.8rem; }
 
-    /* Logo 尺寸 */
+    /* Logo */
     [data-testid="stImage"] img { max-height: 50px !important; width: auto !important; margin: 0 auto !important; display: block; }
     [data-testid="stImage"] { margin-bottom: -10px !important; }
 
-    /* 選項點點縮小與選中加粗 */
+    /* 選項點點縮小與選中加粗 (V74 靈魂) */
     [data-testid="stRadio"] div[role="radiogroup"] [data-testid="stRadioButton"] > div:first-child { transform: scale(0.6) !important; }
     [data-testid="stRadio"] label {
         border-radius: 12px !important; padding: 10px 18px !important;
@@ -34,7 +34,7 @@ st.markdown("""
         background-color: #E9EDC9 !important; border: 2.5px solid #7A8450 !important;
     }
 
-    /* 精品配方卡片：防黑化、自動換行 */
+    /* 【核心修正】自定義配方卡片：取代 st.code，解決黑底與換行 */
     .recipe-card {
         background-color: #F8F9F1 !important;
         border: 1.5px solid #E9EDC9 !important;
@@ -42,25 +42,25 @@ st.markdown("""
         padding: 20px !important;
         font-size: 1rem !important;
         line-height: 1.6 !important;
-        white-space: pre-wrap !important;
+        white-space: pre-wrap !important; /* 強制自動換行 */
         word-break: break-all !important;
         margin: 15px 0 !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     }
 
-    /* 【核心修正】LINE 原生跳轉按鈕樣式 */
-    .line-native-btn {
+    /* LINE 預約按鈕 */
+    .line-link-btn {
         display: block !important;
         background-color: #06C755 !important;
         color: white !important;
         text-align: center !important;
-        padding: 16px !important;
+        padding: 15px !important;
         border-radius: 15px !important;
         text-decoration: none !important;
         font-weight: 900 !important;
         font-size: 1.1rem !important;
-        margin: 10px 0 !important;
-        box-shadow: 0 4px 12px rgba(6, 199, 85, 0.4);
-        cursor: pointer !important;
+        margin-top: 10px !important;
+        box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
     }
 
     /* 頁尾 */
@@ -76,6 +76,7 @@ for k in ['step','answers','custom_name','bundle']:
 img_path = "29301.jpg"
 if os.path.exists(img_path): st.image(img_path)
 else: st.markdown("<h4 style='text-align:center;'>🌿 米寶漢方</h4>", unsafe_allow_html=True)
+st.markdown('<p class="quote">「在忙碌中，給您留一刻鐘的溫暖。」</p>', unsafe_allow_html=True)
 
 # ----------------- 測驗流程 -----------------
 if st.session_state.step <= 3:
@@ -92,13 +93,13 @@ if st.session_state.step <= 3:
         if ans: st.session_state.answers.append(ans); st.session_state.step += 1; st.rerun()
 
 elif st.session_state.step == 4:
-    st.markdown("### ✨ 選擇您的專屬陪伴方案")
+    st.markdown("### ✨ 選擇您的植感預約組合")
     bundles = [
         "首購限定組合 $1,980 [贈：精品刻名隨行杯 👋]",
         "老友回購組合 $1,880 [贈：驚喜茶包 3 入 🤗]",
         "一週輕體驗組合 $680 [初次邂逅草本 🍵]"
     ]
-    selected = st.radio("", bundles, index=None, key="bundle_v90", label_visibility="collapsed")
+    selected = st.radio("", bundles, index=None, key="bundle_v89", label_visibility="collapsed")
     eng = ""
     if selected == bundles[0]:
         eng = st.text_input("雷刻文字 (最多12字)", placeholder="例如：Mila")
@@ -112,7 +113,7 @@ elif st.session_state.step == 5:
     ans, bundle, name = st.session_state.answers, st.session_state.bundle, st.session_state.custom_name
     diag = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
     
-    # 配比換行邏輯
+    # 茶包換行邏輯 (全名鎖定)
     if "$680" in bundle:
         m_v, a_v = ("黃耆元氣茶 (4入)\n+ 金菊牛蒡茶 (1入)", "當歸紅棗茶 (3入)\n+ 黑豆漢方茶 (2入)") if diag=="暖陽系" else ("洛神山楂茶 (3入)\n+ 金菊牛蒡茶 (2入)", "玫瑰決明茶 (3入)\n+ 黑豆漢方茶 (2入)") if diag=="微風系" else ("金菊牛蒡茶 (4入)\n+ 黃耆元氣茶 (1入)", "玫瑰決明茶 (4入)\n+ 當歸紅棗茶 (1入)")
         eng_msg = "🌿 方案：一週輕體驗"
@@ -121,16 +122,18 @@ elif st.session_state.step == 5:
         eng_msg = f"🌿 杯蓋雷刻：{name}" if "$1,980" in bundle else "🌿 熟客回購加贈茶包"
 
     st.markdown(f"### ✨ 您是：{diag}氣質")
+    
+    # 組合訊息 (包含全名與價格)
     final_msg = f"Hi 米寶！🐢✨\n預約：{bundle}\n我是：【{diag}】\n\n☀️ 晨曦：\n{m_v}\n\n🌙 午後：\n{a_v}\n\n{eng_msg}\n期待這份草本溫暖。🌿🍵"
     
-    # 質感卡片
+    # 【核心改變】用自定義 HTML 代替 st.code，徹底解決黑底問題
     st.markdown(f'<div class="recipe-card">{final_msg}</div>', unsafe_allow_html=True)
     st.markdown('<p style="text-align:center; font-size:0.8rem; margin-top:-10px;">長按上方文字區塊即可全選複製</p>', unsafe_allow_html=True)
     
-    # 【關鍵跳轉修復】使用原生 line:// 協議搭配 target="_top"
-    st.markdown(f'<a href="line://ti/p/@716osfvq" target="_top" class="line-native-btn">🌿 前往 LINE@ 貼上配方預約 ➔</a>', unsafe_allow_html=True)
+    # LINE 強效跳轉
+    st.markdown(f'<a href="https://line.me/R/ti/p/@716osfvq" target="_blank" class="line-link-btn">🌿 前往 LINE@ 貼上配方預約 ➔</a>', unsafe_allow_html=True)
     
     if st.button("重新探索"):
         st.session_state.clear(); st.rerun()
 
-st.markdown('<div class="custom-footer">慶和蔘藥行研製｜本產品屬一般食品。 © 2026 Mibao Herbal</div>', unsafe_allow_html=True)
+st.markdown('<div class="custom-footer">慶和蔘藥行監製｜本產品屬一般食品。 © 2026 Mibao Herbal</div>', unsafe_allow_html=True)
