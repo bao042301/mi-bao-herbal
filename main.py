@@ -22,7 +22,7 @@ st.markdown("""
     [data-testid="stImage"] img { max-height: 50px !important; width: auto !important; margin: 0 auto !important; display: block; }
     [data-testid="stImage"] { margin-bottom: 5px !important; }
 
-    /* 4. 【修復一】選項卡片與極致選中特效 (:has 語法暴力鎖定) */
+    /* 4. 選項卡片與極致選中特效 */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 8px !important; } 
     [data-testid="stRadio"] label {
@@ -34,7 +34,6 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
-    /* 暴力解法：只要裡面被選中，整個框強制變綠放大 */
     [data-testid="stRadio"] label:has(input:checked) {
         font-size: 1.1rem !important; font-weight: 900 !important;   
         color: #2D301D !important; border: 2.5px solid #7A8450 !important; background-color: #E9EDC9 !important;
@@ -49,36 +48,47 @@ st.markdown("""
     .stButton > button:hover { background-color: #8B8B7A !important; }
     .stButton > button:active { background-color: #4A4E31 !important; transform: scale(0.98) !important; }
 
-    /* 6. 【修復四】LINE 原生專屬跳轉按鈕樣式 */
-    [data-testid="stLinkButton"] button {
-        width: 100% !important; background-color: #06C755 !important; color: white !important;
-        border-radius: 15px !important; height: 3.2em !important; font-weight: 900 !important; 
+    /* 6. 【精準修復】LINE 原生跳轉按鈕 (針對 a 標籤對症下藥) */
+    [data-testid="stLinkButton"] a {
+        width: 100% !important; background-color: #06C755 !important; 
+        border-radius: 15px !important; height: 3.2em !important; 
         border: none !important; transition: transform 0.2s ease !important;
+        display: flex !important; justify-content: center !important; align-items: center !important;
+        text-decoration: none !important;
     }
-    [data-testid="stLinkButton"] button p { color: white !important; font-size: 1.05rem !important; }
-    [data-testid="stLinkButton"] button:active { transform: scale(0.98) !important; }
+    /* 強制裡面的文字一定是白色的 */
+    [data-testid="stLinkButton"] a * { color: #FFFFFF !important; font-size: 1.05rem !important; font-weight: 900 !important; }
+    [data-testid="stLinkButton"] a:active { transform: scale(0.98) !important; }
 
     /* 7. 溫暖提示語與價格 */
     .warm-tip { font-size: 0.85rem !important; color: #B08968 !important; text-align: center !important; margin-top: 5px !important; font-weight: bold !important; }
     .price-text { font-size: 1.45rem !important; font-weight: bold !important; color: #7A8450 !important; margin-top: 15px; display: block; text-align: center !important; }
 
-    /* 8. 防黑底：程式碼框與【修復三】雷刻填字區 */
+    /* 8. 程式碼框 */
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
-    /* 強制白底與深色文字，對抗系統深色模式 */
-    [data-testid="stTextInput"] div[data-baseweb="input"] { background-color: #FFFFFF !important; border: 1.5px solid #E9EDC9 !important; border-radius: 8px !important; }
-    [data-testid="stTextInput"] input { color: #4A4E31 !important; -webkit-text-fill-color: #4A4E31 !important; background-color: transparent !important; }
+    
+    /* 【精準修復】雷刻填字區：暴力破解多層 div 黑底 */
+    [data-testid="stTextInput"] div[data-baseweb="input"], 
+    [data-testid="stTextInput"] div[data-baseweb="base-input"] { 
+        background-color: #FFFFFF !important; 
+        border: 1.5px solid #E9EDC9 !important; 
+        border-radius: 8px !important; 
+    }
+    [data-testid="stTextInput"] input { 
+        color: #4A4E31 !important; 
+        -webkit-text-fill-color: #4A4E31 !important; 
+        background-color: #FFFFFF !important; 
+    }
 
     /* 9. 森林落葉 */
     @keyframes falling { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
     .leaf { position: fixed; top: -10vh; font-size: 18px; pointer-events: none; z-index: 9999; animation: falling 12s linear infinite; }
 
-    /* 10. 【修復二】絕對固定且帶底色的頁尾 */
+    /* 10. 絕對固定頁尾 */
     .custom-footer {
         position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; 
-        background-color: #FDFBF7; /* 加入與背景同色的實體底色 */
-        padding: 8px 0; z-index: 9999; 
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.03); /* 微微的陰影阻隔內容 */
+        background-color: #FDFBF7; padding: 8px 0; z-index: 9999; box-shadow: 0 -2px 10px rgba(0,0,0,0.03); 
     }
     .footer-text { font-size: 0.65rem !important; color: #8B8B7A !important; line-height: 1.2 !important; margin: 0 !important; }
     #MainMenu, footer, header { visibility: hidden; }
@@ -102,10 +112,9 @@ else: st.markdown("<h4 style='text-align:center;'>🌿 米寶漢方</h4>", unsaf
 st.markdown('<p class="quote">「在忙碌中，給您留一刻鐘的溫暖。」</p>', unsafe_allow_html=True)
 
 # ==========================================
-# 第三步：測驗引擎 (第 1 ~ 3 步) - 【修復五】浪漫文案
+# 第三步：測驗引擎 (第 1 ~ 3 步)
 # ==========================================
 if st.session_state.step <= 3:
-    # 浪漫詩意標題 (選項 A)
     titles = ["### 壹｜傾聽・身體的低語", "### 貳｜梳理・日常的軌跡", "### 參｜遇見・嚮往的自己"]
     qs = ["當您靜下心，您的身體正低聲說著...？", "關於這段日子的作息，您的狀態是...？", "在最需要喘息的午後，您想感受到的是...？"]
     opts = [
@@ -211,11 +220,9 @@ elif st.session_state.step == 7:
     st.markdown('<p style="font-size:0.9rem; text-align:center; margin-bottom:5px;">點擊☆右上角☆複製後貼給米寶：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     
-    # 【修復四】使用 Streamlit 官方最強硬的 Link Button 對抗 LINE 攔截
     line_url = "https://line.me/R/ti/p/@716osfvq"
     st.link_button("🌿 前往 LINE@ 貼上專屬配方與米寶相遇吧！ ➔", line_url, use_container_width=True)
     
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
 
-# 【修復二】絕對固定的底色頁尾
 st.markdown("""<div class="custom-footer"><p class="footer-text">米寶漢方｜慶和蔘藥行研製｜© 2026 Mibao Herbal</p></div>""", unsafe_allow_html=True)
