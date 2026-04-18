@@ -19,35 +19,35 @@ st.markdown("""
 
     /* 標題與引導語 */
     h3 { 
-        font-size: 0.95rem !important; font-weight: 700 !important;
+        font-size: 0.85rem !important; font-weight: 700 !important;
         margin-top: -5px !important; margin-bottom: 2px !important;
         text-align: center !important; color: #7A8450 !important;
     }
     .question-text {
-        font-size: 0.9rem !important; font-weight: bold !important;
-        text-align: center !important; margin-bottom: 8px !important;
-        line-height: 1.2 !important;
+        font-size: 0.8rem !important; font-weight: bold !important;
+        text-align: center !important; margin-bottom: 6px !important;
+        line-height: 1.0 !important;
     }
     .quote { 
         font-style: italic; color: #8B8B7A !important; text-align: center; 
-        margin-bottom: 10px !important; font-size: 0.7rem !important; 
+        margin-bottom: 10px !important; font-size: 0.6rem !important; 
     }
 
     /* Logo 尺寸 */
-    [data-testid="stImage"] img { max-height: 42px !important; width: auto !important; margin: 0 auto !important; display: block; }
+    [data-testid="stImage"] img { max-height: 40px !important; width: auto !important; margin: 0 auto !important; display: block; }
     [data-testid="stImage"] { margin-bottom: -10px !important; }
 
     /* 選項卡片設計 (左對齊) */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 4px !important; } 
     [data-testid="stRadio"] label {
-        border-radius: 10px !important; padding: 8px 15px !important;
+        border-radius: 8px !important; padding: 8px 12px !important;
         width: 100% !important; border: 1px solid rgba(0,0,0,0.05) !important;
         display: flex !important; justify-content: flex-start !important; 
         text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important;
         /* 【關鍵修正】字體再更小 */
-        font-size: 0.75rem !important; 
-        line-height: 1.3 !important;
+        font-size: 0.6rem !important; 
+        line-height: 1.0 !important;
     }
 
     /* 預設三色網底 */
