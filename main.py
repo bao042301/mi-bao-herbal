@@ -29,7 +29,7 @@ st.markdown("""
         border-radius: 12px !important; padding: 10px 18px !important;
         width: 100% !important; border: 1.5px solid rgba(0,0,0,0.05) !important;
         display: flex !important; justify-content: flex-start !important; 
-        transition: all 0.2s ease !important; cursor: pointer !important; font-size: 0.95rem !important;
+        text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important; font-size: 0.95rem !important;
     }
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
@@ -38,6 +38,9 @@ st.markdown("""
         font-size: 1.1rem !important; font-weight: 900 !important;   
         color: #2D301D !important; border: 2.5px solid #7A8450 !important; background-color: #E9EDC9 !important;
     }
+    
+    /* 【本次修正】強制將系統預設的紅點改成深橄欖綠色 */
+    [data-testid="stRadio"] label:has(input:checked) > div:first-of-type > div { background-color: #4A4E31 !important; }
 
     /* 5. 一般按鈕特效 (橄欖綠) */
     .stButton > button {
@@ -48,7 +51,7 @@ st.markdown("""
     .stButton > button:hover { background-color: #8B8B7A !important; }
     .stButton > button:active { background-color: #4A4E31 !important; transform: scale(0.98) !important; }
 
-    /* 6. LINE 原生跳轉按鈕 (針對 a 標籤對症下藥) */
+    /* 6. LINE 原生跳轉按鈕樣式鎖定 */
     [data-testid="stLinkButton"] a {
         width: 100% !important; background-color: #06C755 !important; 
         border-radius: 15px !important; height: 3.2em !important; 
@@ -56,7 +59,6 @@ st.markdown("""
         display: flex !important; justify-content: center !important; align-items: center !important;
         text-decoration: none !important;
     }
-    /* 強制裡面的文字一定是白色的 */
     [data-testid="stLinkButton"] a * { color: #FFFFFF !important; font-size: 1.05rem !important; font-weight: 900 !important; }
     [data-testid="stLinkButton"] a:active { transform: scale(0.98) !important; }
 
@@ -68,7 +70,7 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 雷刻填字區：暴力破解多層 div 黑底 */
+    /* 雷刻填字區防黑底 */
     [data-testid="stTextInput"] div[data-baseweb="input"], 
     [data-testid="stTextInput"] div[data-baseweb="base-input"] { 
         background-color: #FFFFFF !important; 
@@ -112,7 +114,7 @@ else: st.markdown("<h4 style='text-align:center;'>🌿 米寶漢方</h4>", unsaf
 st.markdown('<p class="quote">「在忙碌中，給您留一刻鐘的溫暖。」</p>', unsafe_allow_html=True)
 
 # ==========================================
-# 第三步：測驗引擎 (第 1 ~ 3 步)
+# 第三步：測驗引擎 (第 1 ~ 3 步) - 浪漫 A 文案
 # ==========================================
 if st.session_state.step <= 3:
     titles = ["### 壹｜傾聽・身體的低語", "### 貳｜梳理・日常的軌跡", "### 參｜遇見・嚮往的自己"]
@@ -163,7 +165,7 @@ elif st.session_state.step == 4.5:
         if p_choice:
             st.session_state.plan = p_choice
             if "新朋友" in st.session_state.is_first_time and "$1,980" in p_choice: st.session_state.step = 5
-            else: st.session_state.custom_name = "老友回購禮遇" if "40入" in p_choice else "植感體驗方案"; st.session_state.step = 6
+            else: st.session_state.custom_name = "老朋友驚喜贈茶" if "40入" in p_choice else "輕體驗方案"; st.session_state.step = 6
             st.session_state.warn = ""; st.rerun()
         else: st.session_state.warn = "🥣 請選擇一個組合，讓溫暖精準送達。"
     if st.session_state.warn: st.markdown(f'<p class="warm-tip">{st.session_state.warn}</p>', unsafe_allow_html=True)
@@ -209,21 +211,18 @@ elif st.session_state.step == 7:
     dg = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
     
     if "40入" in plan:
-        m_v, a_v = ("黃耆元氣茶(14)+金菊牛蒡茶(6)", "當歸紅棗茶(12)+黑豆漢方茶(8)") if "晨光" in ans[0] else ("洛神山楂茶(12)+金菊牛蒡茶(8)", "玫瑰決明茶(10)+黑豆漢方茶(10)") if "微風" in ans[0] else ("金菊牛蒡茶(15)+黃耆元氣茶(5)", "玫瑰決明茶(14)+當歸紅棗茶(6)")
+        m_v, a_v = ("黃耆元氣茶(14入)+金菊牛蒡茶(6入)", "當歸紅棗茶(12入)+黑豆漢方茶(8入)") if "晨光" in ans[0] else ("洛神山楂茶(12入)+金菊牛蒡茶(8入)", "玫瑰決明茶(10入)+黑豆漢方茶(10入)") if "微風" in ans[0] else ("金菊牛蒡茶(15入)+黃耆元氣茶(5入)", "玫瑰決明茶(14入)+當歸紅棗茶(6入)")
         eng = f"🌿 杯蓋刻字：{name}" if "新朋友" in first else "🌿 老友回購贈茶"
     else:
-        m_v, a_v = ("黃耆元氣茶(4)+金菊牛蒡茶(1)", "當歸紅棗茶(3)+黑豆漢方茶(2)") if "晨光" in ans[0] else ("洛神山楂茶(3)+金菊牛蒡茶(2)", "玫瑰決明茶(3)+黑豆漢方茶(2)") if "微風" in ans[0] else ("金菊牛蒡茶(4)+黃耆元氣茶(1)", "玫瑰決明茶(4)+當歸紅棗茶(1)")
+        m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = "🌿 方案：一週輕體驗組"
 
-    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
+    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨：{m_v}\n🌙 午：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
     
-    # 複製框 (維持原樣)
     st.code(msg, language=None)
     
-    # 點擊複製的文字移到這裡 (增加 margin-top 隔開距離)
-    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">按一下☆上框右上角☆複製：</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">點擊☆右上角☆複製後貼給米寶：</p>', unsafe_allow_html=True)
     
-    # LINE 按鈕
     line_url = "https://line.me/R/ti/p/@716osfvq"
     st.link_button("🌿 前往 LINE@ 貼上專屬配方與米寶相遇吧！ ➔", line_url, use_container_width=True)
     
