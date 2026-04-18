@@ -159,11 +159,11 @@ elif st.session_state.step == 4:
 
 elif st.session_state.step == 4.5:
     st.markdown("### 🌿 選擇您的陪伴方案")
-    plan_opts = ["月度植感陪伴 (40入) $1,680", "一週輕體驗組 (10入) $680"]
+    plan_opts = ["月度植感陪伴 (40入) $1,980", "一週輕體驗組 (10入) $680"]
     choice = st.radio("", plan_opts, index=None, key="plan_v74", label_visibility="collapsed")
     if st.button("查看您的專屬配比 ➔"):
         if choice:
-            st.session_state.plan = "月度" if "$1,680" in choice else "體驗"
+            st.session_state.plan = "月度" if "$1,980" in choice else "體驗"
             if st.session_state.is_first_time == "是的" and st.session_state.plan == "月度": st.session_state.step = 5
             else: st.session_state.custom_name = "老朋友驚喜" if st.session_state.plan == "月度" else "植感體驗"; st.session_state.step = 6
             st.rerun()
@@ -172,14 +172,14 @@ elif st.session_state.step == 5:
     st.markdown("### 💎 鐫刻您的專屬風格")
     st.markdown("""<div style='background-color: #FFFFFF; padding: 15px; border-radius: 12px; border: 1px solid #E9EDC9; font-size:0.95rem; text-align:center; line-height:1.5;'>
         為您準備一只質感的玻璃隨行杯。<br>木蓋上將鐫刻您的專屬風格。<br>陪伴您健康植感的每一天。</div>""", unsafe_allow_html=True)
-    user_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：Mila")
+    user_name = st.text_input("雷刻文字 (最多12字)", max_chars=12, placeholder="例如：米寶漢方｜植感生活")
     if st.button("查看您的專屬植感配方 ➔"):
         if user_name: st.session_state.custom_name = user_name; st.session_state.step = 6; st.rerun()
 
 elif st.session_state.step == 6:
     ans, name, first, plan = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time, st.session_state.plan
-    if plan == "月度":
-        price, amount = "$1,680", "40 入深度植感漢方茶組"
+    if plan == "月度陪伴方案":
+        price, amount = "$1,980", "40 入深度植感漢方茶組"
         if "晨光" in ans[0]: m_tea, a_tea = "黃耆元氣茶 (14入) + 金菊牛蒡茶 (6入)", "當歸紅棗茶 (12入) + 黑豆漢方茶 (8入)"
         elif "微風" in ans[0]: m_tea, a_tea = "洛神山楂茶 (12入) + 金菊牛蒡茶 (8入)", "玫瑰決明茶 (10入) + 黑豆漢方茶 (10入)"
         else: m_tea, a_tea = "金菊牛蒡茶 (15入) + 黃耆元氣茶 (5入)", "玫瑰決明茶 (14入) + 當歸紅棗茶 (6入)"
@@ -205,7 +205,7 @@ elif st.session_state.step == 6:
 elif st.session_state.step == 7:
     ans, name, first, plan = st.session_state.answers, st.session_state.custom_name, st.session_state.is_first_time, st.session_state.plan
     dg = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
-    if plan == "月度":
+    if plan == "月度陪伴方案":
         if "晨光" in ans[0]: m_t, a_t = "黃耆元氣茶(14)+金菊牛蒡茶(6)", "當歸紅棗茶(12)+黑豆漢方茶(8)"
         elif "微風" in ans[0]: m_t, a_t = "洛神山楂茶(12)+金菊牛蒡茶(8)", "玫瑰決明茶(10)+黑豆漢方茶(10)"
         else: m_t, a_t = "金菊牛蒡茶(15)+黃耆元氣茶(5)", "玫瑰決明茶(14)+當歸紅棗茶(6)"
@@ -217,9 +217,9 @@ elif st.session_state.step == 7:
         eng = "🌿 方案：一週輕體驗組"
     show_leaves()
     msg = f"Hi 米寶！🐢✨\n預約組合：{plan}\n我是：【{dg}】\n☀️ 晨：{m_t}\n🌙 午：{a_t}\n{eng}\n期待這份草本溫暖。🌿🍵"
-    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-bottom:5px;">點擊☆右上角☆複製後貼給米寶：</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-bottom:5px;">點擊☆下框右上角☆複製專屬方案：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
-    st.markdown(f'''<a href="https://line.me/R/ti/p/@716osfvq" target="_blank" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 1rem;">🌿 前往 LINE@ 貼上專屬配方 ➔</div></a>''', unsafe_allow_html=True)
+    st.markdown(f'''<a href="https://line.me/R/ti/p/@716osfvq" target="_blank" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 1rem;">🌿 前往 LINE@ 貼上專屬植感 ➔</div></a>''', unsafe_allow_html=True)
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
 
 st.markdown("""<div class="custom-footer"><p class="footer-text">米寶漢方｜慶和蔘藥行研製</p><p class="footer-text">本產品屬一般食品。 © 2026 Mibao Herbal</p></div>""", unsafe_allow_html=True)
