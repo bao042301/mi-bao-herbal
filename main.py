@@ -229,7 +229,7 @@ elif st.session_state.step == 7:
         eng = "🌿 方案：一週輕體驗組"
 
     show_leaves()
-    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨：{m_v}\n🌙 午：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
+    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
     st.markdown('<p style="font-size:0.9rem; text-align:center; margin-bottom:5px;">請點擊☆下框右上角複製☆：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'''<a href="https://line.me/R/ti/p/@716osfvq" target="_blank" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 1rem;">🌿 前往 LINE@ 貼上專屬配方☆與米寶相遇 ➔</div></a>''', unsafe_allow_html=True)
