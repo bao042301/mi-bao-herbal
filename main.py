@@ -226,10 +226,10 @@ elif st.session_state.step == 7:
         eng = f"🌿 杯蓋刻字：{name}" if "新朋友" in first else "🌿 老朋友回購贈茶"
     else:
         m_v, a_v = ("黃耆元氣茶(4)+金菊牛蒡茶(1)", "當歸紅棗茶(3)+黑豆漢方茶(2)") if "晨光" in ans[0] else ("洛神山楂茶(3)+金菊牛蒡茶(2)", "玫瑰決明茶(3)+黑豆漢方茶(2)") if "微風" in ans[0] else ("金菊牛蒡茶(4)+黃耆元氣茶(1)", "玫瑰決明茶(4)+當歸紅棗茶(1)")
-        eng = "🌿 方案：一週輕體驗組"
+        eng = "🌿 方案：一週輕體驗組{plan}\n"
 
     show_leaves()
-    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
+    msg = f"Hi 米寶！🐢✨我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
     st.markdown('<p style="font-size:0.9rem; text-align:center; margin-bottom:5px;">請點擊☆下框右上角複製☆：</p>', unsafe_allow_html=True)
     st.code(msg, language=None)
     st.markdown(f'''<a href="https://line.me/R/ti/p/@716osfvq" target="_blank" style="text-decoration:none;"><div style="background-color: #06C755; color: white; text-align: center; padding: 14px; border-radius: 15px; font-weight: bold; font-size: 1rem;">🌿 前往 LINE@ 貼上專屬配方☆與米寶相遇 ➔</div></a>''', unsafe_allow_html=True)
