@@ -1,9 +1,9 @@
-# ==========================================
-# 第一步：環境設定與 CSS 視覺靈魂 (裝潢與地基)
-# ==========================================
 import streamlit as st
 import os
 
+# ==========================================
+# 第一步：環境設定與 CSS 視覺靈魂 
+# ==========================================
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
 st.markdown("""
@@ -25,8 +25,6 @@ st.markdown("""
     /* 4. 選項卡片與極致選中特效 */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 8px !important; } 
-    
-    /* 【真正的修復】嚴格限定只有「選項區域內」的標籤，才套用框線與顏色，放過外層隱形的幽靈！ */
     [data-testid="stRadio"] div[role="radiogroup"] label {
         border-radius: 12px !important; padding: 10px 18px !important;
         width: 100% !important; border: 1.5px solid rgba(0,0,0,0.05) !important;
@@ -34,24 +32,19 @@ st.markdown("""
         text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important; font-size: 0.95rem !important;
     }
     
-    /* 三色網底精準套用在第 1, 2, 3 個選項 */
+    /* 三色網底精準套用 */
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
     
-    /* 選中時的狀態 (放大、變色) */
     [data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) {
         font-size: 1.1rem !important; font-weight: 900 !important;   
         color: #2D301D !important; border: 2.5px solid #7A8450 !important; background-color: #E9EDC9 !important;
     }
-    
-    /* 未選中時：隱藏醜黑點，變成溫柔的淡橄欖綠空心圓 */
     [data-testid="stRadio"] div[role="radiogroup"] label:not(:has(input:checked)) > div:first-of-type > div { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] label:not(:has(input:checked)) > div:first-of-type { 
         background-color: transparent !important; border: 2px solid #C2C7A7 !important; 
     }
-
-    /* 選中時：召喚烏龜！ */
     [data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) > div:first-of-type > div { display: none !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) > div:first-of-type { 
         background-color: transparent !important; border: none !important; overflow: visible !important; 
@@ -61,7 +54,7 @@ st.markdown("""
         content: '🐢' !important; font-size: 1.3rem !important; display: block !important;
     } 
 
-    /* 5. 一般按鈕特效 (橄欖綠) */
+    /* 5. 一般按鈕特效 */
     .stButton > button {
         width: 100% !important; background-color: #7A8450 !important; color: #FFFFFF !important;
         border-radius: 25px !important; height: 3em !important; font-weight: bold !important; border: none !important; margin-top: 10px !important; transition: all 0.2s ease !important;
@@ -75,11 +68,9 @@ st.markdown("""
         width: 100% !important; background-color: #06C755 !important; 
         border-radius: 15px !important; height: 3.2em !important; 
         border: none !important; transition: transform 0.2s ease !important;
-        display: flex !important; justify-content: center !important; align-items: center !important;
-        text-decoration: none !important;
+        display: flex !important; justify-content: center !important; align-items: center !important; text-decoration: none !important;
     }
     [data-testid="stLinkButton"] a * { color: #FFFFFF !important; font-size: 1.05rem !important; font-weight: 900 !important; }
-    [data-testid="stLinkButton"] a:active { transform: scale(0.98) !important; }
 
     /* 7. 溫暖提示語與價格 */
     .warm-tip { font-size: 0.85rem !important; color: #B08968 !important; text-align: center !important; margin-top: 5px !important; font-weight: bold !important; }
@@ -89,7 +80,7 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 雷刻填字區防黑底 */
+    /* 雷刻填字區與同行輸入框防黑底 */
     [data-testid="stTextInput"] div[data-baseweb="input"], 
     [data-testid="stTextInput"] div[data-baseweb="base-input"] { 
         background-color: #FFFFFF !important; 
@@ -114,7 +105,7 @@ st.markdown("""
     .footer-text { font-size: 0.65rem !important; color: #8B8B7A !important; line-height: 1.2 !important; margin: 0 !important; }
     #MainMenu, footer, header { visibility: hidden; }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # ==========================================
 # 第二步：系統記憶 (Session State) 與頂部佈置
@@ -236,28 +227,28 @@ elif st.session_state.step == 7:
         m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = "🌿 方案：一週輕體驗組"
 
-    # --- 👇 這裡是在 Step 7 修改的同行輸入欄位 ---
+    # --- 👇 這是保證「不換行、圖示在左、框在右」的最新版 ---
     
-    # 第一行：圖示與姓名框框在同一排 (1份比例給圖示，8份比例給框框)
+    # 建立第一行：圖示與姓名
     c1, c2 = st.columns([1, 8])
     with c1: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>👤</p>", unsafe_allow_html=True)
     with c2: order_name = st.text_input("name", placeholder="請填寫收件人姓名", label_visibility="collapsed")
     
-    # 第二行：圖示與電話框框在同一排
+    # 建立第二行：圖示與電話
     c3, c4 = st.columns([1, 8])
     with c3: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📱</p>", unsafe_allow_html=True)
     with c4: order_phone = st.text_input("phone", placeholder="請填寫手機號碼", label_visibility="collapsed")
     
-    # 第三行：圖示與地址框框在同一排
+    # 建立第三行：圖示與地址
     c5, c6 = st.columns([1, 8])
     with c5: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📍</p>", unsafe_allow_html=True)
     with c6: order_address = st.text_input("addr", placeholder="請填寫完整收件地址", label_visibility="collapsed")
 
-    # 溫暖提示邏輯
+    # 溫暖小提醒邏輯
     missing = []
     if not order_name: missing.append("姓名")
     if not order_phone: missing.append("電話")
-    if not order_address: missing.append("收件地址")
+    if not order_address: missing.append("地址")
     
     if missing:
         st.markdown(f"<p style='color:#C38D5E; font-size:0.85rem; text-align:center; font-weight:bold; margin-top:5px;'>🐢 溫馨小提醒：請補填「{'、'.join(missing)}」米寶才能配送喔！</p>", unsafe_allow_html=True)
