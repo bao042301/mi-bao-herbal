@@ -34,20 +34,29 @@ st.markdown("""
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
+    
+    /* 選中時的狀態 (放大、變色) */
     [data-testid="stRadio"] label:has(input:checked) {
         font-size: 1.1rem !important; font-weight: 900 !important;   
         color: #2D301D !important; border: 2.5px solid #7A8450 !important; background-color: #E9EDC9 !important;
     }
     
-    /* 【本次神級修正】把無趣的紅點變成可愛的烏龜！ */
-    [data-testid="stRadio"] label:has(input:checked) > div:first-of-type > div { display: none !important; } /* 隱藏原本的紅點 */
+    /* 【神級修正】未選中時：隱藏醜黑點，變成溫柔的淡橄欖綠空心圓 */
+    [data-testid="stRadio"] label:not(:has(input:checked)) > div:first-of-type > div { display: none !important; }
+    [data-testid="stRadio"] label:not(:has(input:checked)) > div:first-of-type { 
+        background-color: transparent !important; 
+        border: 2px solid #C2C7A7 !important; 
+    }
+
+    /* 選中時：召喚烏龜！ */
+    [data-testid="stRadio"] label:has(input:checked) > div:first-of-type > div { display: none !important; } 
     [data-testid="stRadio"] label:has(input:checked) > div:first-of-type { 
         background-color: transparent !important; border: none !important; overflow: visible !important; 
         display: flex !important; justify-content: center !important; align-items: center !important;
-    } /* 把外圈的圓形框隱藏，準備讓烏龜登場 */
+    } 
     [data-testid="stRadio"] label:has(input:checked) > div:first-of-type::after { 
         content: '🐢' !important; font-size: 1.3rem !important; display: block !important;
-    } /* 召喚烏龜！ */
+    } 
 
     /* 5. 一般按鈕特效 (橄欖綠) */
     .stButton > button {
@@ -224,7 +233,6 @@ elif st.session_state.step == 7:
         m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = "🌿 方案：一週輕體驗組"
 
-    # 【本次修正】將預約方案與價格完整加回複製文字中！
     msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n期待這份草本溫暖。🌿🍵"
     
     st.code(msg, language=None)
