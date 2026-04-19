@@ -237,15 +237,15 @@ elif st.session_state.step == 7:
         eng = "🌿 方案：一週輕體驗組"
 
     # --- 👇 這裡是在 Step 7 新增的訂購人資訊欄位 ---
-    order_name = st.text_input("👤 收件人姓名", placeholder="請填寫您的姓名")
-    order_phone = st.text_input("📱 聯絡電話", placeholder="請填寫您的手機號碼")
-    order_address = st.text_input("📍 收件地址", placeholder="請填寫您的完整收件地址")
+    order_name = st.text_input("👤", placeholder="請填寫收件人姓名")
+    order_phone = st.text_input("📱", placeholder="請填寫手機號碼")
+    order_address = st.text_input("📍", placeholder="請填寫完整收件地址")
 
     # 組合顧客資訊字串
     info_str = f"👤 姓名：{order_name if order_name else '(未填寫)'}\n📱 電話：{order_phone if order_phone else '(未填寫)'}\n📍 地址：{order_address if order_address else '(未填寫)'}"
 
     # 把 info_str 放進 msg 裡面
-    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n---\n{info_str}\n---\n期待這份草本溫暖。🌿🍵"
+    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n---\n{info_str}\n---\n期待與這份植感相遇。🌿🍵"
     # --- 👆 新增結束 ---
 
     st.code(msg, language=None)
