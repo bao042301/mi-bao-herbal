@@ -16,7 +16,9 @@ st.markdown("""
     /* 2. 標題與引導語 */
     h3 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 10px 0 !important; text-align: center !important; color: #7A8450 !important; letter-spacing: 1px; }
     .question-text { font-size: 1.05rem !important; font-weight: bold !important; text-align: center !important; margin-bottom: 12px !important; line-height: 1.4 !important; }
-    .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 15px !important; font-size: 0.8rem !important; }
+    
+    /* 🚀 壓縮引導語的底部間距，消除與姓名框之間的空隙 */
+    .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 0px !important; font-size: 0.8rem !important; }
 
     /* 3. Logo 尺寸 */
     [data-testid="stImage"] img { max-height: 50px !important; width: auto !important; margin: 0 auto !important; display: block; }
@@ -86,13 +88,13 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 🚀 9. 終極魔法：強制輸入框同行 + 極致縮小空行 + 字體縮小 */
+    /* 9. 強制輸入框同行 + 極致縮小空行 + 字體縮小 (維持不變) */
     [data-testid="stTextInput"] { 
         display: flex !important; 
-        flex-direction: row !important; /* 強制橫向不換行 */
+        flex-direction: row !important; 
         align-items: center !important; 
         gap: 5px !important; 
-        margin-bottom: 0px !important; /* 🌟 將間距縮到最小 */
+        margin-bottom: 0px !important; 
     }
     [data-testid="stTextInput"] > label { 
         margin-bottom: 0 !important; 
@@ -102,7 +104,7 @@ st.markdown("""
     }
     [data-testid="stTextInput"] > label p { 
         margin: 0 !important; 
-        font-size: 0.85rem !important; /* 🌟 縮小標籤字體 */
+        font-size: 0.85rem !important; 
         font-weight: bold !important; 
     }
     [data-testid="stTextInput"] div[data-baseweb="input"], 
@@ -111,14 +113,14 @@ st.markdown("""
         border: 1.5px solid #E9EDC9 !important; 
         border-radius: 8px !important; 
         flex-grow: 1 !important; 
-        height: 36px !important; /* 稍微變矮一點，更精緻 */
+        height: 36px !important; 
         min-height: 36px !important;
     }
     [data-testid="stTextInput"] input { 
         color: #4A4E31 !important; 
         -webkit-text-fill-color: #4A4E31 !important; 
         background-color: #FFFFFF !important; 
-        font-size: 0.85rem !important; /* 🌟 縮小輸入框內字體 */
+        font-size: 0.85rem !important; 
     }
 
     /* 10. 森林落葉 */
@@ -142,7 +144,6 @@ def show_leaves():
     leaves_html = "".join([f'<div class="leaf" style="left:{i*15}vw; animation-delay:{i*1.5}s;">🍃</div>' for i in range(7)])
     st.markdown(leaves_html, unsafe_allow_html=True)
 
-# 🌟 新增 show_warn 記憶，控制提醒彈出
 for key in ['step', 'answers', 'custom_name', 'is_first_time', 'plan', 'warn', 'show_warn']:
     if key not in st.session_state:
         st.session_state[key] = 1 if key == 'step' else False if key == 'show_warn' else [] if key == 'answers' else ""
@@ -217,7 +218,7 @@ elif st.session_state.step == 5:
         if u_name: st.session_state.custom_name = u_name; st.session_state.step = 6; st.rerun()
 
 # ==========================================
-# 第五步：最終結帳與跳轉 (完全不動)
+# 第五步：最終結帳與跳轉 
 # ==========================================
 elif st.session_state.step == 6:
     show_leaves()
@@ -249,50 +250,57 @@ elif st.session_state.step == 7:
     ans, plan, name, first = st.session_state.answers, st.session_state.plan, st.session_state.custom_name, st.session_state.is_first_time
     dg = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
     
+    # 🚀 精準修整：預約方案與刻字的文案組合
     if "40入" in plan:
         m_v, a_v = ("黃耆元氣茶(14入)+金菊牛蒡茶(6入)", "當歸紅棗茶(12入)+黑豆漢方茶(8入)") if "晨光" in ans[0] else ("洛神山楂茶(12入)+金菊牛蒡茶(8入)", "玫瑰決明茶(10入)+黑豆漢方茶(10入)") if "微風" in ans[0] else ("金菊牛蒡茶(15入)+黃耆元氣茶(5入)", "玫瑰決明茶(14入)+當歸紅棗茶(6入)")
-        eng = f"🌿 杯蓋刻字：{name}" if "新朋友" in first else "🌿 老友回購贈茶"
+        eng = f" (杯蓋刻字：{name})" if "新朋友" in first else " (老友回購贈茶)"
     else:
         m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
-        eng = "🌿 方案：一週輕體驗組"
+        eng = ""
 
-    # --- 👇 這是保證「極致空行壓縮」與「絕對同行」的底層魔法 ---
-    order_name = st.text_input("👤 姓名", placeholder="請填寫收件人姓名")
-    order_phone = st.text_input("📱 電話", placeholder="請填寫手機號碼")
-    order_address = st.text_input("📍 地址", placeholder="請填寫完整收件地址")
+    # 同行輸入欄位
+    c1, c2 = st.columns([1, 8])
+    with c1: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>👤</p>", unsafe_allow_html=True)
+    with c2: order_name = st.text_input("name", placeholder="請填寫收件人姓名", label_visibility="collapsed")
+    
+    c3, c4 = st.columns([1, 8])
+    with c3: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📱</p>", unsafe_allow_html=True)
+    with c4: order_phone = st.text_input("phone", placeholder="請填寫手機號碼", label_visibility="collapsed")
+    
+    c5, c6 = st.columns([1, 8])
+    with c5: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📍</p>", unsafe_allow_html=True)
+    with c6: order_address = st.text_input("addr", placeholder="請填寫完整收件地址", label_visibility="collapsed")
 
-    # 檢查是否有漏填
+    # 溫暖小提醒邏輯
     missing = []
     if not order_name: missing.append("姓名")
     if not order_phone: missing.append("電話")
     if not order_address: missing.append("地址")
-
-    # 如果全都填好了，就關閉提醒
+    
     if not missing:
         st.session_state.show_warn = False
         
-    # 🌟 只有當「按下按鈕 (show_warn 為 True)」且「真的有漏填」時，才顯示溫暖提示
     if st.session_state.show_warn and missing:
         st.markdown(f"<p style='color:#C38D5E; font-size:0.85rem; text-align:center; font-weight:bold; margin-top:2px; margin-bottom:8px;'>🐢 溫馨小提醒：請補填「{'、'.join(missing)}」米寶才能配送喔！</p>", unsafe_allow_html=True)
 
-    # 組合顧客資訊與代碼框
+    # 🚀 終極真空壓縮：移除所有空行與 ---，並將方案整合至底部
     info_str = f"👤 姓名：{order_name if order_name else '(未填寫)'}\n📱 電話：{order_phone if order_phone else '(未填寫)'}\n📍 地址：{order_address if order_address else '(未填寫)'}"
+    plan_str = f"🌿 預約方案：{plan}{eng}"
     
-    # 🌟 合併打招呼與氣質為同行 🌟
-    msg = f"Hi 米寶！🐢✨ 我是：【{dg}】\n預約：{plan}\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n---\n{info_str}\n---\n期待這份草本溫暖。🌿🍵"
+    msg = f"Hi 米寶！🐢✨ 我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{info_str}\n{plan_str}\n期待與米寶漢方相遇。🌿🍵"
 
     st.code(msg, language=None)
-    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">點擊☆上框右上角☆複製</p>', unsafe_allow_html=True)
+    
+    # 🚀 壓縮代碼框與複製提示間的距離
+    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:2px; margin-bottom:5px;">點擊☆上框右上角☆複製</p>', unsafe_allow_html=True)
     
     line_url = "https://line.me/R/ti/p/@716osfvq"
     
-    # 🌟 按鈕觸發邏輯：如果漏填，出現一個長得跟 LINE 按鈕一模一樣的假按鈕，按下去不跳轉，而是跳出提醒！
     if missing:
         if st.button("🌿 前往 LINE@ 貼上專屬方案與米寶相遇吧！ ➔", type="primary", use_container_width=True):
             st.session_state.show_warn = True
-            st.rerun() # 立刻刷新畫面顯示提醒
+            st.rerun() 
     else:
-        # 如果都填妥了，出現真正的 LINE 跳轉按鈕
         st.link_button("🌿 前往 LINE@ 貼上專屬方案與米寶相遇吧！ ➔", line_url, use_container_width=True)
     
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
