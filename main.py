@@ -236,11 +236,31 @@ elif st.session_state.step == 7:
         m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = "🌿 方案：一週輕體驗組"
 
-    # --- 👇 這裡是在 Step 7 新增的訂購人資訊欄位 ---
-    st.markdown("<h4 style='text-align:center; color:#7A8450;'>📝 配送資訊</h4>", unsafe_allow_html=True)
-    order_name = st.text_input("👤 收件人姓名", placeholder="請填寫您的姓名...")
-    order_phone = st.text_input("📱 聯絡電話", placeholder="請填寫您的手機號碼...")
-    order_address = st.text_input("📍 收件地址", placeholder="請填寫您的完整收件地址...")
+    # --- 👇 這裡是在 Step 7 修改的同行輸入欄位 ---
+    
+    # 第一行：圖示與姓名框框在同一排 (1份比例給圖示，8份比例給框框)
+    c1, c2 = st.columns([1, 8])
+    with c1: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>👤</p>", unsafe_allow_html=True)
+    with c2: order_name = st.text_input("name", placeholder="請填寫收件人姓名", label_visibility="collapsed")
+    
+    # 第二行：圖示與電話框框在同一排
+    c3, c4 = st.columns([1, 8])
+    with c3: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📱</p>", unsafe_allow_html=True)
+    with c4: order_phone = st.text_input("phone", placeholder="請填寫手機號碼", label_visibility="collapsed")
+    
+    # 第三行：圖示與地址框框在同一排
+    c5, c6 = st.columns([1, 8])
+    with c5: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📍</p>", unsafe_allow_html=True)
+    with c6: order_address = st.text_input("addr", placeholder="請填寫完整收件地址", label_visibility="collapsed")
+
+    # 溫暖提示邏輯
+    missing = []
+    if not order_name: missing.append("姓名")
+    if not order_phone: missing.append("電話")
+    if not order_address: missing.append("收件地址")
+    
+    if missing:
+        st.markdown(f"<p style='color:#C38D5E; font-size:0.85rem; text-align:center; font-weight:bold; margin-top:5px;'>🐢 溫馨小提醒：請補填「{'、'.join(missing)}」米寶才能配送喔！</p>", unsafe_allow_html=True)
 
     # 組合顧客資訊字串
     info_str = f"👤 姓名：{order_name if order_name else '(未填寫)'}\n📱 電話：{order_phone if order_phone else '(未填寫)'}\n📍 地址：{order_address if order_address else '(未填寫)'}"
