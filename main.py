@@ -12,9 +12,9 @@ st.markdown("""
     * { color: #4A4E31 !important; font-family: 'Noto Sans TC', sans-serif !important; }
     .stApp { background-color: #FDFBF7 !important; }
     
-    /* 🚀 終極消滅滑動元凶：將底部的 90px 隱形防撞墊壓縮到極限 30px */
-    .block-container { padding-top: 1.5rem !important; padding-bottom: 30px !important; }
-    [data-testid="stBottom"] { display: none !important; } /* 隱藏 Streamlit 預設的多餘底部空白 */
+    /* 🚀 徹底消滅幽靈空白：頂部稍微往上提，底部間距直接歸零！ */
+    .block-container { padding-top: 0.5rem !important; padding-bottom: 0px !important; }
+    [data-testid="stBottom"] { display: none !important; } 
 
     /* 2. 標題與引導語 */
     h3 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 10px 0 !important; text-align: center !important; color: #7A8450 !important; letter-spacing: 1px; }
@@ -91,7 +91,7 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 9. 強制輸入框同行 + 極致縮小空行 + 字體再縮小 */
+    /* 9. 強制輸入框同行 + 極致縮小空行 + 字體再縮小 (維持極限壓縮) */
     [data-testid="stTextInput"] { 
         display: flex !important; 
         flex-direction: row !important; 
@@ -139,7 +139,9 @@ st.markdown("""
         background-color: #FDFBF7; padding: 8px 0; z-index: 9999; box-shadow: 0 -2px 10px rgba(0,0,0,0.03); 
     }
     .footer-text { font-size: 0.65rem !important; color: #8B8B7A !important; line-height: 1.2 !important; margin: 0 !important; }
-    #MainMenu, footer, header { visibility: hidden; }
+    
+    /* 🚀 物理消滅預設標頭頁尾：將 visibility: hidden 改為 display: none，徹底不佔用任何高度！ */
+    #MainMenu, footer, header { display: none !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -256,7 +258,6 @@ elif st.session_state.step == 7:
     ans, plan, name, first = st.session_state.answers, st.session_state.plan, st.session_state.custom_name, st.session_state.is_first_time
     dg = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
     
-    # 預約方案與刻字的文案組合
     if "40入" in plan:
         m_v, a_v = ("黃耆元氣茶(14入)+金菊牛蒡茶(6入)", "當歸紅棗茶(12入)+黑豆漢方茶(8入)") if "晨光" in ans[0] else ("洛神山楂茶(12入)+金菊牛蒡茶(8入)", "玫瑰決明茶(10入)+黑豆漢方茶(10入)") if "微風" in ans[0] else ("金菊牛蒡茶(15入)+黃耆元氣茶(5入)", "玫瑰決明茶(14入)+當歸紅棗茶(6入)")
         eng = f" (杯蓋刻字：{name})" if "新朋友" in first else " (老友回購贈茶)"
@@ -268,7 +269,6 @@ elif st.session_state.step == 7:
     order_phone = st.text_input("📱 電話", placeholder="請填寫手機號碼")
     order_address = st.text_input("📍 地址", placeholder="請填寫完整收件地址")
 
-    # 溫暖小提醒邏輯
     missing = []
     if not order_name: missing.append("姓名")
     if not order_phone: missing.append("電話")
@@ -280,7 +280,6 @@ elif st.session_state.step == 7:
     if st.session_state.show_warn and missing:
         st.markdown(f"<p style='color:#C38D5E; font-size:0.85rem; text-align:center; font-weight:bold; margin-top:2px; margin-bottom:8px;'>🐢 溫馨小提醒：請補填「{'、'.join(missing)}」米寶才能配送喔！</p>", unsafe_allow_html=True)
 
-    # 整合與真空壓縮文案
     info_str = f"👤 姓名：{order_name if order_name else '(未填寫)'}\n📱 電話：{order_phone if order_phone else '(未填寫)'}\n📍 地址：{order_address if order_address else '(未填寫)'}"
     plan_str = f"🌿 預約方案：{plan}{eng}"
     
