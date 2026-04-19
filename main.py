@@ -25,41 +25,39 @@ st.markdown("""
     /* 4. 選項卡片與極致選中特效 */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 8px !important; } 
-    [data-testid="stRadio"] label {
+    
+    /* 【真正的修復】嚴格限定只有「選項區域內」的標籤，才套用框線與顏色，放過外層隱形的幽靈！ */
+    [data-testid="stRadio"] div[role="radiogroup"] label {
         border-radius: 12px !important; padding: 10px 18px !important;
         width: 100% !important; border: 1.5px solid rgba(0,0,0,0.05) !important;
         display: flex !important; justify-content: flex-start !important; 
         text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important; font-size: 0.95rem !important;
     }
     
-    /* 【本次修復】消滅 index=None 產生的幽靈空選項框 */
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) { display: none !important; }
-    
-    /* 因為幽靈佔了第1個位子，真正的選項從第2個開始，將三色網底順延套用 */
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #F1F4E8 !important; } 
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #FDF2E9 !important; } 
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(4) label { background-color: #EBF5FB !important; } 
+    /* 三色網底精準套用在第 1, 2, 3 個選項 */
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
     
     /* 選中時的狀態 (放大、變色) */
-    [data-testid="stRadio"] label:has(input:checked) {
+    [data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) {
         font-size: 1.1rem !important; font-weight: 900 !important;   
         color: #2D301D !important; border: 2.5px solid #7A8450 !important; background-color: #E9EDC9 !important;
     }
     
     /* 未選中時：隱藏醜黑點，變成溫柔的淡橄欖綠空心圓 */
-    [data-testid="stRadio"] label:not(:has(input:checked)) > div:first-of-type > div { display: none !important; }
-    [data-testid="stRadio"] label:not(:has(input:checked)) > div:first-of-type { 
-        background-color: transparent !important; 
-        border: 2px solid #C2C7A7 !important; 
+    [data-testid="stRadio"] div[role="radiogroup"] label:not(:has(input:checked)) > div:first-of-type > div { display: none !important; }
+    [data-testid="stRadio"] div[role="radiogroup"] label:not(:has(input:checked)) > div:first-of-type { 
+        background-color: transparent !important; border: 2px solid #C2C7A7 !important; 
     }
 
     /* 選中時：召喚烏龜！ */
-    [data-testid="stRadio"] label:has(input:checked) > div:first-of-type > div { display: none !important; } 
-    [data-testid="stRadio"] label:has(input:checked) > div:first-of-type { 
+    [data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) > div:first-of-type > div { display: none !important; } 
+    [data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) > div:first-of-type { 
         background-color: transparent !important; border: none !important; overflow: visible !important; 
         display: flex !important; justify-content: center !important; align-items: center !important;
     } 
-    [data-testid="stRadio"] label:has(input:checked) > div:first-of-type::after { 
+    [data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) > div:first-of-type::after { 
         content: '🐢' !important; font-size: 1.3rem !important; display: block !important;
     } 
 
