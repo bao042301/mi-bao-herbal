@@ -88,23 +88,25 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 9. 強制輸入框同行 + 極致縮小空行 + 字體縮小 (維持不變) */
+    /* 🚀 9. 終極魔法：強制輸入框同行 + 極致縮小空行 + 字體縮小 (這次絕對不換行) */
     [data-testid="stTextInput"] { 
         display: flex !important; 
-        flex-direction: row !important; 
+        flex-direction: row !important; /* 死都不准換行 */
         align-items: center !important; 
         gap: 5px !important; 
-        margin-bottom: 0px !important; 
+        margin-bottom: 8px !important; /* 微調間距才不會擠在一起 */
     }
     [data-testid="stTextInput"] > label { 
         margin-bottom: 0 !important; 
         padding-bottom: 0 !important; 
         flex-shrink: 0 !important; 
-        width: 70px !important; 
+        width: 75px !important; /* 固定標籤寬度 */
+        display: flex !important; 
+        align-items: center !important;
     }
     [data-testid="stTextInput"] > label p { 
         margin: 0 !important; 
-        font-size: 0.85rem !important; 
+        font-size: 0.9rem !important; 
         font-weight: bold !important; 
     }
     [data-testid="stTextInput"] div[data-baseweb="input"], 
@@ -250,7 +252,7 @@ elif st.session_state.step == 7:
     ans, plan, name, first = st.session_state.answers, st.session_state.plan, st.session_state.custom_name, st.session_state.is_first_time
     dg = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
     
-    # 🚀 精準修整：預約方案與刻字的文案組合
+    # 預約方案與刻字的文案組合
     if "40入" in plan:
         m_v, a_v = ("黃耆元氣茶(14入)+金菊牛蒡茶(6入)", "當歸紅棗茶(12入)+黑豆漢方茶(8入)") if "晨光" in ans[0] else ("洛神山楂茶(12入)+金菊牛蒡茶(8入)", "玫瑰決明茶(10入)+黑豆漢方茶(10入)") if "微風" in ans[0] else ("金菊牛蒡茶(15入)+黃耆元氣茶(5入)", "玫瑰決明茶(14入)+當歸紅棗茶(6入)")
         eng = f" (杯蓋刻字：{name})" if "新朋友" in first else " (老友回購贈茶)"
@@ -258,18 +260,10 @@ elif st.session_state.step == 7:
         m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = ""
 
-    # 同行輸入欄位
-    c1, c2 = st.columns([1, 8])
-    with c1: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>👤</p>", unsafe_allow_html=True)
-    with c2: order_name = st.text_input("name", placeholder="請填寫收件人姓名", label_visibility="collapsed")
-    
-    c3, c4 = st.columns([1, 8])
-    with c3: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📱</p>", unsafe_allow_html=True)
-    with c4: order_phone = st.text_input("phone", placeholder="請填寫手機號碼", label_visibility="collapsed")
-    
-    c5, c6 = st.columns([1, 8])
-    with c5: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📍</p>", unsafe_allow_html=True)
-    with c6: order_address = st.text_input("addr", placeholder="請填寫完整收件地址", label_visibility="collapsed")
+    # 🚀 真正不換行的秘密：拔掉 columns，直接套用帶有標籤的原生 text_input，讓 CSS 控制
+    order_name = st.text_input("👤 姓名", placeholder="請填寫收件人姓名")
+    order_phone = st.text_input("📱 電話", placeholder="請填寫手機號碼")
+    order_address = st.text_input("📍 地址", placeholder="請填寫完整收件地址")
 
     # 溫暖小提醒邏輯
     missing = []
@@ -283,7 +277,7 @@ elif st.session_state.step == 7:
     if st.session_state.show_warn and missing:
         st.markdown(f"<p style='color:#C38D5E; font-size:0.85rem; text-align:center; font-weight:bold; margin-top:2px; margin-bottom:8px;'>🐢 溫馨小提醒：請補填「{'、'.join(missing)}」米寶才能配送喔！</p>", unsafe_allow_html=True)
 
-    # 🚀 終極真空壓縮：移除所有空行與 ---，並將方案整合至底部
+    # 整合與真空壓縮文案
     info_str = f"👤 姓名：{order_name if order_name else '(未填寫)'}\n📱 電話：{order_phone if order_phone else '(未填寫)'}\n📍 地址：{order_address if order_address else '(未填寫)'}"
     plan_str = f"🌿 預約方案：{plan}{eng}"
     
@@ -291,7 +285,6 @@ elif st.session_state.step == 7:
 
     st.code(msg, language=None)
     
-    # 🚀 壓縮代碼框與複製提示間的距離
     st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:2px; margin-bottom:5px;">點擊☆上框右上角☆複製</p>', unsafe_allow_html=True)
     
     line_url = "https://line.me/R/ti/p/@716osfvq"
