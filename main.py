@@ -31,9 +31,14 @@ st.markdown("""
         display: flex !important; justify-content: flex-start !important; 
         text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important; font-size: 0.95rem !important;
     }
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
-    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
+    
+    /* 【本次修復】消滅 index=None 產生的幽靈空選項框 */
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) { display: none !important; }
+    
+    /* 因為幽靈佔了第1個位子，真正的選項從第2個開始，將三色網底順延套用 */
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #F1F4E8 !important; } 
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #FDF2E9 !important; } 
+    [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(4) label { background-color: #EBF5FB !important; } 
     
     /* 選中時的狀態 (放大、變色) */
     [data-testid="stRadio"] label:has(input:checked) {
@@ -41,7 +46,7 @@ st.markdown("""
         color: #2D301D !important; border: 2.5px solid #7A8450 !important; background-color: #E9EDC9 !important;
     }
     
-    /* 【神級修正】未選中時：隱藏醜黑點，變成溫柔的淡橄欖綠空心圓 */
+    /* 未選中時：隱藏醜黑點，變成溫柔的淡橄欖綠空心圓 */
     [data-testid="stRadio"] label:not(:has(input:checked)) > div:first-of-type > div { display: none !important; }
     [data-testid="stRadio"] label:not(:has(input:checked)) > div:first-of-type { 
         background-color: transparent !important; 
