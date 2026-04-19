@@ -88,25 +88,25 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 🚀 9. 終極魔法：強制輸入框同行 + 極致縮小空行 + 字體再縮小 */
+    /* 🚀 9. 終極魔法：極限像素壓縮版 */
     [data-testid="stTextInput"] { 
         display: flex !important; 
         flex-direction: row !important; /* 死都不准換行 */
         align-items: center !important; 
         gap: 5px !important; 
-        margin-bottom: 2px !important; /* 🌟 間距極致壓縮 */
+        margin-bottom: 0px !important; /* 🌟 間距徹底歸零 */
     }
     [data-testid="stTextInput"] > label { 
         margin-bottom: 0 !important; 
         padding-bottom: 0 !important; 
         flex-shrink: 0 !important; 
-        width: 70px !important; 
+        width: 65px !important; /* 🌟 左側標籤稍微再變窄一點 */
         display: flex !important; 
         align-items: center !important;
     }
     [data-testid="stTextInput"] > label p { 
         margin: 0 !important; 
-        font-size: 0.8rem !important; /* 🌟 標籤字體進一步縮小 */
+        font-size: 0.8rem !important; 
         font-weight: bold !important; 
     }
     [data-testid="stTextInput"] div[data-baseweb="input"], 
@@ -115,14 +115,15 @@ st.markdown("""
         border: 1.5px solid #E9EDC9 !important; 
         border-radius: 8px !important; 
         flex-grow: 1 !important; 
-        height: 32px !important; /* 🌟 輸入框高度變矮，更精緻 */
-        min-height: 32px !important;
+        height: 28px !important; /* 🌟 框框極度壓扁到 28px */
+        min-height: 28px !important; /* 🌟 框框極度壓扁到 28px */
     }
     [data-testid="stTextInput"] input { 
         color: #4A4E31 !important; 
         -webkit-text-fill-color: #4A4E31 !important; 
         background-color: #FFFFFF !important; 
-        font-size: 0.8rem !important; /* 🌟 輸入框內文字同步縮小 */
+        font-size: 0.8rem !important; 
+        padding: 0px 8px !important; /* 🌟 移除內邊距確保文字不被吃掉 */
     }
 
     /* 10. 森林落葉 */
@@ -252,7 +253,6 @@ elif st.session_state.step == 7:
     ans, plan, name, first = st.session_state.answers, st.session_state.plan, st.session_state.custom_name, st.session_state.is_first_time
     dg = "暖陽系" if "晨光" in ans[0] else "微風系" if "微風" in ans[0] else "清泉系"
     
-    # 預約方案與刻字的文案組合
     if "40入" in plan:
         m_v, a_v = ("黃耆元氣茶(14入)+金菊牛蒡茶(6入)", "當歸紅棗茶(12入)+黑豆漢方茶(8入)") if "晨光" in ans[0] else ("洛神山楂茶(12入)+金菊牛蒡茶(8入)", "玫瑰決明茶(10入)+黑豆漢方茶(10入)") if "微風" in ans[0] else ("金菊牛蒡茶(15入)+黃耆元氣茶(5入)", "玫瑰決明茶(14入)+當歸紅棗茶(6入)")
         eng = f" (杯蓋刻字：{name})" if "新朋友" in first else " (老友回購贈茶)"
@@ -260,12 +260,10 @@ elif st.session_state.step == 7:
         m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = ""
 
-    # 真正不換行的秘密：套用 CSS 魔法控制的 text_input
     order_name = st.text_input("👤 姓名", placeholder="請填寫收件人姓名")
     order_phone = st.text_input("📱 電話", placeholder="請填寫手機號碼")
     order_address = st.text_input("📍 地址", placeholder="請填寫完整收件地址")
 
-    # 溫暖小提醒邏輯
     missing = []
     if not order_name: missing.append("姓名")
     if not order_phone: missing.append("電話")
@@ -277,7 +275,6 @@ elif st.session_state.step == 7:
     if st.session_state.show_warn and missing:
         st.markdown(f"<p style='color:#C38D5E; font-size:0.85rem; text-align:center; font-weight:bold; margin-top:2px; margin-bottom:8px;'>🐢 溫馨小提醒：請補填「{'、'.join(missing)}」米寶才能配送喔！</p>", unsafe_allow_html=True)
 
-    # 整合與真空壓縮文案
     info_str = f"👤 姓名：{order_name if order_name else '(未填寫)'}\n📱 電話：{order_phone if order_phone else '(未填寫)'}\n📍 地址：{order_address if order_address else '(未填寫)'}"
     plan_str = f"🌿 預約方案：{plan}{eng}"
     
