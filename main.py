@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 # ==========================================
-# 第一步：環境設定與 CSS 視覺靈魂 
+# 第一步：環境設定與 CSS 視覺靈魂 (裝潢與地基)
 # ==========================================
 st.set_page_config(page_title="米寶漢方｜您的植感陪伴", layout="centered")
 
@@ -25,6 +25,7 @@ st.markdown("""
     /* 4. 選項卡片與極致選中特效 */
     [data-testid="stRadio"] div[role="radiogroup"] input { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] { gap: 8px !important; } 
+    
     [data-testid="stRadio"] div[role="radiogroup"] label {
         border-radius: 12px !important; padding: 10px 18px !important;
         width: 100% !important; border: 1.5px solid rgba(0,0,0,0.05) !important;
@@ -32,7 +33,6 @@ st.markdown("""
         text-align: left !important; transition: all 0.2s ease !important; cursor: pointer !important; font-size: 0.95rem !important;
     }
     
-    /* 三色網底精準套用 */
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(1) label { background-color: #F1F4E8 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(2) label { background-color: #FDF2E9 !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] > div:nth-of-type(3) label { background-color: #EBF5FB !important; } 
@@ -41,10 +41,12 @@ st.markdown("""
         font-size: 1.1rem !important; font-weight: 900 !important;   
         color: #2D301D !important; border: 2.5px solid #7A8450 !important; background-color: #E9EDC9 !important;
     }
+    
     [data-testid="stRadio"] div[role="radiogroup"] label:not(:has(input:checked)) > div:first-of-type > div { display: none !important; }
     [data-testid="stRadio"] div[role="radiogroup"] label:not(:has(input:checked)) > div:first-of-type { 
         background-color: transparent !important; border: 2px solid #C2C7A7 !important; 
     }
+
     [data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) > div:first-of-type > div { display: none !important; } 
     [data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) > div:first-of-type { 
         background-color: transparent !important; border: none !important; overflow: visible !important; 
@@ -68,9 +70,11 @@ st.markdown("""
         width: 100% !important; background-color: #06C755 !important; 
         border-radius: 15px !important; height: 3.2em !important; 
         border: none !important; transition: transform 0.2s ease !important;
-        display: flex !important; justify-content: center !important; align-items: center !important; text-decoration: none !important;
+        display: flex !important; justify-content: center !important; align-items: center !important;
+        text-decoration: none !important;
     }
     [data-testid="stLinkButton"] a * { color: #FFFFFF !important; font-size: 1.05rem !important; font-weight: 900 !important; }
+    [data-testid="stLinkButton"] a:active { transform: scale(0.98) !important; }
 
     /* 7. 溫暖提示語與價格 */
     .warm-tip { font-size: 0.85rem !important; color: #B08968 !important; text-align: center !important; margin-top: 5px !important; font-weight: bold !important; }
@@ -80,12 +84,32 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 雷刻填字區與同行輸入框防黑底 */
+    /* 🚀 9. 終極魔法：強制輸入框標籤在左、框框在右 (絕對不換行) */
+    [data-testid="stTextInput"] { 
+        display: flex !important; 
+        flex-direction: row !important; /* 強制橫向排版 */
+        align-items: center !important; 
+        gap: 5px !important; 
+        margin-bottom: 8px !important;
+    }
+    [data-testid="stTextInput"] > label { 
+        margin-bottom: 0 !important; 
+        padding-bottom: 0 !important; 
+        flex-shrink: 0 !important; /* 防止左邊標籤被擠壓 */
+        width: 70px !important; /* 固定標籤寬度讓它們對齊 */
+    }
+    [data-testid="stTextInput"] > label p { 
+        margin: 0 !important; 
+        font-size: 0.95rem !important; 
+        font-weight: bold !important; 
+    }
     [data-testid="stTextInput"] div[data-baseweb="input"], 
     [data-testid="stTextInput"] div[data-baseweb="base-input"] { 
         background-color: #FFFFFF !important; 
         border: 1.5px solid #E9EDC9 !important; 
         border-radius: 8px !important; 
+        flex-grow: 1 !important; /* 右邊框框自動填滿剩餘空間 */
+        height: 38px !important;
     }
     [data-testid="stTextInput"] input { 
         color: #4A4E31 !important; 
@@ -93,11 +117,11 @@ st.markdown("""
         background-color: #FFFFFF !important; 
     }
 
-    /* 9. 森林落葉 */
+    /* 10. 森林落葉 */
     @keyframes falling { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
     .leaf { position: fixed; top: -10vh; font-size: 18px; pointer-events: none; z-index: 9999; animation: falling 12s linear infinite; }
 
-    /* 10. 絕對固定頁尾 */
+    /* 11. 絕對固定頁尾 */
     .custom-footer {
         position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; 
         background-color: #FDFBF7; padding: 8px 0; z-index: 9999; box-shadow: 0 -2px 10px rgba(0,0,0,0.03); 
@@ -227,22 +251,10 @@ elif st.session_state.step == 7:
         m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = "🌿 方案：一週輕體驗組"
 
-    # --- 👇 這是保證「不換行、圖示在左、框在右」的最新版 ---
-    
-    # 建立第一行：圖示與姓名
-    c1, c2 = st.columns([1, 8])
-    with c1: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>👤</p>", unsafe_allow_html=True)
-    with c2: order_name = st.text_input("name", placeholder="請填寫收件人姓名", label_visibility="collapsed")
-    
-    # 建立第二行：圖示與電話
-    c3, c4 = st.columns([1, 8])
-    with c3: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📱</p>", unsafe_allow_html=True)
-    with c4: order_phone = st.text_input("phone", placeholder="請填寫手機號碼", label_visibility="collapsed")
-    
-    # 建立第三行：圖示與地址
-    c5, c6 = st.columns([1, 8])
-    with c5: st.markdown("<p style='margin-top:8px; font-size:1.1rem; text-align:center;'>📍</p>", unsafe_allow_html=True)
-    with c6: order_address = st.text_input("addr", placeholder="請填寫完整收件地址", label_visibility="collapsed")
+    # --- 👇 這是保證絕對不換行的純 CSS 魔法版 ---
+    order_name = st.text_input("👤 姓名", placeholder="請填寫收件人姓名")
+    order_phone = st.text_input("📱 電話", placeholder="請填寫手機號碼")
+    order_address = st.text_input("📍 地址", placeholder="請填寫完整收件地址")
 
     # 溫暖小提醒邏輯
     missing = []
