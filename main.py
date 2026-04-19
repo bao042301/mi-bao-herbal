@@ -237,8 +237,7 @@ elif st.session_state.step == 7:
         eng = "🌿 方案：一週輕體驗組"
 
     # --- 👇 這裡是在 Step 7 新增的訂購人資訊欄位 ---
-    st.markdown("<h4 style='text-align:center; color:#7A8450;'>📝 配送資訊</h4>", unsafe_allow_html=True)
-    order_name = st.text_input("👤 收件人姓名", placeholder="請填寫您的姓名唷")
+    order_name = st.text_input("👤 收件人姓名", placeholder="請填寫您的姓名")
     order_phone = st.text_input("📱 聯絡電話", placeholder="請填寫您的手機號碼")
     order_address = st.text_input("📍 收件地址", placeholder="請填寫您的完整收件地址")
 
@@ -251,7 +250,7 @@ elif st.session_state.step == 7:
 
     st.code(msg, language=None)
     
-    st.markdown('<p style="font-size:0.5rem; text-align:center; margin-top:6px; margin-bottom:3px;">點擊☆上框右上角☆複製</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">點擊☆上框右上角☆複製</p>', unsafe_allow_html=True)
     
     line_url = "https://line.me/R/ti/p/@716osfvq"
     st.link_button("🌿 前往 LINE@ 貼上專屬方案與米寶相遇吧！ ➔", line_url, use_container_width=True)
