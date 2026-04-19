@@ -56,25 +56,27 @@ st.markdown("""
         content: '🐢' !important; font-size: 1.3rem !important; display: block !important;
     } 
 
-    /* 5. 一般按鈕特效 */
-    .stButton > button {
+    /* 5. 按鈕特效 (普通按鈕) */
+    button[kind="secondary"] {
         width: 100% !important; background-color: #7A8450 !important; color: #FFFFFF !important;
         border-radius: 25px !important; height: 3em !important; font-weight: bold !important; border: none !important; margin-top: 10px !important; transition: all 0.2s ease !important;
     }
-    .stButton > button p { color: #FFFFFF !important; font-size: 1rem !important; }
-    .stButton > button:hover { background-color: #8B8B7A !important; }
-    .stButton > button:active { background-color: #4A4E31 !important; transform: scale(0.98) !important; }
-
-    /* 6. LINE 原生跳轉按鈕樣式鎖定 */
+    button[kind="secondary"] p { color: #FFFFFF !important; font-size: 1rem !important; }
+    
+    /* 6. LINE 原生跳轉與假按鈕樣式鎖定 */
+    button[kind="primary"] {
+        width: 100% !important; background-color: #06C755 !important; color: #FFFFFF !important;
+        border-radius: 15px !important; height: 3.2em !important; border: none !important; transition: transform 0.2s ease !important;
+    }
+    button[kind="primary"] p { color: #FFFFFF !important; font-size: 1.05rem !important; font-weight: 900 !important; margin:0 !important;}
+    
     [data-testid="stLinkButton"] a {
         width: 100% !important; background-color: #06C755 !important; 
         border-radius: 15px !important; height: 3.2em !important; 
         border: none !important; transition: transform 0.2s ease !important;
-        display: flex !important; justify-content: center !important; align-items: center !important;
-        text-decoration: none !important;
+        display: flex !important; justify-content: center !important; align-items: center !important; text-decoration: none !important;
     }
     [data-testid="stLinkButton"] a * { color: #FFFFFF !important; font-size: 1.05rem !important; font-weight: 900 !important; }
-    [data-testid="stLinkButton"] a:active { transform: scale(0.98) !important; }
 
     /* 7. 溫暖提示語與價格 */
     .warm-tip { font-size: 0.85rem !important; color: #B08968 !important; text-align: center !important; margin-top: 5px !important; font-weight: bold !important; }
@@ -84,19 +86,19 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 🚀 9. 終極魔法：強制輸入框標籤在左、框框在右 (絕對不換行) */
+    /* 🚀 9. 終極魔法：強制輸入框同行 + 極致縮小空行 */
     [data-testid="stTextInput"] { 
         display: flex !important; 
-        flex-direction: row !important; /* 強制橫向排版 */
+        flex-direction: row !important; /* 強制橫向不換行 */
         align-items: center !important; 
         gap: 5px !important; 
-        margin-bottom: 8px !important;
+        margin-bottom: 2px !important; /* 🌟 極致縮小空行 */
     }
     [data-testid="stTextInput"] > label { 
         margin-bottom: 0 !important; 
         padding-bottom: 0 !important; 
-        flex-shrink: 0 !important; /* 防止左邊標籤被擠壓 */
-        width: 70px !important; /* 固定標籤寬度讓它們對齊 */
+        flex-shrink: 0 !important; 
+        width: 75px !important; /* 固定標籤寬度對齊 */
     }
     [data-testid="stTextInput"] > label p { 
         margin: 0 !important; 
@@ -108,7 +110,7 @@ st.markdown("""
         background-color: #FFFFFF !important; 
         border: 1.5px solid #E9EDC9 !important; 
         border-radius: 8px !important; 
-        flex-grow: 1 !important; /* 右邊框框自動填滿剩餘空間 */
+        flex-grow: 1 !important; 
         height: 38px !important;
     }
     [data-testid="stTextInput"] input { 
@@ -138,9 +140,10 @@ def show_leaves():
     leaves_html = "".join([f'<div class="leaf" style="left:{i*15}vw; animation-delay:{i*1.5}s;">🍃</div>' for i in range(7)])
     st.markdown(leaves_html, unsafe_allow_html=True)
 
-for key in ['step', 'answers', 'custom_name', 'is_first_time', 'plan', 'warn']:
+# 🌟 新增 show_warn 記憶，控制提醒彈出
+for key in ['step', 'answers', 'custom_name', 'is_first_time', 'plan', 'warn', 'show_warn']:
     if key not in st.session_state:
-        st.session_state[key] = 1 if key == 'step' else [] if key == 'answers' else ""
+        st.session_state[key] = 1 if key == 'step' else False if key == 'show_warn' else [] if key == 'answers' else ""
 
 img_path = "29301.jpg"
 if os.path.exists(img_path): st.image(img_path)
@@ -148,7 +151,7 @@ else: st.markdown("<h4 style='text-align:center;'>🌿 米寶漢方</h4>", unsaf
 st.markdown('<p class="quote">「在忙碌中，給您留一刻鐘的溫暖。」</p>', unsafe_allow_html=True)
 
 # ==========================================
-# 第三步：測驗引擎 (第 1 ~ 3 步) - 浪漫 A 文案
+# 第三步：測驗引擎 (第 1 ~ 3 步) - 完全不動
 # ==========================================
 if st.session_state.step <= 3:
     titles = ["### 壹｜傾聽・身體的低語", "### 貳｜梳理・日常的軌跡", "### 參｜遇見・嚮往的自己"]
@@ -179,7 +182,7 @@ if st.session_state.step <= 3:
         st.markdown(f'<p class="warm-tip">{st.session_state.warn}</p>', unsafe_allow_html=True)
 
 # ==========================================
-# 第四步：商業邏輯與防呆 (第 4 ~ 5 步：新老朋友與方案)
+# 第四步：商業邏輯與防呆 (完全不動)
 # ==========================================
 elif st.session_state.step == 4:
     st.markdown("### 💎 您是米寶的新朋友嗎？")
@@ -212,7 +215,7 @@ elif st.session_state.step == 5:
         if u_name: st.session_state.custom_name = u_name; st.session_state.step = 6; st.rerun()
 
 # ==========================================
-# 第五步：最終結帳與跳轉 (第 6 ~ 7 步：植感卡片與 LINE 預約)
+# 第五步：最終結帳與跳轉 (完全不動)
 # ==========================================
 elif st.session_state.step == 6:
     show_leaves()
@@ -251,33 +254,42 @@ elif st.session_state.step == 7:
         m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = "🌿 方案：一週輕體驗組"
 
-    # --- 👇 這是保證絕對不換行的純 CSS 魔法版 ---
+    # --- 👇 這是保證「極致空行壓縮」與「絕對同行」的底層魔法 ---
     order_name = st.text_input("👤 姓名", placeholder="請填寫收件人姓名")
     order_phone = st.text_input("📱 電話", placeholder="請填寫手機號碼")
     order_address = st.text_input("📍 地址", placeholder="請填寫完整收件地址")
 
-    # 溫暖小提醒邏輯
+    # 檢查是否有漏填
     missing = []
     if not order_name: missing.append("姓名")
     if not order_phone: missing.append("電話")
     if not order_address: missing.append("地址")
-    
-    if missing:
-        st.markdown(f"<p style='color:#C38D5E; font-size:0.85rem; text-align:center; font-weight:bold; margin-top:5px;'>🐢 溫馨小提醒：請補填「{'、'.join(missing)}」米寶才能配送喔！</p>", unsafe_allow_html=True)
 
-    # 組合顧客資訊字串
+    # 如果全都填好了，就關閉提醒
+    if not missing:
+        st.session_state.show_warn = False
+        
+    # 🌟 只有當「按下按鈕 (show_warn 為 True)」且「真的有漏填」時，才顯示溫暖提示
+    if st.session_state.show_warn and missing:
+        st.markdown(f"<p style='color:#C38D5E; font-size:0.85rem; text-align:center; font-weight:bold; margin-top:2px; margin-bottom:8px;'>🐢 溫馨小提醒：請補填「{'、'.join(missing)}」米寶才能配送喔！</p>", unsafe_allow_html=True)
+
+    # 組合顧客資訊與代碼框
     info_str = f"👤 姓名：{order_name if order_name else '(未填寫)'}\n📱 電話：{order_phone if order_phone else '(未填寫)'}\n📍 地址：{order_address if order_address else '(未填寫)'}"
-
-    # 把 info_str 放進 msg 裡面
     msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n---\n{info_str}\n---\n期待這份草本溫暖。🌿🍵"
-    # --- 👆 新增結束 ---
 
     st.code(msg, language=None)
-    
     st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">點擊☆上框右上角☆複製</p>', unsafe_allow_html=True)
     
     line_url = "https://line.me/R/ti/p/@716osfvq"
-    st.link_button("🌿 前往 LINE@ 貼上專屬方案與米寶相遇吧！ ➔", line_url, use_container_width=True)
+    
+    # 🌟 按鈕觸發邏輯：如果漏填，出現一個長得跟 LINE 按鈕一模一樣的假按鈕，按下去不跳轉，而是跳出提醒！
+    if missing:
+        if st.button("🌿 前往 LINE@ 貼上專屬方案與米寶相遇吧！ ➔", type="primary", use_container_width=True):
+            st.session_state.show_warn = True
+            st.rerun() # 立刻刷新畫面顯示提醒
+    else:
+        # 如果都填妥了，出現真正的 LINE 跳轉按鈕
+        st.link_button("🌿 前往 LINE@ 貼上專屬方案與米寶相遇吧！ ➔", line_url, use_container_width=True)
     
     if st.button("重新探索"): st.session_state.clear(); st.rerun()
 
