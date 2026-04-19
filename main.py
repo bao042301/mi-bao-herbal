@@ -86,23 +86,23 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 🚀 9. 終極魔法：強制輸入框同行 + 極致縮小空行 */
+    /* 🚀 9. 終極魔法：強制輸入框同行 + 極致縮小空行 + 字體縮小 */
     [data-testid="stTextInput"] { 
         display: flex !important; 
         flex-direction: row !important; /* 強制橫向不換行 */
         align-items: center !important; 
         gap: 5px !important; 
-        margin-bottom: 2px !important; /* 🌟 極致縮小空行 */
+        margin-bottom: 0px !important; /* 🌟 將間距縮到最小 */
     }
     [data-testid="stTextInput"] > label { 
         margin-bottom: 0 !important; 
         padding-bottom: 0 !important; 
         flex-shrink: 0 !important; 
-        width: 75px !important; /* 固定標籤寬度對齊 */
+        width: 70px !important; 
     }
     [data-testid="stTextInput"] > label p { 
         margin: 0 !important; 
-        font-size: 0.95rem !important; 
+        font-size: 0.85rem !important; /* 🌟 縮小標籤字體 */
         font-weight: bold !important; 
     }
     [data-testid="stTextInput"] div[data-baseweb="input"], 
@@ -111,12 +111,14 @@ st.markdown("""
         border: 1.5px solid #E9EDC9 !important; 
         border-radius: 8px !important; 
         flex-grow: 1 !important; 
-        height: 38px !important;
+        height: 36px !important; /* 稍微變矮一點，更精緻 */
+        min-height: 36px !important;
     }
     [data-testid="stTextInput"] input { 
         color: #4A4E31 !important; 
         -webkit-text-fill-color: #4A4E31 !important; 
         background-color: #FFFFFF !important; 
+        font-size: 0.85rem !important; /* 🌟 縮小輸入框內字體 */
     }
 
     /* 10. 森林落葉 */
@@ -275,7 +277,9 @@ elif st.session_state.step == 7:
 
     # 組合顧客資訊與代碼框
     info_str = f"👤 姓名：{order_name if order_name else '(未填寫)'}\n📱 電話：{order_phone if order_phone else '(未填寫)'}\n📍 地址：{order_address if order_address else '(未填寫)'}"
-    msg = f"Hi 米寶！🐢✨\n預約：{plan}\n我是：【{dg}】\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n---\n{info_str}\n---\n期待這份草本溫暖。🌿🍵"
+    
+    # 🌟 合併打招呼與氣質為同行 🌟
+    msg = f"Hi 米寶！🐢✨ 我是：【{dg}】\n預約：{plan}\n☀️ 晨曦：{m_v}\n🌙 午後：{a_v}\n{eng}\n---\n{info_str}\n---\n期待這份草本溫暖。🌿🍵"
 
     st.code(msg, language=None)
     st.markdown('<p style="font-size:0.9rem; text-align:center; margin-top:10px; margin-bottom:5px;">點擊☆上框右上角☆複製</p>', unsafe_allow_html=True)
