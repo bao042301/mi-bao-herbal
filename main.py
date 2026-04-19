@@ -17,7 +17,7 @@ st.markdown("""
     h3 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 10px 0 !important; text-align: center !important; color: #7A8450 !important; letter-spacing: 1px; }
     .question-text { font-size: 1.05rem !important; font-weight: bold !important; text-align: center !important; margin-bottom: 12px !important; line-height: 1.4 !important; }
     
-    /* 🚀 壓縮引導語的底部間距，消除與姓名框之間的空隙 */
+    /* 壓縮引導語的底部間距，消除與姓名框之間的空隙 */
     .quote { font-style: italic; color: #8B8B7A !important; text-align: center; margin-bottom: 0px !important; font-size: 0.8rem !important; }
 
     /* 3. Logo 尺寸 */
@@ -88,25 +88,25 @@ st.markdown("""
     [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] > div, pre, code { background-color: #F8F9F1 !important; border: 1px solid #E9EDC9 !important; border-radius: 12px !important; }
     [data-testid="stCodeBlock"] button { opacity: 1 !important; background-color: rgba(233, 237, 201, 1) !important; scale: 0.8; }
     
-    /* 🚀 9. 終極魔法：強制輸入框同行 + 極致縮小空行 + 字體縮小 (這次絕對不換行) */
+    /* 🚀 9. 終極魔法：強制輸入框同行 + 極致縮小空行 + 字體再縮小 */
     [data-testid="stTextInput"] { 
         display: flex !important; 
         flex-direction: row !important; /* 死都不准換行 */
         align-items: center !important; 
         gap: 5px !important; 
-        margin-bottom: 8px !important; /* 微調間距才不會擠在一起 */
+        margin-bottom: 2px !important; /* 🌟 間距極致壓縮 */
     }
     [data-testid="stTextInput"] > label { 
         margin-bottom: 0 !important; 
         padding-bottom: 0 !important; 
         flex-shrink: 0 !important; 
-        width: 75px !important; /* 固定標籤寬度 */
+        width: 70px !important; 
         display: flex !important; 
         align-items: center !important;
     }
     [data-testid="stTextInput"] > label p { 
         margin: 0 !important; 
-        font-size: 0.9rem !important; 
+        font-size: 0.8rem !important; /* 🌟 標籤字體進一步縮小 */
         font-weight: bold !important; 
     }
     [data-testid="stTextInput"] div[data-baseweb="input"], 
@@ -115,14 +115,14 @@ st.markdown("""
         border: 1.5px solid #E9EDC9 !important; 
         border-radius: 8px !important; 
         flex-grow: 1 !important; 
-        height: 36px !important; 
-        min-height: 36px !important;
+        height: 32px !important; /* 🌟 輸入框高度變矮，更精緻 */
+        min-height: 32px !important;
     }
     [data-testid="stTextInput"] input { 
         color: #4A4E31 !important; 
         -webkit-text-fill-color: #4A4E31 !important; 
         background-color: #FFFFFF !important; 
-        font-size: 0.85rem !important; 
+        font-size: 0.8rem !important; /* 🌟 輸入框內文字同步縮小 */
     }
 
     /* 10. 森林落葉 */
@@ -260,7 +260,7 @@ elif st.session_state.step == 7:
         m_v, a_v = ("黃耆元氣茶(4入)+金菊牛蒡茶(1入)", "當歸紅棗茶(3入)+黑豆漢方茶(2入)") if "晨光" in ans[0] else ("洛神山楂茶(3入)+金菊牛蒡茶(2入)", "玫瑰決明茶(3入)+黑豆漢方茶(2入)") if "微風" in ans[0] else ("金菊牛蒡茶(4入)+黃耆元氣茶(1入)", "玫瑰決明茶(4入)+當歸紅棗茶(1入)")
         eng = ""
 
-    # 🚀 真正不換行的秘密：拔掉 columns，直接套用帶有標籤的原生 text_input，讓 CSS 控制
+    # 真正不換行的秘密：套用 CSS 魔法控制的 text_input
     order_name = st.text_input("👤 姓名", placeholder="請填寫收件人姓名")
     order_phone = st.text_input("📱 電話", placeholder="請填寫手機號碼")
     order_address = st.text_input("📍 地址", placeholder="請填寫完整收件地址")
